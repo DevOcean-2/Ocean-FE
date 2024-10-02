@@ -1,8 +1,11 @@
+import '../uilib-config';
+
 import React from 'react';
 import { ScrollViewStyleReset } from 'expo-router/html';
 import { Provider } from 'jotai';
 import { QueryClient, QueryClientProvider } from '@tanstack/react-query';
 import { useReactQueryDevTools } from '@dev-plugins/react-query';
+import { View } from 'react-native-ui-lib';
 
 // QueryClient 인스턴스 생성
 const queryClient = new QueryClient();
@@ -27,7 +30,9 @@ export default function Root({ children }: { children: React.ReactNode }) {
       </head>
       <body>
         <Provider>
-          <QueryClientProvider client={queryClient}>{children}</QueryClientProvider>
+          <QueryClientProvider client={queryClient}>
+            <View flex>{children}</View>
+          </QueryClientProvider>
         </Provider>
       </body>
     </html>
