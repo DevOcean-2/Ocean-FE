@@ -1,17 +1,11 @@
 import { StyleSheet } from 'react-native';
+import MyFeed from '@/src/pages/MyFeed';
 
-import { Button, Text, View } from 'react-native-ui-lib';
-
-const Home = () => {
-  return (
-    <View flex padding-page>
-      <Text heading>Welcome to My App</Text>
-      <Button label="Press me" onPress={() => console.log('Button pressed')} />
-    </View>
-  );
+const Feed = () => {
+  return <MyFeed />;
 };
 
-export default Home;
+export default Feed;
 
 const styles = StyleSheet.create({
   container: {
