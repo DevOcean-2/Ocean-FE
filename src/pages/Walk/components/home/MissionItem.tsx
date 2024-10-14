@@ -20,10 +20,11 @@ const styles = StyleSheet.create({
     marginBottom: 16,
   },
   missionLabel: {
-    fontSize: 14,
-    fontWeight: '600',
+    fontSize: 12,
+    fontWeight: '400',
     lineHeight: 16,
     marginBottom: 8,
+    color: '#8F9BB3',
   },
   missionText: {
     fontSize: 16,
