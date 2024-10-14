@@ -6,7 +6,9 @@ interface PositionItem {
 }
 
 export const usePositionHistory = () => {
+  // @TODO: 선택했던 position의 history가 되어야 함.
   const [positionHistory, setPositionHistory] = useState<string[]>(['강남구', '서초구', '송파구']);
+
   const [currentPosition, setCurrentPosition] = useState<string>(
     positionHistory.length === 0 ? '' : positionHistory[0],
   );
