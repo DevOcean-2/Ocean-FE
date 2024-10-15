@@ -4,7 +4,6 @@ import { useContext } from 'react';
 import { TabContext } from '@/components/TabController/context';
 
 const TabPage = (props: TabPageProps) => {
-  // @ts-ignore
   const { currentIndex } = useContext<TabContextType>(TabContext);
 
   const { index, children } = props;

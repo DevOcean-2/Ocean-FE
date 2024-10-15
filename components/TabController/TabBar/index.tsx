@@ -4,7 +4,6 @@ import { StyleSheet, Text, TouchableOpacity, View } from 'react-native';
 import { TabContextType } from '@/components/TabController/type';
 
 const TabBar = () => {
-  // @ts-ignore
   const { items, setCurrentIndex, currentIndex } = useContext<TabContextType>(TabContext);
 
   return (
