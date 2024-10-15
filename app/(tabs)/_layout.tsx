@@ -4,7 +4,6 @@ import { StyleSheet, Text } from 'react-native';
 
 import Colors from '@/constants/Colors';
 import { useColorScheme } from '@/components/useColorScheme';
-import { useClientOnlyValue } from '@/components/useClientOnlyValue';
 import { SvgProps } from 'react-native-svg';
 
 import {
@@ -17,6 +16,8 @@ import {
   ICON_PIN,
   ICON_PIN_FILL,
 } from '@/assets/svgs';
+
+import { FeedHeader } from '@/src/widgets/PageHeaders';
 
 type TabScreenProps = React.ComponentProps<typeof Tabs.Screen>;
 
@@ -57,11 +58,6 @@ const TabLayout = () => {
         tabBarIcon: ({ color, focused }) => (
           <TabBarIcon Icon={ICON_HOME} IconFill={ICON_HOME_FILL} color={color} focused={focused} />
         ),
-        // headerTitle: () => (
-        //   <View>
-        //     <Text>Custom Header Component</Text>
-        //   </View>
-        // ),
       },
     },
     {
@@ -82,6 +78,7 @@ const TabLayout = () => {
       name: 'feed',
       options: {
         title: '피드',
+        headerTitle: () => <FeedHeader />,
         tabBarLabel: ({ color, focused }) => (
           <TabBarText color={color} focused={focused}>
             피드
@@ -117,9 +114,7 @@ const TabLayout = () => {
     <Tabs
       screenOptions={{
         tabBarActiveTintColor: Colors[colorScheme ?? 'light'].tabIconSelected,
-        // Disable the static render of the header on web
-        // to prevent a hydration error in React Navigation v6.
-        headerShown: useClientOnlyValue(false, true),
+        headerShown: false,
       }}
     >
       {tabListInfo.map((tabInfo, index) => (
