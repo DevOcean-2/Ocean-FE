@@ -39,13 +39,40 @@ const SignUp: React.FC = () => {
 
   return (
     <ScrollView contentContainerStyle={styles.container}>
-      <Wizard activeIndex={activeIndex} onActiveIndexChanged={onActiveIndexChanged}>
-        <Wizard.Step state={getStepState(0)} label="기본 정보" />
-        <Wizard.Step state={getStepState(1)} label="반려견 정보" />
-        {/* <Wizard.Step state={getStepState(2)} label="추가 정보" /> */}
+      <Wizard
+        activeIndex={activeIndex}
+        containerStyle={{
+          backgroundColor: 'transparent',
+          width: '100%',
+        }}
+        onActiveIndexChanged={onActiveIndexChanged}
+      >
+        <Wizard.Step
+          state={getStepState(0)}
+          label="기본 정보"
+          indexLabelStyle={{ color: 'white', borderColor: 'white' }}
+          labelStyle={{ fontWeight: '600', fontSize: 14, color: '#101828' }}
+          color="#04C755"
+          circleColor="#ffffff"
+          circleBackgroundColor="#04C755"
+        />
+        <Wizard.Step
+          state={getStepState(1)}
+          label="반려견 정보"
+          color="#04C755"
+          circleColor="#04C755"
+          circleBackgroundColor="#D8F6EA"
+        />
+        <Wizard.Step
+          state={getStepState(2)}
+          label="추가 정보"
+          color="#04C755"
+          circleColor="#04C755"
+          circleBackgroundColor="#D8F6EA"
+        />
       </Wizard>
-      {renderCurrentStep()}
-      <View style={styles.buttonContainer}>
+      <View style={styles.renderStepContainer}>{renderCurrentStep()}</View>
+      <View>
         {renderPrevButton()}
         {renderNextButton()}
       </View>

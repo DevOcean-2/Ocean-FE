@@ -1,15 +1,19 @@
 import React from 'react';
-import { TouchableOpacity, Text, StyleSheet } from 'react-native';
+import { TouchableOpacity, Text, StyleSheet, View, Image } from 'react-native';
 
 type CustomButtonProps = {
   label: string;
+  subLabel?: string;
   onPress: () => void;
   selected?: boolean;
 };
 
-const CustomButton: React.FC<CustomButtonProps> = ({ label, onPress, selected }) => (
+const CustomButton: React.FC<CustomButtonProps> = ({ label, subLabel, onPress, selected }) => (
   <TouchableOpacity style={[styles.button, selected && styles.selectedButton]} onPress={onPress}>
-    <Text style={[styles.buttonText, selected && styles.selectedButtonText]}>{label}</Text>
+    <View>
+      {subLabel && <Text>{subLabel}</Text>}
+      <Text style={[styles.buttonText, selected && styles.selectedButtonText]}>{label}</Text>
+    </View>
   </TouchableOpacity>
 );
 
@@ -24,14 +28,17 @@ const styles = StyleSheet.create({
     alignItems: 'center',
   },
   selectedButton: {
-    backgroundColor: '#007AFF',
-    borderColor: '#007AFF',
+    backgroundColor: '#F1FFF2',
+    borderColor: '#04C755',
   },
   buttonText: {
+    color: '#ccc',
     fontSize: 16,
+    fontWeight: '600',
   },
   selectedButtonText: {
-    color: 'white',
+    color: '#101828',
+    fontWeight: '600',
   },
 });
 
