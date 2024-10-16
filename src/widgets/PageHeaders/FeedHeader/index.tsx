@@ -1,11 +1,11 @@
 import { Text, View } from 'react-native';
 
-const My = () => {
+const FeedHeader = () => {
   return (
     <View>
-      <Text>My</Text>
+      <Text>FeedHeader</Text>
     </View>
   );
 };
 
-export default My;
+export default FeedHeader;
