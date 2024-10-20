@@ -10,9 +10,9 @@ type CustomButtonProps = {
 
 const CustomButton: React.FC<CustomButtonProps> = ({ label, subLabel, onPress, selected }) => (
   <TouchableOpacity style={[styles.button, selected && styles.selectedButton]} onPress={onPress}>
-    <View>
-      {subLabel && <Text>{subLabel}</Text>}
-      <Text style={[styles.buttonText, selected && styles.selectedButtonText]}>{label}</Text>
+    <View style={styles.textContainer}>
+      {subLabel && <Text style={styles.subLabel}>{subLabel}</Text>}
+      <Text style={[styles.buttonText, selected && styles.label]}>{label}</Text>
     </View>
   </TouchableOpacity>
 );
@@ -27,6 +27,21 @@ const styles = StyleSheet.create({
     marginHorizontal: 5,
     alignItems: 'center',
   },
+  textContainer: {
+    flexDirection: 'column',
+    gap: 6,
+    textAlign: 'left',
+  },
+  label: {
+    fontSize: 20,
+    fontWeight: 500,
+    color: '#222B45',
+  },
+  subLabel: {
+    fontSize: 14,
+    fontWeight: '500',
+    color: '#8F9BB3',
+  },
   selectedButton: {
     backgroundColor: '#F1FFF2',
     borderColor: '#04C755',
@@ -34,10 +49,6 @@ const styles = StyleSheet.create({
   buttonText: {
     color: '#ccc',
     fontSize: 16,
-    fontWeight: '600',
-  },
-  selectedButtonText: {
-    color: '#101828',
     fontWeight: '600',
   },
 });
