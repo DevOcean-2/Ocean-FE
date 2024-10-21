@@ -1,9 +1,9 @@
 import React, { useState } from 'react';
 import { ScrollView, StyleSheet, View } from 'react-native';
-import { Colors, Incubator, Picker, Slider, Text, TextField } from 'react-native-ui-lib';
+import { Colors, Picker, Slider, Text, TextField } from 'react-native-ui-lib';
 import { Controller } from 'react-hook-form';
-import { StepProps } from '../../types/signUp';
-import { styles } from '../../styles';
+import { StepProps } from '../types/signUp';
+import { styles } from '../styles';
 import CustomImageButton from '@/components/CustomImageButton';
 import Info from '@/assets/svgs/info.svg';
 import CustomButton from '@/components/CustomButton';

@@ -2,8 +2,8 @@ import React from 'react';
 import { View } from 'react-native';
 import { Text, RadioGroup, RadioButton } from 'react-native-ui-lib';
 import { Controller } from 'react-hook-form';
-import { StepProps } from '../../types/signUp';
-import { styles } from '../../styles';
+import { StepProps } from '../types/signUp';
+import { styles } from '../styles';
 
 const AdditionalInfo: React.FC<StepProps> = ({ control }) => (
   <View style={styles.stepContainer}>

@@ -1,22 +1,6 @@
 import { StyleSheet, ScrollView } from 'react-native';
 
 export const styles = StyleSheet.create({
-  container: {
-    paddingTop: 30,
-    // flex: 1,
-    backgroundColor: 'white',
-  },
-  wizardContainer: {
-    paddingTop: 20,
-    // paddingHorizontal: 16,
-    backgroundColor: '#FFFFFF',
-    elevation: 2,
-  },
-  scrollViewContent: {
-    flexGrow: 1,
-    // paddingHorizontal: 16,
-    paddingBottom: 20,
-  },
   itemContainer: {
     marginBottom: 40,
   },
@@ -37,10 +21,7 @@ export const styles = StyleSheet.create({
     fontSize: 16,
     marginBottom: 10,
   },
-  renderStepContainer: {
-    paddingHorizontal: 15,
-    paddingVertical: 10,
-  },
+
   buttonContainer: {
     flexDirection: 'row',
     justifyContent: 'space-between',
