@@ -38,46 +38,50 @@ const SignUp: React.FC = () => {
   const renderPrevButton = () => activeIndex > 0 && <Button label="이전" onPress={goToPrevStep} />;
 
   return (
-    <ScrollView contentContainerStyle={styles.container}>
-      <Wizard
-        activeIndex={activeIndex}
-        containerStyle={{
-          backgroundColor: 'transparent',
-          width: '100%',
-        }}
-        onActiveIndexChanged={onActiveIndexChanged}
-      >
-        <Wizard.Step
-          state={getStepState(0)}
-          label="기본 정보"
-          indexLabelStyle={{ color: 'white', borderColor: 'white' }}
-          labelStyle={{ fontWeight: '600', fontSize: 14, color: '#101828' }}
-          color="#04C755"
-          circleColor="#ffffff"
-          circleBackgroundColor="#04C755"
-        />
-        <Wizard.Step
-          state={getStepState(1)}
-          label="반려견 정보"
-          color="#04C755"
-          circleColor="#04C755"
-          circleBackgroundColor="#D8F6EA"
-        />
-        <Wizard.Step
-          state={getStepState(2)}
-          label="추가 정보"
-          color="#04C755"
-          circleColor="#04C755"
-          circleBackgroundColor="#D8F6EA"
-        />
-      </Wizard>
-      <View style={styles.renderStepContainer}>{renderCurrentStep()}</View>
-      <View>
+    <View style={styles.container}>
+      <View style={styles.wizardContainer}>
+        <Wizard
+          activeIndex={activeIndex}
+          containerStyle={{
+            backgroundColor: 'transparent',
+            width: '100%',
+          }}
+          onActiveIndexChanged={onActiveIndexChanged}
+        >
+          <Wizard.Step
+            state={getStepState(0)}
+            label="기본 정보"
+            indexLabelStyle={{ color: 'white', borderColor: 'white' }}
+            labelStyle={{ fontWeight: '600', fontSize: 14, color: '#101828' }}
+            color="#04C755"
+            circleColor="#ffffff"
+            circleBackgroundColor="#04C755"
+          />
+          <Wizard.Step
+            state={getStepState(1)}
+            label="반려견 정보"
+            color="#04C755"
+            circleColor="#04C755"
+            circleBackgroundColor="#D8F6EA"
+          />
+          <Wizard.Step
+            state={getStepState(2)}
+            label="추가 정보"
+            color="#04C755"
+            circleColor="#04C755"
+            circleBackgroundColor="#D8F6EA"
+          />
+        </Wizard>
+      </View>
+      <ScrollView contentContainerStyle={styles.scrollViewContent}>
+        <View style={styles.renderStepContainer}>{renderCurrentStep()}</View>
+      </ScrollView>
+      <View style={styles.buttonContainer}>
         {renderPrevButton()}
         {renderNextButton()}
       </View>
       {toastMessage && <Toast visible position="bottom" message={toastMessage} />}
-    </ScrollView>
+    </View>
   );
 };
 

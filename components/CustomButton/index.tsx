@@ -1,21 +1,72 @@
+import LocalImage from '@/src/shared/ui/LocalImage';
 import React from 'react';
-import { TouchableOpacity, Text, StyleSheet, View, Image } from 'react-native';
+import { TouchableOpacity, Text, StyleSheet, View, ImageSourcePropType } from 'react-native';
+import { Assets, Checkbox } from 'react-native-ui-lib';
 
 type CustomButtonProps = {
+  imageUri?: string;
   label: string;
   subLabel?: string;
   onPress: () => void;
   selected?: boolean;
 };
 
-const CustomButton: React.FC<CustomButtonProps> = ({ label, subLabel, onPress, selected }) => (
-  <TouchableOpacity style={[styles.button, selected && styles.selectedButton]} onPress={onPress}>
-    <View style={styles.textContainer}>
-      {subLabel && <Text style={styles.subLabel}>{subLabel}</Text>}
-      <Text style={[styles.buttonText, selected && styles.label]}>{label}</Text>
-    </View>
-  </TouchableOpacity>
-);
+const imageMapping: {
+  [key: string]: { selected: ImageSourcePropType; unselected: ImageSourcePropType };
+} = {
+  small: {
+    selected: require('@/assets/images/select-small-dog.png'),
+    unselected: require('@/assets/images/un-select-small-dog.png'),
+  },
+  medium: {
+    selected: require('@/assets/images/select-medium-dog.png'),
+    unselected: require('@/assets/images/un-select-medium-dog.png'),
+  },
+  large: {
+    selected: require('@/assets/images/select-large-dog.png'),
+    unselected: require('@/assets/images/un-select-large-dog.png'),
+  },
+  // 필요한 다른 이미지들도 여기에 추가
+};
+
+const CustomButton: React.FC<CustomButtonProps> = ({
+  imageUri,
+  label,
+  subLabel,
+  onPress,
+  selected,
+}) => {
+  const getImageSource = () => {
+    if (imageUri && imageMapping[imageUri]) {
+      return selected ? imageMapping[imageUri].selected : imageMapping[imageUri].unselected;
+    }
+    return null;
+  };
+
+  return (
+    <TouchableOpacity style={[styles.button, selected && styles.selectedButton]} onPress={onPress}>
+      <View style={styles.container}>
+        <Checkbox
+          value={selected}
+          onValueChange={onPress}
+          color="#04C755"
+          selectedIcon={Assets.icons.x}
+        />
+        <View style={styles.textContainer}>
+          {subLabel && <Text style={styles.subLabel}>{subLabel}</Text>}
+          <Text style={[styles.buttonText, selected && styles.label]}>{label}</Text>
+        </View>
+        {imageUri && (
+          <LocalImage
+            key={`${imageUri}-${selected ? 'selected' : 'unselected'}`}
+            source={getImageSource()}
+            style={{ width: 100, height: 100 }}
+          />
+        )}
+      </View>
+    </TouchableOpacity>
+  );
+};
 
 const styles = StyleSheet.create({
   button: {
@@ -27,9 +78,16 @@ const styles = StyleSheet.create({
     marginHorizontal: 5,
     alignItems: 'center',
   },
+  container: {
+    flexDirection: 'row',
+    width: 250,
+    alignItems: 'center',
+    justifyContent: 'space-between',
+  },
   textContainer: {
     flexDirection: 'column',
     gap: 6,
+    justifyContent: 'center',
     textAlign: 'left',
   },
   label: {

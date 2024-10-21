@@ -77,6 +77,9 @@ importers:
       react-dom:
         specifier: 18.2.0
         version: 18.2.0(react@18.2.0)
+      react-hook-form:
+        specifier: ^7.53.0
+        version: 7.53.0(react@18.2.0)
       react-native:
         specifier: 0.74.5
         version: 0.74.5(@babel/core@7.20.2)(@babel/preset-env@7.25.7(@babel/core@7.20.2))(@types/react@18.2.45)(react@18.2.0)
@@ -104,12 +107,9 @@ importers:
       react-refresh:
         specifier: ^0.14.2
         version: 0.14.2
-<<<<<<< HEAD
       zod:
         specifier: ^3.23.8
         version: 3.23.8
-=======
->>>>>>> 5ca791387bc408c5c14b2b158bb1e5fd6037dd26
     devDependencies:
       '@babel/core':
         specifier: ^7.20.0
@@ -1074,6 +1074,11 @@ packages:
 
   '@hapi/topo@5.1.0':
     resolution: {integrity: sha512-foQZKJig7Ob0BMAYBfcJk8d77QtOe7Wo4ox7ff1lQYoNNAb6jwcY1ncdoy2e9wQZzvNy7ODZCYJkK8kzmcAnAg==}
+
+  '@hookform/resolvers@3.9.0':
+    resolution: {integrity: sha512-bU0Gr4EepJ/EQsH/IwEzYLsT/PEj5C0ynLQ4m+GSHS+xKH4TfSelhluTgOaoc4kA5s7eCsQbM4wvZLzELmWzUg==}
+    peerDependencies:
+      react-hook-form: ^7.0.0
 
   '@humanwhocodes/module-importer@1.0.1':
     resolution: {integrity: sha512-bxveV4V8v5Yb4ncFTT3rPSgZBOpCkjfK0y4oVVVJwIuDVBRMDXrPyXRL988i5ap9m9bnyEEjWfm5WkBmtffLfA==}
@@ -2900,8 +2905,6 @@ packages:
     peerDependencies:
       expo: '*'
 
-<<<<<<< HEAD
-=======
   expo-image-loader@4.7.0:
     resolution: {integrity: sha512-cx+MxxsAMGl9AiWnQUzrkJMJH4eNOGlu7XkLGnAXSJrRoIiciGaKqzeaD326IyCTV+Z1fXvIliSgNW+DscvD8g==}
     peerDependencies:
@@ -2917,7 +2920,6 @@ packages:
     peerDependencies:
       expo: '*'
 
->>>>>>> 5ca791387bc408c5c14b2b158bb1e5fd6037dd26
   expo-keep-awake@13.0.2:
     resolution: {integrity: sha512-kKiwkVg/bY0AJ5q1Pxnm/GvpeB6hbNJhcFsoOWDh2NlpibhCLaHL826KHUM+WsnJRbVRxJ+K9vbPRHEMvFpVyw==}
     peerDependencies:
@@ -4731,15 +4733,12 @@ packages:
     peerDependencies:
       react: '>=17.0.0'
 
-<<<<<<< HEAD
   react-hook-form@7.53.0:
     resolution: {integrity: sha512-M1n3HhqCww6S2hxLxciEXy2oISPnAzxY7gvwVPrtlczTM/1dDadXgUxDpHMrMTblDOcm/AXtXxHwZ3jpg1mqKQ==}
     engines: {node: '>=18.0.0'}
     peerDependencies:
       react: ^16.8.0 || ^17 || ^18 || ^19
 
-=======
->>>>>>> 5ca791387bc408c5c14b2b158bb1e5fd6037dd26
   react-is@16.13.1:
     resolution: {integrity: sha512-24e6ynE2H+OKt4kqsOvNd8kBpV65zoxbA4BVsEOB3ARVWQki/DHzaUoC5KuON/BiccDaCCTZBuOcfZs70kR8bQ==}
 
@@ -7477,7 +7476,6 @@ snapshots:
     dependencies:
       '@hapi/hoek': 9.3.0
 
-<<<<<<< HEAD
   '@hookform/resolvers@3.9.0(react-hook-form@7.53.0(react@18.2.0))':
     dependencies:
       react-hook-form: 7.53.0(react@18.2.0)
@@ -7486,12 +7484,6 @@ snapshots:
 
   '@humanwhocodes/retry@0.3.1': {}
 
-=======
-  '@humanwhocodes/module-importer@1.0.1': {}
-
-  '@humanwhocodes/retry@0.3.1': {}
-
->>>>>>> 5ca791387bc408c5c14b2b158bb1e5fd6037dd26
   '@isaacs/cliui@8.0.2':
     dependencies:
       string-width: 5.1.2
@@ -9941,14 +9933,6 @@ snapshots:
       expo: 51.0.37(@babel/core@7.20.2)(@babel/preset-env@7.25.7(@babel/core@7.20.2))
       fontfaceobserver: 2.3.0
 
-<<<<<<< HEAD
-  expo-keep-awake@13.0.2(expo@51.0.37(@babel/core@7.20.2)(@babel/preset-env@7.25.7(@babel/core@7.20.2))):
-    dependencies:
-      expo: 51.0.37(@babel/core@7.20.2)(@babel/preset-env@7.25.7(@babel/core@7.20.2))
-
-  expo-linking@6.3.1(expo@51.0.37(@babel/core@7.20.2)(@babel/preset-env@7.25.7(@babel/core@7.20.2))):
-    dependencies:
-=======
   expo-image-loader@4.7.0(expo@51.0.37(@babel/core@7.20.2)(@babel/preset-env@7.25.7(@babel/core@7.20.2))):
     dependencies:
       expo: 51.0.37(@babel/core@7.20.2)(@babel/preset-env@7.25.7(@babel/core@7.20.2))
@@ -9968,7 +9952,6 @@ snapshots:
 
   expo-linking@6.3.1(expo@51.0.37(@babel/core@7.20.2)(@babel/preset-env@7.25.7(@babel/core@7.20.2))):
     dependencies:
->>>>>>> 5ca791387bc408c5c14b2b158bb1e5fd6037dd26
       expo-constants: 16.0.2(expo@51.0.37(@babel/core@7.20.2)(@babel/preset-env@7.25.7(@babel/core@7.20.2)))
       invariant: 2.2.4
     transitivePeerDependencies:
@@ -12119,7 +12102,6 @@ snapshots:
     dependencies:
       react: 18.2.0
 
-<<<<<<< HEAD
   react-hook-form@7.53.0(react@18.2.0):
     dependencies:
       react: 18.2.0
@@ -12130,14 +12112,6 @@ snapshots:
 
   react-is@18.3.1: {}
 
-=======
-  react-is@16.13.1: {}
-
-  react-is@17.0.2: {}
-
-  react-is@18.3.1: {}
-
->>>>>>> 5ca791387bc408c5c14b2b158bb1e5fd6037dd26
   react-native-gesture-handler@2.20.0(react-native@0.74.5(@babel/core@7.20.2)(@babel/preset-env@7.25.7(@babel/core@7.20.2))(@types/react@18.2.45)(react@18.2.0))(react@18.2.0):
     dependencies:
       '@egjs/hammerjs': 2.0.17

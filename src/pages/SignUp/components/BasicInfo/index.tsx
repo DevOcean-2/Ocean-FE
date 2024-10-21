@@ -39,7 +39,9 @@ const BasicInfo: React.FC<StepProps> = ({ control }) => (
         name="gender"
         render={({ field: { onChange, value } }) => (
           <View style={styles.flexGroup}>
-            <Text style={styles.label}>성별</Text>
+            <Text style={styles.label}>
+              성별 <Text color="red">*</Text>
+            </Text>
             <View style={styles.buttonContainer}>
               <CustomButton
                 label="여자아이"
@@ -66,18 +68,21 @@ const BasicInfo: React.FC<StepProps> = ({ control }) => (
             <Text style={styles.label}>댕댕이 크기</Text>
             <View style={styles.flexGroup}>
               <CustomButton
+                imageUri="small"
                 label="소형견"
                 subLabel="작고 소중해"
                 onPress={() => onChange('소형견')}
                 selected={value === '소형견'}
               />
               <CustomButton
+                imageUri="medium"
                 label="중형견"
                 subLabel="이제 좀 무거운 애기"
                 onPress={() => onChange('중형견')}
                 selected={value === '중형견'}
               />
               <CustomButton
+                imageUri="large"
                 label="대형견"
                 subLabel="자이언트 베이비"
                 onPress={() => onChange('대형견')}

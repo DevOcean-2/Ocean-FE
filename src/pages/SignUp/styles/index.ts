@@ -2,8 +2,20 @@ import { StyleSheet, ScrollView } from 'react-native';
 
 export const styles = StyleSheet.create({
   container: {
-    paddingTop: 10,
+    paddingTop: 30,
+    // flex: 1,
     backgroundColor: 'white',
+  },
+  wizardContainer: {
+    paddingTop: 20,
+    // paddingHorizontal: 16,
+    backgroundColor: '#FFFFFF',
+    elevation: 2,
+  },
+  scrollViewContent: {
+    flexGrow: 1,
+    // paddingHorizontal: 16,
+    paddingBottom: 20,
   },
   itemContainer: {
     marginBottom: 40,
@@ -26,7 +38,7 @@ export const styles = StyleSheet.create({
     marginBottom: 10,
   },
   renderStepContainer: {
-    paddingHorizontal: 27.5,
+    paddingHorizontal: 15,
     paddingVertical: 10,
   },
   buttonContainer: {
@@ -66,14 +78,15 @@ export const styles = StyleSheet.create({
     borderRadius: 12,
     backgroundColor: '#D0D5DD33',
     paddingHorizontal: 12,
-    gap: 4,
+    gap: 15,
     paddingVertical: 20,
-    marginBottom: 20,
+    marginBottom: 40,
   },
 
   bannerTitle: {
     fontWeight: '600',
     fontSize: 13,
+    marginBottom: 5,
     color: '#04c755',
   },
   bannerSubTitle: {
