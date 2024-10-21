@@ -4,8 +4,9 @@ import { Incubator, Slider, Text, TextField } from 'react-native-ui-lib';
 import { Controller } from 'react-hook-form';
 import { StepProps } from '../../types/signUp';
 import { styles } from '../../styles';
-import CustomButton from '@/components/CustomButton';
+import CustomImageButton from '@/components/CustomImageButton';
 import Info from '@/assets/svgs/info.svg';
+import CustomButton from '@/components/CustomButton';
 
 const BasicInfo: React.FC<StepProps> = ({ control }) => (
   <ScrollView style={styles.stepContainer}>
@@ -67,21 +68,21 @@ const BasicInfo: React.FC<StepProps> = ({ control }) => (
           <View style={styles.flexGroup}>
             <Text style={styles.label}>댕댕이 크기</Text>
             <View style={styles.flexGroup}>
-              <CustomButton
+              <CustomImageButton
                 imageUri="small"
                 label="소형견"
                 subLabel="작고 소중해"
                 onPress={() => onChange('소형견')}
                 selected={value === '소형견'}
               />
-              <CustomButton
+              <CustomImageButton
                 imageUri="medium"
                 label="중형견"
                 subLabel="이제 좀 무거운 애기"
                 onPress={() => onChange('중형견')}
                 selected={value === '중형견'}
               />
-              <CustomButton
+              <CustomImageButton
                 imageUri="large"
                 label="대형견"
                 subLabel="자이언트 베이비"
