@@ -4,12 +4,13 @@ import { StyleSheet } from 'react-native';
 import { View } from 'react-native-ui-lib';
 import { Home } from './Home';
 import { Walk } from './Walk';
+import { useLocalSearchParams } from 'expo-router';
 
 export const WalkPage = () => {
   /**
    * home, 산책하기 메뉴 이동
    */
-  const [isHome, setIsHome] = useState<boolean>(true);
+  const { isHome } = useLocalSearchParams();
 
   return (
     <View
@@ -21,24 +22,7 @@ export const WalkPage = () => {
         gap: 16,
       }}
     >
-      <View
-        style={{
-          display: 'flex',
-          width: '100%',
-          height: 60,
-          alignItems: 'center',
-          justifyContent: 'center',
-        }}
-      >
-        <SwitchButton
-          isMain={isHome}
-          mainLabel="홈"
-          subLabel="산책하기"
-          toggle={() => setIsHome((prev) => !prev)}
-        />
-      </View>
-
-      {isHome ? <Home /> : <Walk />}
+      {isHome === 'true' ? <Home /> : <Walk />}
     </View>
   );
 };
