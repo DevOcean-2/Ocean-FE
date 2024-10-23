@@ -31,14 +31,14 @@ export const CustomWizard: React.FC<CustomWizardProps> = ({
       />
       <Wizard.Step
         state={getStepState(1)}
-        label="반려견 정보"
+        label="추가 정보"
         color="#04C755"
         circleColor="#04C755"
         circleBackgroundColor="#D8F6EA"
       />
       <Wizard.Step
         state={getStepState(2)}
-        label="추가 정보"
+        label="정보 확인"
         color="#04C755"
         circleColor="#04C755"
         circleBackgroundColor="#D8F6EA"
