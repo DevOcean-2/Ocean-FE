@@ -17,7 +17,14 @@ const HomeStackLayout = () => {
   };
 
   return (
-    <Stack>
+    <Stack
+      screenOptions={{
+        contentStyle: {
+          paddingHorizontal: 20,
+          backgroundColor: '#EDF1F7',
+        },
+      }}
+    >
       <Stack.Screen
         name={'index'}
         options={{
