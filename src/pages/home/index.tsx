@@ -1,5 +1,4 @@
-import { StyleSheet } from 'react-native';
-import { View } from 'react-native-ui-lib';
+import { ScrollView, StyleSheet } from 'react-native';
 import { Home } from './Home';
 import { Walk } from './Walk';
 import { useLocalSearchParams } from 'expo-router';
@@ -9,7 +8,15 @@ export const WalkPage = () => {
    * home, 산책하기 메뉴 이동
    */
   const { isHome } = useLocalSearchParams();
-  return <View style={styles.container}>{isHome === 'true' ? <Home /> : <Walk />}</View>;
+  return (
+    <ScrollView
+      showsVerticalScrollIndicator={false}
+      showsHorizontalScrollIndicator={false}
+      style={styles.container}
+    >
+      {isHome === 'true' ? <Home /> : <Walk />}
+    </ScrollView>
+  );
 };
 
 const styles = StyleSheet.create({
@@ -19,5 +26,6 @@ const styles = StyleSheet.create({
     display: 'flex',
     flexDirection: 'column',
     gap: 16,
+    flex: 1,
   },
 });
