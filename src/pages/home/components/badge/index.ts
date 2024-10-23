@@ -1,0 +1,1 @@
+export { LikeBadge } from './LikeBadge';
