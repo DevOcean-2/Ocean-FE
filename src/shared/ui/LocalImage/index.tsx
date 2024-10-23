@@ -1,9 +1,9 @@
-import { Image, ImageStyle, StyleProp } from 'react-native';
+import { Image, ImageSourcePropType, ImageStyle, StyleProp } from 'react-native';
 import { useEffect, useState } from 'react';
 import { Asset } from 'expo-asset';
 
 interface LocalImageProps {
-  source: number;
+  source: ImageSourcePropType | null;
   style: StyleProp<ImageStyle>;
 }
 
@@ -15,7 +15,7 @@ const LocalImage = (props: LocalImageProps) => {
 
   useEffect(() => {
     (async () => {
-      const image = Asset.fromModule(source);
+      const image = Asset.fromModule(source as string);
       await image.downloadAsync();
 
       setImage(image);
