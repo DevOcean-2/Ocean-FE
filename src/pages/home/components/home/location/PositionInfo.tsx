@@ -1,31 +1,27 @@
 import React from 'react';
-import { View, Text, Picker } from 'react-native-ui-lib';
+import { View, Text } from 'react-native-ui-lib';
 import { StyleSheet } from 'react-native';
-import { usePositionHistory, useWeather } from '../../hooks';
+import { useWeather } from '../../../hooks';
+import { ICON_POSITION, ICON_REFRESH } from '@/assets/svgs';
+import { Card } from '../../frame';
 
-export const HomeHeader = () => {
-  const { currentPosition, positionHistory, setCurrentPosition } = usePositionHistory();
+export const PositionInfo = () => {
   const { weatherText } = useWeather();
 
   return (
-    <View style={styles.header}>
+    <Card style={styles.header}>
       <View style={styles.locationContainer}>
-        <Picker
-          value={currentPosition}
-          fieldType="filter"
-          style={styles.picker}
-          placeholder="위치 설정"
-          items={positionHistory}
-          onChange={(newValue) => {
-            if (typeof newValue === 'string') setCurrentPosition(newValue);
-          }}
-        />
+        <View style={styles.locationContents}>
+          <ICON_POSITION />
+          <Text style={styles.boldText}>강남구</Text>
+          <ICON_REFRESH />
+        </View>
         <Text style={styles.weatherText}>{weatherText}</Text>
       </View>
       <View>
         <Text style={styles.weatherIcon}>날씨</Text>
       </View>
-    </View>
+    </Card>
   );
 };
 
@@ -34,11 +30,14 @@ const styles = StyleSheet.create({
     display: 'flex',
     flexDirection: 'row',
     alignItems: 'center',
-    height: 50,
-    paddingHorizontal: 16,
     marginTop: 12,
     marginBottom: 20,
   },
+  boldText: {
+    fontSize: 16,
+    fontWeight: 600,
+  },
+  locationContents: { display: 'flex', flexDirection: 'row', gap: 6, alignItems: 'center' },
   locationContainer: {
     display: 'flex',
     flexDirection: 'column',

@@ -14,13 +14,10 @@ export const SwitchButton = (props: SwitchButtonProps) => {
 
   return (
     <TouchableOpacity style={styles.container} onPress={toggle}>
-      <View style={[styles.switch, isMain ? styles.switchLeft : styles.switchRight]}>
-        <Text style={styles.switchText}>{isMain ? mainLabel : subLabel}</Text>
-      </View>
-      <Text style={[styles.option, isMain ? styles.activeLeft : styles.inactiveRight]}>
+      <Text style={[styles.option, isMain ? styles.activeLeft : styles.inactiveLeft]}>
         {mainLabel}
       </Text>
-      <Text style={[styles.option, isMain ? styles.inactiveLeft : styles.activeRight]}>
+      <Text style={[styles.option, isMain ? styles.inactiveRight : styles.activeRight]}>
         {subLabel}
       </Text>
     </TouchableOpacity>
@@ -31,49 +28,52 @@ const styles = StyleSheet.create({
   container: {
     flexDirection: 'row',
     backgroundColor: '#F8F9FA',
-    borderRadius: 25,
-    padding: 2,
-    width: 200,
-    height: 50,
+    borderRadius: 24,
+    height: 36,
     alignItems: 'center',
     justifyContent: 'center',
-  },
-  switch: {
-    position: 'absolute',
-    width: '50%',
-    height: '90%',
-    backgroundColor: '#13E67D',
-    borderRadius: 18,
-    justifyContent: 'center',
-    alignItems: 'center',
-  },
-  switchLeft: {
-    left: '2%',
-  },
-  switchRight: {
-    right: '2%',
-  },
-  switchText: {
-    color: 'white',
-    fontWeight: 'bold',
   },
   option: {
     width: '50%',
     textAlign: 'center',
-    fontSize: 16,
+    fontSize: 13,
   },
   activeLeft: {
     color: 'white',
     fontWeight: 'bold',
+    height: '100%',
+    verticalAlign: 'middle',
+    backgroundColor: '#13E67D',
+    borderRadius: 18,
+    width: 'auto',
+    paddingHorizontal: 12,
   },
   activeRight: {
     color: 'white',
     fontWeight: 'bold',
+    height: '100%',
+    verticalAlign: 'middle',
+    backgroundColor: '#13E67D',
+    borderRadius: 18,
+    width: 'auto',
+    paddingLeft: 8,
+    paddingRight: 16,
   },
   inactiveLeft: {
     color: '#5E5E5E',
+    height: '100%',
+    verticalAlign: 'middle',
+    borderRadius: 18,
+    width: 'auto',
+    paddingHorizontal: 12,
   },
   inactiveRight: {
     color: '#5E5E5E',
+    height: '100%',
+    verticalAlign: 'middle',
+    borderRadius: 18,
+    width: 'auto',
+    paddingLeft: 8,
+    paddingRight: 16,
   },
 });

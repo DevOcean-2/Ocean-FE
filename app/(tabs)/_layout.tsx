@@ -29,16 +29,16 @@ const TabBarIcon = (props: {
 }) => {
   const { Icon, IconFill, color, focused } = props;
 
-  return focused ? <IconFill fill={color} /> : <Icon fill={color} />;
+  return focused ? <IconFill fill="#04C755" /> : <Icon fill={color} />;
 };
 
 const TabBarText = (props: { children: ReactNode; color: string; focused: boolean }) => {
-  const { children, color, focused } = props;
+  const { children, focused } = props;
 
   return focused ? (
-    <Text style={[styles.text, { color: '#101828' }]}>{children}</Text>
+    <Text style={[styles.focused, { color: '#101426' }]}>{children}</Text>
   ) : (
-    <Text style={[styles.text, { color: color }]}> {children}</Text>
+    <Text style={[styles.text, { color: '#8F9BB3' }]}> {children}</Text>
   );
 };
 
@@ -47,7 +47,7 @@ const TabLayout = () => {
 
   const tabListInfo: TabScreenProps[] = [
     {
-      name: 'index',
+      name: 'home',
       options: {
         title: '홈',
         tabBarLabel: ({ color, focused }) => (
@@ -108,10 +108,17 @@ const TabLayout = () => {
         ),
       },
     },
+    {
+      name: 'index',
+      options: {
+        tabBarButton: () => null,
+      },
+    },
   ];
 
   return (
     <Tabs
+      initialRouteName="home"
       screenOptions={{
         tabBarActiveTintColor: Colors[colorScheme ?? 'light'].tabIconSelected,
         headerShown: false,
@@ -130,6 +137,11 @@ const styles = StyleSheet.create({
   text: {
     fontSize: 12,
     fontWeight: 400,
+    lineHeight: 12,
+  },
+  focused: {
+    fontSize: 12,
+    fontWeight: 500,
     lineHeight: 12,
   },
 });
