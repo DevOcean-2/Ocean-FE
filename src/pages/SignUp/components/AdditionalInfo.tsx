@@ -1,25 +1,35 @@
 import React from 'react';
-import { View } from 'react-native';
+import { ScrollView, View } from 'react-native';
 import { Text, RadioGroup, RadioButton } from 'react-native-ui-lib';
 import { Controller } from 'react-hook-form';
 import { StepProps } from '../types/signUp';
 import { styles } from '../styles';
+import { Banner } from '@/components/Banner';
 
-const AdditionalInfo: React.FC<StepProps> = ({ control }) => (
-  <View style={styles.stepContainer}>
-    <Text style={styles.label}>귀여움을 수치화 해본다면</Text>
-    <Controller
-      control={control}
-      name="careLevel"
-      render={({ field: { onChange, value } }) => (
-        <RadioGroup initialValue={value} onValueChange={onChange}>
-          <RadioButton value={1} label="1단계" />
-          <RadioButton value={2} label="2단계" />
-          <RadioButton value={3} label="3단계" />
-        </RadioGroup>
-      )}
-    />
-  </View>
-);
+const AdditionalInfo: React.FC<StepProps> = ({ control }) => {
+  return (
+    <ScrollView style={styles.stepContainer}>
+      <Banner
+        title="추가 정보는 선택해서 작성할 수 있어요"
+        subtitle="반려견에 대해 더 알려주고 싶은 정보가 있나요?"
+      />
+      {/* <View style={styles.itemContainer}>
+        <Text style={styles.title}>반려견을 어떻게 부르시나요?</Text>
+        <Controller
+          control={control}
+          name="name"
+          render={({ field: { onChange, value } }) => (
+            <ImageUploadField
+            control={control}
+            name="petImage"
+            title="반려견을 어떻게 부르시나요?"
+            placeholder="반려견의 사진을 선택해주세요"
+          />
+          )}
+        />
+      </View> */}
+    </ScrollView>
+  );
+};
 
 export default AdditionalInfo;
