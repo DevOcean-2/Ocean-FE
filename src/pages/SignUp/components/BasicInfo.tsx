@@ -5,8 +5,10 @@ import { Controller } from 'react-hook-form';
 import { StepProps } from '../types/signUp';
 import { styles } from '../styles';
 import CustomImageButton from '@/components/CustomImageButton';
-import Info from '@/assets/svgs/info.svg';
+
 import CustomButton from '@/components/CustomButton';
+import renderTrack from './renderTrack';
+import { Banner } from '@/components/Banner';
 
 const options = [
   { label: '토끼', value: '토끼' },
@@ -18,36 +20,13 @@ const options = [
 
 const BasicInfo: React.FC<StepProps> = ({ control }) => {
   const [dogBreed, setDogBreed] = useState('');
-  const sliderColors = ['#C8F2D7', '#84E1AE', '#41D08A', '#04C755', '#02ac49'];
 
-  const renderTrack = (selectedValue: number) => {
-    return (
-      <View style={BasicInfoStyles.trackContainer}>
-        {sliderColors.map((color, index) => (
-          <View
-            key={index}
-            style={[
-              BasicInfoStyles.trackSegment,
-              { backgroundColor: color },
-              index < selectedValue && { opacity: 1 },
-              index >= selectedValue && { opacity: 0 },
-            ]}
-          />
-        ))}
-      </View>
-    );
-  };
   return (
     <ScrollView style={styles.stepContainer}>
-      <View style={styles.bannerContainer}>
-        <Info width={20} height={20} />
-        <View>
-          <Text style={styles.bannerTitle}>기본 정보는 필수입력 사항입니다.</Text>
-          <Text style={styles.bannerSubTitle}>
-            서비스를 시작하기 위해 모든 정보를 입력해주세요.
-          </Text>
-        </View>
-      </View>
+      <Banner
+        title="기본 정보는 필수입력 사항입니다."
+        subtitle="서비스를 시작하기 위해 모든 정보를 입력해주세요."
+      />
       <View style={styles.itemContainer}>
         <Text style={styles.title}>반려견을 어떻게 부르시나요?</Text>
         <Controller
@@ -200,16 +179,6 @@ const BasicInfoStyles = StyleSheet.create({
     justifyContent: 'center',
   },
 
-  trackContainer: {
-    flexDirection: 'row',
-    height: 8,
-    borderRadius: 4,
-    overflow: 'hidden',
-  },
-  trackSegment: {
-    flex: 1,
-    height: '100%',
-  },
   slider: {
     position: 'absolute',
     width: '100%',
