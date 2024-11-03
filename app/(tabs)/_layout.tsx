@@ -17,8 +17,6 @@ import {
   ICON_PIN_FILL,
 } from '@/assets/svgs';
 
-import { FeedHeader } from '@/src/widgets/PageHeaders';
-
 type TabScreenProps = React.ComponentProps<typeof Tabs.Screen>;
 
 const TabBarIcon = (props: {
@@ -78,7 +76,6 @@ const TabLayout = () => {
       name: 'feed',
       options: {
         title: '피드',
-        headerTitle: () => <FeedHeader />,
         tabBarLabel: ({ color, focused }) => (
           <TabBarText color={color} focused={focused}>
             피드
