@@ -1,1 +1,1 @@
-export { default as FeedHeader } from './FeedHeader';
+export * from './FeedHeader';

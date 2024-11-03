@@ -1,11 +1,4 @@
-import { Text, View } from 'react-native';
-
-const FeedHeader = () => {
-  return (
-    <View>
-      <Text>FeedHeader</Text>
-    </View>
-  );
-};
-
-export default FeedHeader;
+export { default as FeedHomeHeader } from './FeedHomeHeader';
+export { default as FeedUploadHeader } from './FeedUploadHeader';
+export { default as FeedAlertHeader } from './FeedAlertHeader';
+export { default as FeedVisitorHeader } from './FeedVisitorHeader';

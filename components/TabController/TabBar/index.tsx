@@ -1,13 +1,18 @@
 import { useContext } from 'react';
 import { TabContext } from '@/components/TabController/context';
-import { StyleSheet, Text, TouchableOpacity, View } from 'react-native';
+import { StyleProp, StyleSheet, Text, TouchableOpacity, View, ViewStyle } from 'react-native';
 import { TabContextType } from '@/components/TabController/type';
 
-const TabBar = () => {
+interface TabBarProps {
+  style?: StyleProp<ViewStyle>;
+}
+
+const TabBar = (props: TabBarProps) => {
   const { items, setCurrentIndex, currentIndex } = useContext<TabContextType>(TabContext);
+  const { style } = props;
 
   return (
-    <View style={styles.container}>
+    <View style={[styles.container, style]}>
       {items.map((item, index) => {
         return (
           <TouchableOpacity
