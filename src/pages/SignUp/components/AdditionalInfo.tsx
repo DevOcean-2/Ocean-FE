@@ -1,12 +1,21 @@
-import React, { useEffect } from 'react';
+import React, { useEffect, useState } from 'react';
 import { ScrollView, View, Image, TouchableOpacity, StyleSheet } from 'react-native';
-import { Text, TextField, Checkbox } from 'react-native-ui-lib';
+import { Text, TextField, Checkbox, Colors, Picker } from 'react-native-ui-lib';
 import { Controller, useWatch } from 'react-hook-form';
 import * as ImagePicker from 'expo-image-picker';
 import { StepProps } from '../types/signUp';
 import { Banner } from '@/components/Banner';
 
+const options = [
+  { label: '토끼', value: '토끼' },
+  { label: '사과', value: '사과' },
+  { label: '고양이', value: '고양이' },
+  { label: '몰라', value: '몰라' },
+  { label: '배고픔', value: '배고픔' },
+];
+
 const AdditionalInfo: React.FC<StepProps> = ({ control }) => {
+  const [aOption, setAOption] = useState('');
   const hasDate = useWatch({
     control,
     name: 'hasDate',
@@ -104,6 +113,7 @@ const AdditionalInfo: React.FC<StepProps> = ({ control }) => {
                 value={value}
                 onValueChange={onChange}
                 label="생일"
+                color="#04C755"
                 labelStyle={AdditionalInfoStyles.checkboxLabel}
                 style={AdditionalInfoStyles.checkbox}
               />
@@ -120,6 +130,7 @@ const AdditionalInfo: React.FC<StepProps> = ({ control }) => {
                 <TextField
                   placeholder="YYYY.MM.DD"
                   value={value}
+                  disableFullscreenUI={hasDate}
                   onChangeText={(text: string) => {
                     const formattedDate = formatDateInput(text);
                     onChange(formattedDate);
@@ -143,6 +154,144 @@ const AdditionalInfo: React.FC<StepProps> = ({ control }) => {
 
       <View style={AdditionalInfoStyles.itemContainer}>
         <Text style={AdditionalInfoStyles.title}>건강 정보를 등록해보세요</Text>
+        <Controller
+          control={control}
+          name="hasKg"
+          defaultValue={false}
+          render={({ field: { onChange, value } }) => (
+            <View style={AdditionalInfoStyles.checkboxContainer}>
+              <Checkbox
+                value={value}
+                onValueChange={onChange}
+                label="현재 몸무게"
+                color="#04C755"
+                labelStyle={AdditionalInfoStyles.checkboxLabel}
+                style={AdditionalInfoStyles.checkbox}
+              />
+            </View>
+          )}
+        />
+
+        <Controller
+          control={control}
+          name="kg"
+          defaultValue={false}
+          render={({ field: { onChange, value } }) => (
+            <View style={AdditionalInfoStyles.checkboxContainer}>
+              <TextField
+                value={value}
+                onChangeText={onChange}
+                placeholder="몸무게를 입력해주세요"
+              />
+            </View>
+          )}
+        />
+        <Controller
+          control={control}
+          name="hasDiseases"
+          defaultValue={false}
+          render={({ field: { onChange, value } }) => (
+            <Checkbox
+              value={value}
+              onValueChange={onChange}
+              label="질병 이력"
+              color="#04C755"
+              labelStyle={AdditionalInfoStyles.checkboxLabel}
+              style={AdditionalInfoStyles.checkbox}
+            />
+          )}
+        />
+        <Controller
+          control={control}
+          name="diseases"
+          defaultValue={false}
+          render={({ field: { onChange, value } }) => (
+            <Picker
+              placeholder="과거 또는 현재 질병 이력을 추가해주세요"
+              value={aOption}
+              enableModalBlur={false}
+              onChange={(item) => setAOption(item as string)}
+              topBarProps={{ title: 'ABC' }}
+              showSearch
+              searchPlaceholder={'Search a language'}
+              searchStyle={{ color: Colors.blue30, placeholderTextColor: Colors.grey50 }}
+              onSearchChange={(value) => console.warn('value', value)}
+              items={options}
+            />
+          )}
+        />
+        <Controller
+          control={control}
+          name="hasAllergies"
+          defaultValue={false}
+          render={({ field: { onChange, value } }) => (
+            <View style={AdditionalInfoStyles.checkboxContainer}>
+              <Checkbox
+                value={value}
+                onValueChange={onChange}
+                label="알러지"
+                color="#04C755"
+                labelStyle={AdditionalInfoStyles.checkboxLabel}
+                style={AdditionalInfoStyles.checkbox}
+              />
+            </View>
+          )}
+        />
+        <Controller
+          control={control}
+          name="allergies"
+          defaultValue={false}
+          render={({ field: { onChange, value } }) => (
+            <Picker
+              placeholder="검색해서 추가하기"
+              value={aOption}
+              enableModalBlur={false}
+              onChange={(item) => setAOption(item as string)}
+              topBarProps={{ title: 'ABC' }}
+              showSearch
+              searchPlaceholder={'Search a language'}
+              searchStyle={{ color: Colors.blue30, placeholderTextColor: Colors.grey50 }}
+              onSearchChange={(value) => console.warn('value', value)}
+              items={options}
+            />
+          )}
+        />
+        <Controller
+          control={control}
+          name="hasImmunizations"
+          defaultValue={false}
+          render={({ field: { onChange, value } }) => (
+            <View style={AdditionalInfoStyles.checkboxContainer}>
+              <Checkbox
+                value={value}
+                onValueChange={onChange}
+                label="예방접종 정보"
+                color="#04C755"
+                labelStyle={AdditionalInfoStyles.checkboxLabel}
+                style={AdditionalInfoStyles.checkbox}
+              />
+            </View>
+          )}
+        />
+        <Controller
+          control={control}
+          name="immunizations"
+          defaultValue={false}
+          render={({ field: { onChange, value } }) => (
+            <Picker
+              placeholder="검색해서 추가하기"
+              value={aOption}
+              enableModalBlur={false}
+              onChange={(item) => setAOption(item as string)}
+              topBarProps={{ title: 'ABC' }}
+              showSearch
+              searchPlaceholder={'Search a language'}
+              searchStyle={{ color: Colors.blue30, placeholderTextColor: Colors.grey50 }}
+              onSearchChange={(value) => console.warn('value', value)}
+              items={options}
+            />
+          )}
+        />
       </View>
     </ScrollView>
   );
@@ -189,13 +338,15 @@ const AdditionalInfoStyles = StyleSheet.create({
   checkboxContainer: {
     marginBottom: 8,
   },
+
   checkbox: {
-    marginBottom: 8,
+    marginBottom: 1,
+    borderColor: '#CCCCCC',
   },
   checkboxLabel: {
     fontSize: 16,
     fontWeight: 'bold',
-    color: '#000000',
+    color: '#8F9BB3',
   },
   dateFieldContainer: {
     marginTop: 8,
