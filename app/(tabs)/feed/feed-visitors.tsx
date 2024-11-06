@@ -1,11 +1,7 @@
-import { Text, View } from 'react-native';
+import FeedVisitor from '@/src/pages/Feed/Visitor';
 
-const FeedVisitors = () => {
-  return (
-    <View>
-      <Text>visitor-list</Text>
-    </View>
-  );
+const FeedVisitorEntry = () => {
+  return <FeedVisitor />;
 };
 
-export default FeedVisitors;
+export default FeedVisitorEntry;
