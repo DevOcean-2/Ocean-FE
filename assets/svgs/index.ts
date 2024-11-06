@@ -14,3 +14,4 @@ export { default as ICON_ARROW_RIGHT } from './arrow_right.svg';
 export { default as ICON_RANKING } from './ranking.svg';
 export { default as ICON_FLAG } from './flag.svg';
 export { default as ICON_FIRE } from './fire.svg';
+export { default as ICON_CHECK } from './check.svg';
