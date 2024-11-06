@@ -20,7 +20,7 @@ export const useSignUpForm = () => {
       gender: '여자아이',
       size: '소형견',
       breed: '',
-      careLevel: 1,
+      careLevel: 0,
     },
   });
 

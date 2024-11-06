@@ -20,10 +20,10 @@ const CustomButton: React.FC<CustomButtonProps> = ({ label, subLabel, onPress, s
 const styles = StyleSheet.create({
   button: {
     flex: 1,
-    padding: 10,
+    paddingVertical: 14,
     borderWidth: 1,
     borderColor: '#ccc',
-    borderRadius: 5,
+    borderRadius: 10,
     marginHorizontal: 5,
     alignItems: 'center',
   },

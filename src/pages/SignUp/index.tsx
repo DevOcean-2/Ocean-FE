@@ -20,10 +20,13 @@ const SignUp: React.FC = () => {
   } = useSignUpForm();
 
   const renderNextButton = () => (
-    <Button style={SignUpStyles.nextButton} label="입력완료" onPress={goToNextStep} />
+    <Button style={SignUpStyles.nextButton} label="입력 완료" onPress={goToNextStep} />
   );
 
-  // const renderPrevButton = () => activeIndex > 0 && <Button label="이전" onPress={goToPrevStep} />;
+  const renderPrevButton = () =>
+    activeIndex > 0 && (
+      <Button style={SignUpStyles.nextButton} label="이전 단계" onPress={goToPrevStep} />
+    );
 
   return (
     <View style={SignUpStyles.container}>
@@ -37,8 +40,10 @@ const SignUp: React.FC = () => {
           <StepRenderer activeIndex={activeIndex} control={control} errors={errors} />
         </View>
       </ScrollView>
-      {/* {renderPrevButton()} */}
-      {renderNextButton()}
+      <View style={SignUpStyles.buttonContainer}>
+        {renderPrevButton()}
+        {renderNextButton()}
+      </View>
       {toastMessage && <Toast visible position="bottom" message={toastMessage} />}
     </View>
   );
@@ -60,6 +65,15 @@ const SignUpStyles = StyleSheet.create({
     paddingVertical: 10,
   },
 
+  prevButton: {
+    paddingHorizontal: 20,
+    paddingVertical: 10,
+    marginHorizontal: 24,
+    backgroundColor: '#ffffff',
+    color: 'black',
+    borderRadius: 10,
+    marginBottom: 30,
+  },
   nextButton: {
     paddingHorizontal: 20,
     paddingVertical: 10,
@@ -68,12 +82,12 @@ const SignUpStyles = StyleSheet.create({
     borderRadius: 10,
     marginBottom: 30,
   },
-  // buttonContainer: {
-  //   flexDirection: 'row',
-  //   justifyContent: 'space-between',
-  //   paddingHorizontal: 15,
-  //   paddingBottom: 20,
-  // },
+  buttonContainer: {
+    flexDirection: 'row',
+    justifyContent: 'space-between',
+    paddingHorizontal: 15,
+    paddingBottom: 20,
+  },
 });
 
 export default SignUp;
