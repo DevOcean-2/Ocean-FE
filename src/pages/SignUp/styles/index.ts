@@ -8,6 +8,12 @@ export const styles = StyleSheet.create({
     display: 'flex',
     flexDirection: 'column',
   },
+
+  imageContainer: {
+    gap: 16,
+    display: 'flex',
+    flexDirection: 'column',
+  },
   stepContainer: {
     flex: 1,
     marginTop: 20,
@@ -29,6 +35,8 @@ export const styles = StyleSheet.create({
 
   inputField: {
     marginBottom: 20,
+    paddingTop: 10,
+    textDecorationLine: 'underline',
   },
 
   button: {

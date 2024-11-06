@@ -1,7 +1,8 @@
 import LocalImage from '@/src/shared/ui/LocalImage';
 import React from 'react';
 import { TouchableOpacity, Text, StyleSheet, View, ImageSourcePropType } from 'react-native';
-import { Assets, Checkbox } from 'react-native-ui-lib';
+import { Checkbox } from 'react-native-ui-lib';
+import Check from '@/assets/svgs/shape.svg';
 
 type CustomButtonProps = {
   imageUri?: string;
@@ -50,8 +51,9 @@ const CustomImageButton: React.FC<CustomButtonProps> = ({
           value={selected}
           onValueChange={onPress}
           color="#04C755"
-          selectedIcon={Assets.icons.x}
-          style={{ marginRight: 15 }}
+          iconColor="white"
+          selectedIcon={Check as any}
+          style={{ marginRight: 15, opacity: selected ? 1 : 0 }}
         />
         <View style={styles.textContainer}>
           {subLabel && <Text style={styles.subLabel}>{subLabel}</Text>}
@@ -75,13 +77,13 @@ const styles = StyleSheet.create({
     padding: 10,
     borderWidth: 1,
     borderColor: '#ccc',
-    borderRadius: 5,
+    borderRadius: 20,
+
     marginHorizontal: 5,
     alignItems: 'center',
   },
   container: {
     flexDirection: 'row',
-    width: 250,
     alignItems: 'center',
     justifyContent: 'space-between',
   },

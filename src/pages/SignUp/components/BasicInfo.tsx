@@ -28,18 +28,26 @@ const BasicInfo: React.FC<StepProps> = ({ control }) => {
         subtitle="서비스를 시작하기 위해 모든 정보를 입력해주세요."
       />
       <View style={styles.itemContainer}>
-        <Text style={styles.title}>반려견을 어떻게 부르시나요?</Text>
+        <Text style={styles.title}>반려견을 어떻게 부르시나요? </Text>
         <Controller
           control={control}
           name="name"
           render={({ field: { onChange, value } }) => (
-            <TextField
-              label="이름"
-              style={styles.inputField}
-              placeholder="반려견의 이름을 입력해주세요"
-              onChangeText={onChange}
-              value={value}
-            />
+            <View>
+              <Text style={styles.label}>
+                이름 <Text color="red">*</Text>
+              </Text>
+              <TextField
+                fieldStyle={styles.inputField}
+                placeholderTextColor="#8F9BB3"
+                placeholder="내용을 입력해주세요"
+                onChangeText={onChange}
+                value={value}
+                maxLength={30} // 최대 입력 길이 설정
+                showCharCounter // 글자 수 카운터 표시
+                charCounterStyle={{ color: '#8F9BB3' }} // 글자 수 카운터 스타일
+              />
+            </View>
           )}
         />
       </View>
@@ -76,8 +84,10 @@ const BasicInfo: React.FC<StepProps> = ({ control }) => {
           name="size"
           render={({ field: { onChange, value } }) => (
             <View style={styles.flexGroup}>
-              <Text style={styles.label}>댕댕이 크기</Text>
-              <View style={styles.flexGroup}>
+              <Text style={styles.label}>
+                댕댕이 크기 <Text color="red">*</Text>
+              </Text>
+              <View style={styles.imageContainer}>
                 <CustomImageButton
                   imageUri="small"
                   label="소형견"
