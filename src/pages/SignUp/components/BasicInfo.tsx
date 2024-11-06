@@ -1,6 +1,6 @@
 import React, { useState } from 'react';
 import { ScrollView, StyleSheet, View } from 'react-native';
-import { Colors, Picker, Slider, Text, TextField } from 'react-native-ui-lib';
+import { Colors, Picker, Slider, Text, TextField, TouchableOpacity } from 'react-native-ui-lib';
 import { Controller } from 'react-hook-form';
 import { StepProps } from '../types/signUp';
 import { styles } from '../styles';
@@ -20,6 +20,7 @@ const options = [
 
 const BasicInfo: React.FC<StepProps> = ({ control }) => {
   const [dogBreed, setDogBreed] = useState('');
+  const [isBreed, setIsBreed] = useState(false);
 
   return (
     <ScrollView style={styles.stepContainer}>
@@ -120,18 +121,45 @@ const BasicInfo: React.FC<StepProps> = ({ control }) => {
           control={control}
           name="breed"
           render={({ field: { onChange, value } }) => (
-            <Picker
-              placeholder="품종을 선택해주세요"
-              value={dogBreed}
-              enableModalBlur={false}
-              onChange={(item) => setDogBreed(item as string)}
-              topBarProps={{ title: '강아지품종' }}
-              showSearch
-              searchPlaceholder={'Search a language'}
-              searchStyle={{ color: Colors.blue30, placeholderTextColor: Colors.grey50 }}
-              onSearchChange={(value) => console.warn('value', value)}
-              items={options}
-            />
+            <View>
+              <Text style={styles.label}>
+                품종 <Text color="red">*</Text>
+              </Text>
+              <Picker
+                placeholder="품종을 선택해주세요"
+                placeholderTextColor="#8F9BB3"
+                value={dogBreed}
+                enableModalBlur={false}
+                onChange={(item) => {
+                  setDogBreed(item as string);
+                  onChange(item);
+                }}
+                topBarProps={{
+                  title: '강아지품종',
+                  titleStyle: BasicInfoStyles.pickerTitle,
+                }}
+                showSearch
+                searchPlaceholder="품종을 선택해주세요"
+                // searchStyle={BasicInfoStyles.searchInput}
+                onSearchChange={(value) => console.warn('value', value)}
+                items={options}
+                containerStyle={BasicInfoStyles.pickerContainer}
+                style={BasicInfoStyles.picker}
+              />
+              <Text style={BasicInfoStyles.orText}>또는</Text>
+              <TouchableOpacity
+                style={isBreed ? BasicInfoStyles.cannotFindButton : BasicInfoStyles.canFindButton}
+                onPress={() => {
+                  setIsBreed((prev) => !prev);
+                }}
+              >
+                <Text
+                  style={isBreed ? BasicInfoStyles.cannotFindText : BasicInfoStyles.canFindText}
+                >
+                  정형화 할 수 없어요
+                </Text>
+              </TouchableOpacity>
+            </View>
           )}
         />
       </View>
@@ -139,7 +167,7 @@ const BasicInfo: React.FC<StepProps> = ({ control }) => {
         <Text style={styles.title}>귀여움을 수치화하면?</Text>
         <Controller
           control={control}
-          name="cute"
+          name="careLevel"
           render={({ field: { onChange, value } }) => (
             <>
               <Text style={styles.label}>
@@ -188,7 +216,12 @@ const BasicInfoStyles = StyleSheet.create({
     height: 40,
     justifyContent: 'center',
   },
-
+  pickerContainer: {
+    borderBottomWidth: 1,
+    borderColor: '#E4E9F2',
+    borderRadius: 8,
+    backgroundColor: 'white',
+  },
   slider: {
     position: 'absolute',
     width: '100%',
@@ -207,6 +240,64 @@ const BasicInfoStyles = StyleSheet.create({
   activeThumb: {
     width: 28,
     height: 28,
+  },
+
+  picker: {
+    height: 48,
+  },
+  pickerRender: {
+    flexDirection: 'row',
+    alignItems: 'center',
+    justifyContent: 'space-between',
+    paddingHorizontal: 16,
+  },
+  pickerText: {
+    fontSize: 16,
+    color: '#8F9BB3', // placeholder 색상
+  },
+  searchInput: {
+    height: 40,
+    backgroundColor: '#F7F9FC',
+    borderRadius: 8,
+    paddingHorizontal: 16,
+    marginHorizontal: 16,
+    marginVertical: 8,
+  },
+  pickerTitle: {
+    fontSize: 18,
+    fontWeight: '600',
+    color: '#222B45',
+  },
+  orText: {
+    textAlign: 'center',
+    color: '#8F9BB3',
+    marginVertical: 16,
+    fontSize: 14,
+  },
+  cannotFindButton: {
+    borderWidth: 1,
+    borderRadius: 8,
+    padding: 16,
+    borderColor: '#D0D5DD',
+  },
+  cannotFindText: {
+    textAlign: 'center',
+    color: '#D0D5DD',
+    fontSize: 16,
+    fontWeight: '500',
+  },
+  canFindButton: {
+    borderWidth: 1,
+    borderRadius: 8,
+    padding: 16,
+    borderColor: '#04C755',
+    backgroundColor: '#F1FFF2',
+  },
+  canFindText: {
+    textAlign: 'center',
+    color: '#101828',
+    fontSize: 16,
+    fontWeight: '600',
   },
 });
 

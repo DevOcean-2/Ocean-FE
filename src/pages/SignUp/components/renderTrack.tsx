@@ -2,7 +2,6 @@ import { StyleSheet, View } from 'react-native';
 
 const renderTrack = (selectedValue: number) => {
   const sliderColors = ['#C8F2D7', '#84E1AE', '#41D08A', '#04C755', '#02ac49'];
-
   return (
     <View style={RenderTrackStyles.trackContainer}>
       {sliderColors.map((color, index) => (
