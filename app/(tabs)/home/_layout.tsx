@@ -20,7 +20,7 @@ const HomeStackLayout = () => {
     <Stack
       screenOptions={{
         contentStyle: {
-          paddingHorizontal: 20,
+          paddingHorizontal: isHome ? 20 : 0,
           backgroundColor: '#EDF1F7',
         },
       }}
