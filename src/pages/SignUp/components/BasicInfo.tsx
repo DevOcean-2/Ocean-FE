@@ -20,7 +20,7 @@ const options = [
 
 const BasicInfo: React.FC<StepProps> = ({ control }) => {
   const [dogBreed, setDogBreed] = useState('');
-  const [isBreed, setIsBreed] = useState(false);
+  const [isBreed, setIsBreed] = useState(true);
 
   return (
     <ScrollView style={styles.stepContainer}>
@@ -125,28 +125,32 @@ const BasicInfo: React.FC<StepProps> = ({ control }) => {
               <Text style={styles.label}>
                 품종 <Text color="red">*</Text>
               </Text>
-              <Picker
-                placeholder="품종을 선택해주세요"
-                placeholderTextColor="#8F9BB3"
-                value={dogBreed}
-                enableModalBlur={false}
-                onChange={(item) => {
-                  setDogBreed(item as string);
-                  onChange(item);
-                }}
-                topBarProps={{
-                  title: '강아지품종',
-                  titleStyle: BasicInfoStyles.pickerTitle,
-                }}
-                showSearch
-                searchPlaceholder="품종을 선택해주세요"
-                // searchStyle={BasicInfoStyles.searchInput}
-                onSearchChange={(value) => console.warn('value', value)}
-                items={options}
-                containerStyle={BasicInfoStyles.pickerContainer}
-                style={BasicInfoStyles.picker}
-              />
-              <Text style={BasicInfoStyles.orText}>또는</Text>
+              {isBreed && (
+                <>
+                  <Picker
+                    placeholder="품종을 선택해주세요"
+                    placeholderTextColor="#8F9BB3"
+                    value={dogBreed}
+                    enableModalBlur={false}
+                    onChange={(item) => {
+                      setDogBreed(item as string);
+                      onChange(item);
+                    }}
+                    topBarProps={{
+                      title: '강아지품종',
+                      titleStyle: BasicInfoStyles.pickerTitle,
+                    }}
+                    showSearch
+                    searchPlaceholder="품종을 선택해주세요"
+                    onSearchChange={(value) => console.warn('value', value)}
+                    items={options}
+                    containerStyle={BasicInfoStyles.pickerContainer}
+                    style={BasicInfoStyles.picker}
+                  />
+                  <Text style={BasicInfoStyles.orText}>또는</Text>
+                </>
+              )}
+
               <TouchableOpacity
                 style={isBreed ? BasicInfoStyles.cannotFindButton : BasicInfoStyles.canFindButton}
                 onPress={() => {
@@ -214,6 +218,7 @@ const BasicInfoStyles = StyleSheet.create({
   },
   sliderContainer: {
     height: 40,
+    marginHorizontal: 5,
     justifyContent: 'center',
   },
   pickerContainer: {
