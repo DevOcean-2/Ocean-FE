@@ -7,6 +7,7 @@ const FeedStackLayout = () => {
       <Stack.Screen name={FeedEntryLink.feedHome} options={{ headerShown: false }} />
       <Stack.Screen name={FeedEntryLink.feedAlert} options={{ headerShown: false }} />
       <Stack.Screen name={FeedEntryLink.feedUpload} options={{ headerShown: false }} />
+      <Stack.Screen name={FeedEntryLink.feedUploadCreate} options={{ headerShown: false }} />
       <Stack.Screen name={FeedEntryLink.feedDetail} options={{ headerShown: false }} />
       <Stack.Screen name={FeedEntryLink.feedLike} options={{ headerShown: false }} />
       <Stack.Screen name={FeedEntryLink.feedOther} options={{ headerShown: false }} />

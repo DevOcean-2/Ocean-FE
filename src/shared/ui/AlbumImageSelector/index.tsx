@@ -8,6 +8,7 @@ import {
   MutableRefObject,
   SetStateAction,
   useContext,
+  useEffect,
   useRef,
   useState,
 } from 'react';
@@ -25,13 +26,25 @@ const AlbumContext = createContext<AlbumContextType>({
   setSelectedImage(value: ((prevState: Asset[]) => Asset[]) | Asset[]): void {},
 });
 
-const AlbumImageSelector = () => {
+interface AlbumImageSelectorProps {
+  onChange?: (selectedImage: Asset[]) => void;
+}
+
+const AlbumImageSelector = (props: AlbumImageSelectorProps) => {
+  const { onChange } = props;
+
   const albums = useGetAlbums();
 
   const [selectedImage, setSelectedImage] = useState<Asset[]>([]);
 
   //앨범의 이미지가 많은 경우를 대비한 object
   const selectedImageObject = useRef({});
+
+  useEffect(() => {
+    if (onChange) {
+      onChange(selectedImage);
+    }
+  }, [selectedImage]);
 
   return (
     <AlbumContext.Provider value={{ selectedImageObject, selectedImage, setSelectedImage }}>
