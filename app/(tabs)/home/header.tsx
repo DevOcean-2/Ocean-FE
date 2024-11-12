@@ -13,19 +13,14 @@ export const Header = ({ isHome, onToggle }: HeaderProps) => {
   // @TODO notification 리스트들 존재 여부 판단
   const hasNotification = true;
   return (
-    <SafeAreaView style={styles.safe}>
-      <View style={styles.container}>
-        <SwitchButton isMain={isHome} mainLabel="홈" subLabel="산책하기" toggle={onToggle} />
-        {hasNotification ? <ICON_BELL_ALERT /> : <ICON_BELL />}
-      </View>
-    </SafeAreaView>
+    <View style={styles.container}>
+      <SwitchButton isMain={isHome} mainLabel="홈" subLabel="산책하기" toggle={onToggle} />
+      {hasNotification ? <ICON_BELL_ALERT /> : <ICON_BELL />}
+    </View>
   );
 };
 
 const styles = StyleSheet.create({
-  safe: {
-    flex: 1,
-  },
   container: {
     width: '100%',
     flexDirection: 'row',

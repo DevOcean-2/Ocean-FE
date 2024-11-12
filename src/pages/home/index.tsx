@@ -2,6 +2,7 @@ import { ScrollView, StyleSheet } from 'react-native';
 import { Home } from './Home';
 import { Walk } from './Walk';
 import { useLocalSearchParams } from 'expo-router';
+import { SafeAreaView } from 'react-native-safe-area-context';
 
 export const WalkPage = () => {
   /**
@@ -9,13 +10,15 @@ export const WalkPage = () => {
    */
   const { isHome } = useLocalSearchParams();
   return (
-    <ScrollView
-      showsVerticalScrollIndicator={false}
-      showsHorizontalScrollIndicator={false}
-      style={styles.container}
-    >
-      {isHome === 'true' ? <Home /> : <Walk />}
-    </ScrollView>
+    <SafeAreaView style={{ flexGrow: 1 }}>
+      <ScrollView
+        showsVerticalScrollIndicator={false}
+        showsHorizontalScrollIndicator={false}
+        style={styles.container}
+      >
+        {isHome === 'true' ? <Home /> : <Walk />}
+      </ScrollView>
+    </SafeAreaView>
   );
 };
 
