@@ -97,7 +97,7 @@ importers:
         version: 0.74.5(@babel/core@7.20.2)(@babel/preset-env@7.25.7(@babel/core@7.20.2))(@types/react@18.2.45)(react@18.2.0)
       react-native-logs:
         specifier: ^5.2.1
-        version: 5.2.1
+        version: 5.3.0
       react-native-reanimated:
         specifier: ~3.10.1
         version: 3.10.1(@babel/core@7.20.2)(react-native@0.74.5(@babel/core@7.20.2)(@babel/preset-env@7.25.7(@babel/core@7.20.2))(@types/react@18.2.45)(react@18.2.0))(react@18.2.0)
@@ -2956,6 +2956,9 @@ packages:
 
   expo-location@17.0.1:
     resolution: {integrity: sha512-m+OzotzlAXO3ZZ1uqW5GC25nXW868zN+ROyBA1V4VF6jGay1ZEs4URPglCVUDzZby2F5wt24cMzqDKw2IX6nRw==}
+    peerDependencies:
+      expo: '*'
+
   expo-media-library@16.0.5:
     resolution: {integrity: sha512-O9RUqBWgJVRF0mO6EiLSBFyfb5wR1/ZqovbT43V0TAo5sgcjrHRs+0NID/U6BWDRuiFeX2AU516JgNDutNUFSw==}
     peerDependencies:
@@ -4792,8 +4795,8 @@ packages:
     peerDependencies:
       react: ^16.6.0 || ^17.0.0 || ^18.0.0
 
-  react-native-logs@5.2.1:
-    resolution: {integrity: sha512-Q3b+wnEIB6Tutfb0PHHV9PICzsQKDPDlcQjoiw1OZz+K8Cbo49AGq2sXsTPCqKDa5yiNFMxZwYCHfexOVS0/OA==}
+  react-native-logs@5.3.0:
+    resolution: {integrity: sha512-tq4S0JFy06ggu1D/udYeV80qPy5koURNNcKrVJmv0Hf3x44akysctaE4ARybD5Pv7MnFD8fP1VFhycSLjqXHQw==}
 
   react-native-reanimated@3.10.1:
     resolution: {integrity: sha512-sfxg6vYphrDc/g4jf/7iJ7NRi+26z2+BszPmvmk0Vnrz6FL7HYljJqTf531F1x6tFmsf+FEAmuCtTUIXFLVo9w==}
@@ -10009,6 +10012,9 @@ snapshots:
       - supports-color
 
   expo-location@17.0.1(expo@51.0.37(@babel/core@7.20.2)(@babel/preset-env@7.25.7(@babel/core@7.20.2))):
+    dependencies:
+      expo: 51.0.37(@babel/core@7.20.2)(@babel/preset-env@7.25.7(@babel/core@7.20.2))
+
   expo-media-library@16.0.5(expo@51.0.37(@babel/core@7.20.2)(@babel/preset-env@7.25.7(@babel/core@7.20.2))):
     dependencies:
       expo: 51.0.37(@babel/core@7.20.2)(@babel/preset-env@7.25.7(@babel/core@7.20.2))
@@ -12183,7 +12189,7 @@ snapshots:
       react-fast-compare: 3.2.2
       shallowequal: 1.1.0
 
-  react-native-logs@5.2.1: {}
+  react-native-logs@5.3.0: {}
 
   react-native-reanimated@3.10.1(@babel/core@7.20.2)(react-native@0.74.5(@babel/core@7.20.2)(@babel/preset-env@7.25.7(@babel/core@7.20.2))(@types/react@18.2.45)(react@18.2.0))(react@18.2.0):
     dependencies:
