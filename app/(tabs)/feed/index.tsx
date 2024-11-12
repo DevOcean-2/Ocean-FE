@@ -1,7 +1,7 @@
-import StackFeed from '@/src/pages/feed';
+import { MyHome } from '@/src/pages/Feed';
 
 const Feed = () => {
-  return <StackFeed />;
+  return <MyHome />;
 };
 
 export default Feed;

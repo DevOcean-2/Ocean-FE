@@ -50,6 +50,7 @@ export const CustomWizard: React.FC<CustomWizardProps> = ({
 const CustomWizardStyles = StyleSheet.create({
   wizardContainer: {
     paddingHorizontal: 16,
+    marginTop: 24,
     backgroundColor: 'white',
     elevation: 2,
   },

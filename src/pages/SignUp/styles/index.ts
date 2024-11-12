@@ -8,6 +8,12 @@ export const styles = StyleSheet.create({
     display: 'flex',
     flexDirection: 'column',
   },
+
+  imageContainer: {
+    gap: 16,
+    display: 'flex',
+    flexDirection: 'column',
+  },
   stepContainer: {
     flex: 1,
     marginTop: 20,
@@ -29,6 +35,8 @@ export const styles = StyleSheet.create({
 
   inputField: {
     marginBottom: 20,
+    paddingTop: 10,
+    textDecorationLine: 'underline',
   },
 
   button: {
@@ -49,30 +57,5 @@ export const styles = StyleSheet.create({
   },
   selectedButtonText: {
     color: 'white',
-  },
-
-  bannerContainer: {
-    display: 'flex',
-    justifyContent: 'center',
-    alignItems: 'center',
-    flexDirection: 'row',
-    borderRadius: 12,
-    backgroundColor: '#D0D5DD33',
-    paddingHorizontal: 12,
-    gap: 15,
-    paddingVertical: 20,
-    marginBottom: 40,
-  },
-
-  bannerTitle: {
-    fontWeight: '600',
-    fontSize: 13,
-    marginBottom: 5,
-    color: '#04c755',
-  },
-  bannerSubTitle: {
-    fontSize: 13,
-    fontWeight: 400,
-    color: '#101828',
   },
 });

@@ -16,8 +16,8 @@ import {
   ICON_PIN,
   ICON_PIN_FILL,
 } from '@/assets/svgs';
-
-import { FeedHeader } from '@/src/widgets/PageHeaders';
+import { getFocusedRouteNameFromRoute } from '@react-navigation/native';
+import { tabBarDisplayPage } from '@/src/pages/Feed/utils';
 
 type TabScreenProps = React.ComponentProps<typeof Tabs.Screen>;
 
@@ -76,9 +76,9 @@ const TabLayout = () => {
     },
     {
       name: 'feed',
-      options: {
+      //@ts-ignore
+      options: ({ route }) => ({
         title: '피드',
-        headerTitle: () => <FeedHeader />,
         tabBarLabel: ({ color, focused }) => (
           <TabBarText color={color} focused={focused}>
             피드
@@ -87,7 +87,8 @@ const TabLayout = () => {
         tabBarIcon: ({ color, focused }) => (
           <TabBarIcon Icon={ICON_GRID} IconFill={ICON_GRID_FILL} color={color} focused={focused} />
         ),
-      },
+        tabBarStyle: { display: tabBarDisplayPage(getFocusedRouteNameFromRoute(route)) },
+      }),
     },
     {
       name: 'my',
