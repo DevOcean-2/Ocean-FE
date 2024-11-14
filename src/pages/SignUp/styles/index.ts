@@ -2,6 +2,7 @@ import { StyleSheet, ScrollView } from 'react-native';
 
 export const styles = StyleSheet.create({
   itemContainer: {
+    padding: 16,
     marginBottom: 40,
   },
   flexGroup: {

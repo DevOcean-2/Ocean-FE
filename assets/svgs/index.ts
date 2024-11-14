@@ -21,3 +21,4 @@ export { default as ICON_ARROW_LEFT } from './arrow-left.svg';
 export { default as ICON_ARROW_LEFT_FILL } from './arrow-left-fill.svg';
 export { default as ICON_CHECK_MARK } from './check-mark.svg';
 export { default as ICON_CHECK_MARK_FILL } from './check-mark-fill.svg';
+export { default as ICON_IMAGE } from './image.svg';

@@ -5,6 +5,7 @@ import { Controller, useWatch } from 'react-hook-form';
 import * as ImagePicker from 'expo-image-picker';
 import { StepProps } from '../types/signUp';
 import { Banner } from '@/components/Banner';
+import { ICON_IMAGE } from '@/assets/svgs';
 
 const options = [
   { label: '토끼', value: '토끼' },
@@ -92,7 +93,7 @@ const AdditionalInfo: React.FC<StepProps> = ({ control }) => {
                 <Image source={{ uri: value }} style={AdditionalInfoStyles.image} />
               ) : (
                 <View style={AdditionalInfoStyles.placeholderContainer}>
-                  <Text style={AdditionalInfoStyles.placeholder}>반려견의 사진을 선택해주세요</Text>
+                  <ICON_IMAGE width={24} height={24} />
                 </View>
               )}
             </TouchableOpacity>
@@ -299,16 +300,17 @@ const AdditionalInfo: React.FC<StepProps> = ({ control }) => {
 
 const AdditionalInfoStyles = StyleSheet.create({
   stepContainer: {
+    marginTop: 20,
     flex: 1,
   },
   itemContainer: {
     padding: 16,
-    marginBottom: 16,
+    marginBottom: 40,
   },
   title: {
     fontSize: 16,
     fontWeight: 'bold',
-    marginBottom: 8,
+    marginBottom: 20,
   },
   uploadContainer: {
     width: 120,
