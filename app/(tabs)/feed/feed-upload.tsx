@@ -1,7 +1,7 @@
-import FeedUpload from '@/src/pages/Feed/FeedUpload';
+import { FeedUploadHome } from '@/src/pages/Feed/FeedUpload';
 
 const FeedUploadEntry = () => {
-  return <FeedUpload />;
+  return <FeedUploadHome />;
 };
 
-export default FeedUpload;
+export default FeedUploadHome;

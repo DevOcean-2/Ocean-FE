@@ -6,11 +6,18 @@ import {
   HeaderTextContainer,
 } from '@/src/widgets/PageHeaders/FeedHeader/ui';
 import { ICON_ARROW_LEFT } from '@/assets/svgs';
-import { useNavigation } from 'expo-router';
+import { useNavigation, useRouter } from 'expo-router';
 import { Button } from '@/src/shared/feed/ui';
+import { PublicFeedEntryLink } from '@/src/shared/constants';
+import { useContext } from 'react';
+import { FeedUploadContext } from '@/src/pages/Feed/FeedUpload/context';
 
 const FeedUploadHeader = () => {
+  //TODO: FSD 패턴에 위배되는 import 파일 위치 수정해야함
+  const { selectedImage } = useContext(FeedUploadContext);
+
   const navigation = useNavigation();
+  const router = useRouter();
 
   return (
     <HeaderLayout>
@@ -21,8 +28,16 @@ const FeedUploadHeader = () => {
         <HeaderText>새 게시물</HeaderText>
       </HeaderTextContainer>
       <HeaderIconContainer>
-        <Button style={styles.button}>
-          <Text>확인</Text>
+        <Button
+          style={styles.button}
+          onPress={() => {
+            router.push({
+              pathname: PublicFeedEntryLink.feedUploadCreate,
+              params: { data: JSON.stringify(selectedImage) },
+            });
+          }}
+        >
+          <Text>다음</Text>
         </Button>
       </HeaderIconContainer>
     </HeaderLayout>

@@ -13,9 +13,17 @@
       "backgroundColor": "#ffffff"
     },
     "ios": {
-      "supportsTablet": true
+      "supportsTablet": true,
+      "bundleIdentifier": "com.devocean.balbambalbam",
+      "infoPlist": {
+        "NSLocationWhenInUseUsageDescription": "앱이 현재 위치를 확인하여 산책 경로를 기록하기 위해 위치 권한이 필요합니다.",
+        "NSLocationAlwaysAndWhenInUseUsageDescription": "앱이 현재 위치를 확인하여 산책 경로를 기록하기 위해 위치 권한이 필요합니다.",
+        "UIBackgroundModes": ["location"]
+      }
     },
     "android": {
+      "package": "com.devocean.balbambalbam",
+      "permissions": ["ACCESS_COARSE_LOCATION", "ACCESS_FINE_LOCATION"],
       "adaptiveIcon": {
         "foregroundImage": "./assets/images/adaptive-icon.png",
         "backgroundColor": "#ffffff"
@@ -28,6 +36,7 @@
     },
     "plugins": [
       "expo-router",
+      "expo-location",
       [
         "expo-image-picker",
         {

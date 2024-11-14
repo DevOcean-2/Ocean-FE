@@ -56,8 +56,8 @@ const styles = StyleSheet.create({
     backgroundColor: '#13E67D',
     borderRadius: 18,
     width: 'auto',
-    paddingLeft: 8,
-    paddingRight: 16,
+    textAlign: 'center',
+    paddingHorizontal: 10,
   },
   inactiveLeft: {
     color: '#5E5E5E',
