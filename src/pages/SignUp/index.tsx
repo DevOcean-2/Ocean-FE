@@ -38,7 +38,7 @@ const SignUp: React.FC = () => {
     }
 
     return (
-      <>
+      <View style={SignUpStyles.halfWidthButton}>
         <Button
           style={[SignUpStyles.button, SignUpStyles.prevButton]}
           labelStyle={SignUpStyles.prevButtonLabel}
@@ -46,7 +46,7 @@ const SignUp: React.FC = () => {
           onPress={goToPrevStep}
         />
         {nextButton}
-      </>
+      </View>
     );
   };
 
@@ -79,7 +79,7 @@ const SignUpStyles = StyleSheet.create({
     paddingBottom: 20,
   },
   renderStepContainer: {
-    paddingHorizontal: 15,
+    paddingHorizontal: 5,
     paddingVertical: 10,
   },
   button: {
@@ -92,9 +92,16 @@ const SignUpStyles = StyleSheet.create({
   fullWidthButton: {
     marginHorizontal: 24,
   },
+
+  halfWidthButton: {
+    flexDirection: 'row',
+    flex: 1,
+    marginHorizontal: 10,
+  },
   prevButton: {
     backgroundColor: '#ffffff',
     borderWidth: 1,
+    borderColor: '#D0D5DD',
   },
   prevButtonLabel: {
     color: '#000000',

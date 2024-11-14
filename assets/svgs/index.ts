@@ -31,3 +31,5 @@ export { default as ICON_CAMERA } from './camera.svg';
 export { default as ICON_CAMERA_FILL } from './camera-fill.svg';
 export { default as ICON_ARROW_DOWN } from './arrow-down.svg';
 export { default as ICON_ARROW_DOWN_FILL } from './arrow-down-fill.svg';
+export { default as ICON_UN_CHECK_BOX } from './unCheck.svg';
+export { default as ICON_CHECK_BOX } from './check-box.svg';

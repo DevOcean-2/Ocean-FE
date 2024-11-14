@@ -1,7 +1,6 @@
 import LocalImage from '@/src/shared/ui/LocalImage';
 import React from 'react';
 import { TouchableOpacity, Text, StyleSheet, View, ImageSourcePropType } from 'react-native';
-import { Assets, Checkbox } from 'react-native-ui-lib';
 import Check from '@/assets/svgs/check-box.svg';
 
 type CustomButtonProps = {
