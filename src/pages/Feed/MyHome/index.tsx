@@ -147,7 +147,7 @@ const styles = StyleSheet.create({
   introductionText: {
     color: '#222B45',
     fontSize: 14,
-    fontWeight: 400,
+    fontWeight: 'bold',
   },
   title: {
     gap: 4,
@@ -155,17 +155,17 @@ const styles = StyleSheet.create({
   titleText: {
     color: '#101426',
     fontSize: 16,
-    fontWeight: 500,
+    fontWeight: 'bold',
   },
   subTitleText: {
     color: '#8F9BB3',
     fontSize: 14,
-    fontWeight: 500,
+    fontWeight: 'bold',
   },
   recordText: {
     color: '#101426',
     fontSize: 14,
-    fontWeight: 400,
+    fontWeight: 'bold',
   },
   visitor: {
     flex: 1,
@@ -196,7 +196,7 @@ const styles = StyleSheet.create({
   buttonText: {
     color: '#101426',
     fontSize: 14,
-    fontWeight: 600,
+    fontWeight: 'bold',
   },
   image: {
     width: 80,

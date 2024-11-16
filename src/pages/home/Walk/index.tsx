@@ -1,10 +1,9 @@
-import { Button, Text, View } from 'react-native-ui-lib';
-import { WalkMap } from './components/map/WalkMap';
-import { PositionInfo } from './components/home/location';
+import { Button, Card, Text, View } from 'react-native-ui-lib';
 import { ICON_ARROW_RIGHT, ICON_CALENDAR, ICON_CHECK, ICON_FIRE_WALK } from '@/assets/svgs';
 import { useState } from 'react';
-import { CurrentMissionCarousel } from './components/walk/CurrentMissionCarousel';
-import { Card } from './components/frame';
+import { PositionInfo } from '../components/home/location';
+import { WalkMap } from '../components/map/WalkMap';
+import { CurrentMissionCarousel } from '../components/walk/CurrentMissionCarousel';
 
 export const Walk = () => {
   const [isWalking, setIsWalking] = useState<boolean>(false);
@@ -132,7 +131,9 @@ export const Walk = () => {
                   gap: 6,
                 }}
               >
-                <View style={{ display: 'flex', flexDirection: 'row', gap: 4, alignItems: 'center' }}>
+                <View
+                  style={{ display: 'flex', flexDirection: 'row', gap: 4, alignItems: 'center' }}
+                >
                   <ICON_CALENDAR />
                   <Text
                     style={{
@@ -146,7 +147,12 @@ export const Walk = () => {
                 </View>
                 <View style={{ display: 'flex', flexDirection: 'row', gap: 10 }}>
                   <View
-                    style={{ display: 'flex', flexDirection: 'row', gap: 4, alignItems: 'center' }}
+                    style={{
+                      display: 'flex',
+                      flexDirection: 'row',
+                      gap: 4,
+                      alignItems: 'center',
+                    }}
                   >
                     <Text
                       style={{
@@ -168,7 +174,12 @@ export const Walk = () => {
                     </Text>
                   </View>
                   <View
-                    style={{ display: 'flex', flexDirection: 'row', gap: 4, alignItems: 'center' }}
+                    style={{
+                      display: 'flex',
+                      flexDirection: 'row',
+                      gap: 4,
+                      alignItems: 'center',
+                    }}
                   >
                     <Text
                       style={{
@@ -190,7 +201,12 @@ export const Walk = () => {
                     </Text>
                   </View>
                   <View
-                    style={{ display: 'flex', flexDirection: 'row', gap: 4, alignItems: 'center' }}
+                    style={{
+                      display: 'flex',
+                      flexDirection: 'row',
+                      gap: 4,
+                      alignItems: 'center',
+                    }}
                   >
                     <Text
                       style={{
@@ -225,7 +241,9 @@ export const Walk = () => {
                   gap: 6,
                 }}
               >
-                <View style={{ display: 'flex', flexDirection: 'row', gap: 4, alignItems: 'center' }}>
+                <View
+                  style={{ display: 'flex', flexDirection: 'row', gap: 4, alignItems: 'center' }}
+                >
                   <ICON_CALENDAR />
                   <Text
                     style={{
@@ -239,7 +257,12 @@ export const Walk = () => {
                 </View>
                 <View style={{ display: 'flex', flexDirection: 'row', gap: 10 }}>
                   <View
-                    style={{ display: 'flex', flexDirection: 'row', gap: 4, alignItems: 'center' }}
+                    style={{
+                      display: 'flex',
+                      flexDirection: 'row',
+                      gap: 4,
+                      alignItems: 'center',
+                    }}
                   >
                     <Text
                       style={{
@@ -261,7 +284,12 @@ export const Walk = () => {
                     </Text>
                   </View>
                   <View
-                    style={{ display: 'flex', flexDirection: 'row', gap: 4, alignItems: 'center' }}
+                    style={{
+                      display: 'flex',
+                      flexDirection: 'row',
+                      gap: 4,
+                      alignItems: 'center',
+                    }}
                   >
                     <Text
                       style={{
@@ -283,7 +311,12 @@ export const Walk = () => {
                     </Text>
                   </View>
                   <View
-                    style={{ display: 'flex', flexDirection: 'row', gap: 4, alignItems: 'center' }}
+                    style={{
+                      display: 'flex',
+                      flexDirection: 'row',
+                      gap: 4,
+                      alignItems: 'center',
+                    }}
                   >
                     <Text
                       style={{
@@ -318,7 +351,9 @@ export const Walk = () => {
                   gap: 6,
                 }}
               >
-                <View style={{ display: 'flex', flexDirection: 'row', gap: 4, alignItems: 'center' }}>
+                <View
+                  style={{ display: 'flex', flexDirection: 'row', gap: 4, alignItems: 'center' }}
+                >
                   <ICON_CALENDAR />
                   <Text
                     style={{
@@ -332,7 +367,12 @@ export const Walk = () => {
                 </View>
                 <View style={{ display: 'flex', flexDirection: 'row', gap: 10 }}>
                   <View
-                    style={{ display: 'flex', flexDirection: 'row', gap: 4, alignItems: 'center' }}
+                    style={{
+                      display: 'flex',
+                      flexDirection: 'row',
+                      gap: 4,
+                      alignItems: 'center',
+                    }}
                   >
                     <Text
                       style={{
@@ -354,7 +394,12 @@ export const Walk = () => {
                     </Text>
                   </View>
                   <View
-                    style={{ display: 'flex', flexDirection: 'row', gap: 4, alignItems: 'center' }}
+                    style={{
+                      display: 'flex',
+                      flexDirection: 'row',
+                      gap: 4,
+                      alignItems: 'center',
+                    }}
                   >
                     <Text
                       style={{
@@ -376,7 +421,12 @@ export const Walk = () => {
                     </Text>
                   </View>
                   <View
-                    style={{ display: 'flex', flexDirection: 'row', gap: 4, alignItems: 'center' }}
+                    style={{
+                      display: 'flex',
+                      flexDirection: 'row',
+                      gap: 4,
+                      alignItems: 'center',
+                    }}
                   >
                     <Text
                       style={{
@@ -399,7 +449,6 @@ export const Walk = () => {
                   </View>
                 </View>
               </View>
-              
             </View>
           </Card>
         </View>
