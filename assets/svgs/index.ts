@@ -31,3 +31,6 @@ export { default as ICON_CAMERA } from './camera.svg';
 export { default as ICON_CAMERA_FILL } from './camera-fill.svg';
 export { default as ICON_ARROW_DOWN } from './arrow-down.svg';
 export { default as ICON_ARROW_DOWN_FILL } from './arrow-down-fill.svg';
+export { default as ICON_MORE } from './more.svg';
+export { default as ICON_MORE_FILL } from './more-fill.svg';
+export { default as ICON_PAW } from './paw.svg';

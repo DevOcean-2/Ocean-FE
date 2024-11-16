@@ -1,11 +1,7 @@
-import { Text, View } from 'react-native';
+import FeedDetail from '@/src/pages/Feed/FeedDetail';
 
-const FeedDetail = () => {
-  return (
-    <View>
-      <Text>Feed 단건 조회</Text>
-    </View>
-  );
+const FeedDetailEntry = () => {
+  return <FeedDetail />;
 };
 
-export default FeedDetail;
+export default FeedDetailEntry;
