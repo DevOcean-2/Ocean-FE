@@ -31,3 +31,7 @@ export { default as ICON_CAMERA } from './camera.svg';
 export { default as ICON_CAMERA_FILL } from './camera-fill.svg';
 export { default as ICON_ARROW_DOWN } from './arrow-down.svg';
 export { default as ICON_ARROW_DOWN_FILL } from './arrow-down-fill.svg';
+export { default as ICON_INFO } from './info.svg';
+export { default as ICON_INFO_DEFAULT } from './info_default.svg';
+export { default as ICON_CHEVRON_LEFT } from './chevron_left.svg';
+export { default as ICON_CHEVRON_RIGHT } from './chevron_right.svg';
