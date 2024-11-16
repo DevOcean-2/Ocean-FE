@@ -1,4 +1,4 @@
-import { ViewStyle, TextStyle } from 'react-native';
+import { ViewStyle, TextStyle, ScrollView } from 'react-native';
 import { Text, View } from 'react-native-ui-lib';
 import { Card } from '../../frame';
 import { FeedInfoGrid } from '../../grid/FeedInfoGrid';
@@ -44,6 +44,7 @@ export const RecommendFeed = () => {
 const styles = {
   container: {
     marginBottom: 24,
+    padding: 16,
   } as ViewStyle,
 
   header: {
