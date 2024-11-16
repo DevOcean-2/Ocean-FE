@@ -1,6 +1,4 @@
-import { View, Text } from 'react-native-ui-lib';
-import { PublicWalkEntryLink } from '@/src/shared/constants';
-import { Link } from 'expo-router';
+import { View } from 'react-native-ui-lib';
 import { PositionInfo } from '../components/home/location';
 import { MissionCarousel } from '../components/home/mission';
 import { ProfileImage } from '../components/home/profile';
@@ -15,9 +13,6 @@ export const Home = () => {
       <PositionInfo />
       <ProfileImage />
       <Ranking />
-      <Link href={PublicWalkEntryLink.walkActivity}>
-        <Text>1,234</Text>
-      </Link>
       <View>
         <MissionCarousel />
         <Recommend />

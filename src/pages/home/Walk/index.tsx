@@ -1,13 +1,16 @@
-import { Button, Text, View } from 'react-native-ui-lib';
+import { Button, Text, TouchableOpacity, View } from 'react-native-ui-lib';
 import { ICON_ARROW_RIGHT, ICON_CALENDAR, ICON_CHECK, ICON_FIRE_WALK } from '@/assets/svgs';
 import { useState } from 'react';
 import { PositionInfo } from '../components/home/location';
 import { WalkMap } from '../components/map/WalkMap';
 import { CurrentMissionCarousel } from '../components/walk/CurrentMissionCarousel';
+import { Link, useRouter } from 'expo-router';
+import { PublicWalkEntryLink } from '@/src/shared/constants';
 
 export const Walk = () => {
   const [isWalking, setIsWalking] = useState<boolean>(false);
 
+  const router = useRouter();
   return (
     <View>
       <View style={{ paddingHorizontal: 20 }}>
@@ -90,34 +93,29 @@ export const Walk = () => {
         <View style={{ marginTop: 24, paddingHorizontal: 20, width: '100%' }}>
           <CurrentMissionCarousel />
 
-          <View
-            style={{
-              display: 'flex',
-              height: 24,
-              flexDirection: 'row',
-              gap: 6,
-              alignItems: 'flex-start',
-              marginBottom: 24,
-            }}
-          >
-            <Text
+          <TouchableOpacity onPress={() => router.push(PublicWalkEntryLink.walkActivity)}>
+            <View
               style={{
-                fontSize: 18,
-                fontWeight: '600',
-                lineHeight: 20,
-                height: 24,
-                verticalAlign: 'middle',
-                marginBottom: 12,
+                width: '100%',
+                flexDirection: 'row',
+                alignItems: 'center',
+                marginBottom: 24,
+                backgroundColor: 'white',
               }}
             >
-              내 활동
-            </Text>
-            <ICON_ARROW_RIGHT
-              style={{
-                marginLeft: 'auto',
-              }}
-            />
-          </View>
+              <Text
+                style={{
+                  fontSize: 18,
+                  fontWeight: '600',
+                  lineHeight: 20,
+                }}
+              >
+                내 활동
+              </Text>
+              <ICON_ARROW_RIGHT style={{ marginLeft: 'auto' }} />
+            </View>
+          </TouchableOpacity>
+
           <View style={{ display: 'flex', flexDirection: 'column', gap: 6, marginBottom: 40 }}>
             <View
               style={{
