@@ -35,3 +35,6 @@ export { default as ICON_INFO } from './info.svg';
 export { default as ICON_INFO_DEFAULT } from './info_default.svg';
 export { default as ICON_CHEVRON_LEFT } from './chevron_left.svg';
 export { default as ICON_CHEVRON_RIGHT } from './chevron_right.svg';
+export { default as ICON_MORE } from './more.svg';
+export { default as ICON_MORE_FILL } from './more-fill.svg';
+export { default as ICON_PAW } from './paw.svg';

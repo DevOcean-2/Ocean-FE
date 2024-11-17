@@ -10,11 +10,17 @@ import {
 } from '@/src/widgets/PageHeaders/FeedHeader/ui';
 import { PublicFeedEntryLink } from '@/src/shared/constants';
 
-const FeedHomeHeader = () => {
+interface Props {
+  userNickName?: string;
+}
+
+const FeedHomeHeader = (props: Props) => {
+  const { userNickName = '사용자 닉네임' } = props;
+
   return (
     <HeaderLayout>
       <HeaderTextContainer>
-        <HeaderText>사용자 닉네임</HeaderText>
+        <HeaderText>{userNickName}</HeaderText>
       </HeaderTextContainer>
       <HeaderIconContainer>
         <Link href={PublicFeedEntryLink.feedUpload}>

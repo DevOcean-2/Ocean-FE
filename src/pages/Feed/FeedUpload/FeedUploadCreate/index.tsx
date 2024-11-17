@@ -1,16 +1,42 @@
 import { MainLayout } from '@/src/pages/Feed/ui';
-import { useLocalSearchParams } from 'expo-router';
+import { useLocalSearchParams, useNavigation } from 'expo-router';
 import { ScrollView, StyleSheet, Text, View } from 'react-native';
 import { Carousel, TextField } from 'react-native-ui-lib';
 import { Asset } from 'expo-media-library';
 import { Image } from '@/src/shared/ui';
 import Button from '@/src/shared/feed/ui/Button';
 import { FeedUploadCreatHeader } from '@/src/widgets/PageHeaders/FeedHeader';
+import { useState } from 'react';
+import { createFeedPost } from '@/src/pages/Feed/api';
+import { useMutation, useQueryClient } from '@tanstack/react-query';
+import { queryKeyMetaData } from '@/src/pages/Feed/constants';
 
 const FeedUploadCreate = () => {
+  const queryClient = useQueryClient();
+
   const params = useLocalSearchParams<{ data: string }>();
 
+  const navigation = useNavigation();
+
   const imageList: Asset[] = JSON.parse(params.data);
+
+  const [content, setContent] = useState<string>('');
+
+  const mutation = useMutation({
+    mutationFn: createFeedPost,
+    onSuccess: () => {
+      queryClient.invalidateQueries({ queryKey: [queryKeyMetaData.getFeedPosts] });
+      navigation.goBack();
+      navigation.goBack();
+    },
+  });
+
+  const upload = () => {
+    mutation.mutate({
+      image_urls: imageList.map(() => 'https://picsum.photos/200/300'),
+      content: content,
+    });
+  };
 
   return (
     <MainLayout>
@@ -23,7 +49,7 @@ const FeedUploadCreate = () => {
           >
             {imageList.map((image) => {
               return (
-                <View>
+                <View key={image.id}>
                   <Image key={image.id} style={styles.image} source={{ uri: image.uri }} />
                 </View>
               );
@@ -36,15 +62,16 @@ const FeedUploadCreate = () => {
               style={styles.textField}
               placeholder={'사진과 함께 올릴 문구를 추가해주세요.'}
               multiline={true}
-
-              // showCharCounter
-              // maxLength={30}
+              onChange={(e) => {
+                const { text } = e.nativeEvent;
+                setContent(text);
+              }}
             />
           </ScrollView>
         </View>
       </View>
       <View style={styles.buttonBox}>
-        <Button style={styles.button}>
+        <Button style={styles.button} onPress={() => upload()}>
           <Text style={styles.buttonText}>업로드</Text>
         </Button>
       </View>
