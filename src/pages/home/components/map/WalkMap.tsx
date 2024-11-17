@@ -1,12 +1,12 @@
 import { View } from 'react-native-ui-lib';
 import { WebView } from 'react-native-webview';
-import * as Location from 'expo-location';
 import { useEffect } from 'react';
 import { useState } from 'react';
 import { Asset } from 'expo-asset';
+import { useCurrentLocation } from '../../hooks';
 
 export const WalkMap = () => {
-  const [location, setLocation] = useState<Location.LocationObject>();
+  const { location } = useCurrentLocation();
   const [markerImageUri, setMarkerImageUri] = useState<string>('');
 
   const html = `
@@ -20,8 +20,8 @@ export const WalkMap = () => {
         <script type="text/javascript">
             (function () {
                 const container = document.getElementById('map');
-                const currentPosition = new kakao.maps.LatLng(${location?.coords.latitude ?? 0}, ${
-                  location?.coords.longitude ?? 0
+                const currentPosition = new kakao.maps.LatLng(${location?.latitude ?? 0}, ${
+                  location?.longitude ?? 0
                 });
                 
                 const options = {
@@ -68,49 +68,6 @@ export const WalkMap = () => {
     };
 
     loadMarkerImage();
-  }, []);
-
-  useEffect(() => {
-    // 위치 권한 요청 및 위치 추적 시작
-    const startLocationTracking = async () => {
-      try {
-        // 위치 권한 요청
-        const { status } = await Location.requestForegroundPermissionsAsync();
-        if (status !== 'granted') {
-          console.error('위치 불러오기 실패: 위치 권한이 거부되었습니다.');
-          return;
-        }
-
-        // 첫 위치 정보 가져오기
-        const initialLocation = await Location.getCurrentPositionAsync({
-          accuracy: Location.Accuracy.High,
-        });
-        setLocation(initialLocation);
-
-        // 실시간 위치 추적 시작
-        const locationSubscription = await Location.watchPositionAsync(
-          {
-            accuracy: Location.Accuracy.High,
-            timeInterval: 5000, // 5초마다 업데이트
-            distanceInterval: 5, // 5미터마다 업데이트
-          },
-          (newLocation) => {
-            setLocation(newLocation);
-          },
-        );
-
-        // 컴포넌트 언마운트 시 구독 해제
-        return () => {
-          if (locationSubscription) {
-            locationSubscription.remove();
-          }
-        };
-      } catch (error) {
-        console.error(error);
-      }
-    };
-
-    startLocationTracking();
   }, []);
 
   return (
