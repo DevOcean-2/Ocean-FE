@@ -6,6 +6,7 @@ import { WalkMap } from '../components/map/WalkMap';
 import { CurrentMissionCarousel } from '../components/walk/CurrentMissionCarousel';
 import { Link, useRouter } from 'expo-router';
 import { PublicWalkEntryLink } from '@/src/shared/constants';
+import { NotificationStorage } from '@/src/shared/notification/notification';
 
 export const Walk = () => {
   const [isWalking, setIsWalking] = useState<boolean>(false);
@@ -15,6 +16,19 @@ export const Walk = () => {
     <View>
       <View style={{ paddingHorizontal: 20 }}>
         <PositionInfo />
+        <Text
+          onPress={async () => {
+            console.log('test');
+            await NotificationStorage.save({
+              title: '미션을 완료했어요!',
+              body: '칼로리 5000KCAL 달성하기',
+              type: 'MISSION',
+              status: 'SUCCESS',
+            });
+          }}
+        >
+          fkeopwfkeopwfkeopfkeopfewokfpewkfopewkfpoewfkeop
+        </Text>
       </View>
       <View style={{ width: '100%', height: '100%', backgroundColor: 'white' }}>
         <WalkMap />

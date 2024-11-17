@@ -38,3 +38,5 @@ export { default as ICON_CHEVRON_RIGHT } from './chevron_right.svg';
 export { default as ICON_MORE } from './more.svg';
 export { default as ICON_MORE_FILL } from './more-fill.svg';
 export { default as ICON_PAW } from './paw.svg';
+export { default as ICON_SUCCESS_MARK } from './success_mark.svg';
+export { default as ICON_WARNING_MARK } from './warning_mark.svg';
