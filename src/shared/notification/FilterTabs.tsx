@@ -1,5 +1,6 @@
 import React from 'react';
-import { View, Text, TouchableOpacity, StyleSheet } from 'react-native';
+import { StyleSheet } from 'react-native';
+import { TouchableOpacity, View, Text } from 'react-native-ui-lib';
 
 interface Tab {
   key: string;

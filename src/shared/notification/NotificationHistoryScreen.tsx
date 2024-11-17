@@ -1,9 +1,10 @@
 import React, { useState } from 'react';
-import { View, FlatList, StyleSheet } from 'react-native';
+import { FlatList, StyleSheet } from 'react-native';
 import { NotificationItem } from './NotificationItem';
 import { useNotifications } from './hooks/useNotifications';
 import { NotificationType } from './types/NotificationType';
 import { FilterTabs } from './FilterTabs';
+import { View } from 'react-native-ui-lib';
 
 export function NotificationList() {
   const [selectedType, setSelectedType] = useState<NotificationType | 'ALL'>('ALL');

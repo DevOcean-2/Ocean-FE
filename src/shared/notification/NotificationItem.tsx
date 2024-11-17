@@ -1,8 +1,9 @@
 import React from 'react';
-import { View, Text, StyleSheet, TouchableOpacity } from 'react-native';
+import {  StyleSheet } from 'react-native';
 import { NotificationHistory } from './types/NotificationHistory';
 import { getTimeAgo } from './utils/getTimeAgo';
 import { ICON_SUCCESS_MARK, ICON_WARNING_MARK } from '@/assets/svgs';
+import { TouchableOpacity, Text, View } from 'react-native-ui-lib';
 
 interface Props {
   notification: NotificationHistory;
@@ -40,7 +41,7 @@ const styles = StyleSheet.create({
   },
   iconContainer: {
     marginRight: 12,
-    justifyContent: 'start',
+    justifyContent: 'flex-start',
   },
   content: {
     flex: 1,

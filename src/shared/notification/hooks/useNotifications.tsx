@@ -15,7 +15,7 @@ export function useNotifications(type: NotificationType | 'ALL' = 'ALL') {
   const markAsRead = useMutation({
     mutationFn: NotificationStorage.markAsRead,
     onSuccess: () => {
-      queryClient.invalidateQueries(['notifications']);
+      queryClient.invalidateQueries({ queryKey: ['notifications'] });
     },
   });
 
