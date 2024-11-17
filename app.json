@@ -38,7 +38,8 @@
       "adaptiveIcon": {
         "foregroundImage": "./assets/images/adaptive-icon.png",
         "backgroundColor": "#ffffff"
-      }
+      },
+      "useNextNotificationsApi": true
     },
     "web": {
       "bundler": "metro",
@@ -48,6 +49,13 @@
     "plugins": [
       "expo-router",
       "expo-location",
+      [
+        "expo-notifications",
+        {
+          "icon": "./assets/images/un-select-small.png",
+          "color": "#ffffff"
+        }
+      ],
       [
         "expo-image-picker",
         {
