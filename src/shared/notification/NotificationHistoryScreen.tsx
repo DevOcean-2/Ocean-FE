@@ -4,13 +4,13 @@ import { NotificationItem } from './NotificationItem';
 import { useNotifications } from './hooks/useNotifications';
 import { NotificationType } from './types/NotificationType';
 import { FilterTabs } from './FilterTabs';
-import { View } from 'react-native-ui-lib';
+import { TouchableOpacity, View, Text } from 'react-native-ui-lib';
 import { NotificationHeader } from './NotificationHeader';
 import { MainLayout } from '@/src/pages/home/components/frame';
 
 export function NotificationList() {
   const [selectedType, setSelectedType] = useState<NotificationType | 'ALL'>('ALL');
-  const { notifications, markAsRead } = useNotifications(selectedType);
+  const { notifications, deleteNotification } = useNotifications(selectedType);
 
   const tabs = [
     { key: 'ALL', label: '전체' },
@@ -29,7 +29,7 @@ export function NotificationList() {
         <FlatList
           data={notifications}
           renderItem={({ item }: any) => (
-            <NotificationItem notification={item} onPress={() => markAsRead(item.id)} />
+            <NotificationItem notification={item} onPress={() => deleteNotification(item.id)} />
           )}
           keyExtractor={(item: any) => item.id}
           contentContainerStyle={styles.list}

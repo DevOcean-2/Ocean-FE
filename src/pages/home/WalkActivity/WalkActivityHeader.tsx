@@ -9,6 +9,7 @@ export const WalkActivityHeader = () => {
   const navigation = useNavigation();
   const [isVisible, setIsVisible] = useState<boolean>(false);
   return (
+    
     <HeaderLayout headerBackgroundColor="#FFFFFF">
       <View
         style={{

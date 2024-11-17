@@ -19,9 +19,17 @@ export function useNotifications(type: NotificationType | 'ALL' = 'ALL') {
     },
   });
 
+  const deleteMutation = useMutation({
+    mutationFn: NotificationStorage.deleteNotification,
+    onSuccess: () => {
+      queryClient.invalidateQueries({ queryKey: ['notifications'] });
+    },
+  });
+
   return {
     notifications,
     isLoading,
     markAsRead: markAsRead.mutate,
+    deleteNotification: deleteMutation.mutate,
   };
 }
