@@ -40,6 +40,12 @@ const HomeStackLayout = () => {
             headerShown: false,
           }}
         />
+        <Stack.Screen
+          name={WalkEntryLink.notification}
+          options={{
+            headerShown: false,
+          }}
+        />
       </Stack>
     </QueryClientProvider>
   );

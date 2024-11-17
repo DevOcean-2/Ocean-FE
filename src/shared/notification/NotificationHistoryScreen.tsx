@@ -5,6 +5,8 @@ import { useNotifications } from './hooks/useNotifications';
 import { NotificationType } from './types/NotificationType';
 import { FilterTabs } from './FilterTabs';
 import { View } from 'react-native-ui-lib';
+import { NotificationHeader } from './NotificationHeader';
+import { MainLayout } from '@/src/pages/home/components/frame';
 
 export function NotificationList() {
   const [selectedType, setSelectedType] = useState<NotificationType | 'ALL'>('ALL');
@@ -17,28 +19,30 @@ export function NotificationList() {
   ];
 
   return (
-    <View style={styles.container}>
-      <FilterTabs
-        tabs={tabs}
-        selectedKey={selectedType}
-        onSelect={(key: any) => setSelectedType(key as NotificationType | 'ALL')}
-      />
-      <FlatList
-        data={notifications}
-        renderItem={({ item }: any) => (
-          <NotificationItem notification={item} onPress={() => markAsRead(item.id)} />
-        )}
-        keyExtractor={(item: any) => item.id}
-        contentContainerStyle={styles.list}
-      />
-    </View>
+    <MainLayout header={<NotificationHeader />}>
+      <View style={styles.container}>
+        <FilterTabs
+          tabs={tabs}
+          selectedKey={selectedType}
+          onSelect={(key: any) => setSelectedType(key as NotificationType | 'ALL')}
+        />
+        <FlatList
+          data={notifications}
+          renderItem={({ item }: any) => (
+            <NotificationItem notification={item} onPress={() => markAsRead(item.id)} />
+          )}
+          keyExtractor={(item: any) => item.id}
+          contentContainerStyle={styles.list}
+        />
+      </View>
+    </MainLayout>
   );
 }
 
 const styles = StyleSheet.create({
   container: {
     flex: 1,
-    backgroundColor: '#F5F5F5',
+    backgroundColor: '#EDF1F7',
   },
   list: {
     padding: 16,
