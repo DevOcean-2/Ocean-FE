@@ -1,7 +1,7 @@
 import { Stack } from 'expo-router';
-import { Header } from './header';
 import { useRouter } from 'expo-router';
 import { useEffect, useState } from 'react';
+import { WalkEntryLink } from '@/src/shared/constants';
 
 const HomeStackLayout = () => {
   const router = useRouter();
@@ -20,15 +20,20 @@ const HomeStackLayout = () => {
     <Stack
       screenOptions={{
         contentStyle: {
-          paddingHorizontal: isHome ? 20 : 0,
           backgroundColor: '#EDF1F7',
         },
       }}
     >
       <Stack.Screen
-        name={'index'}
+        name={WalkEntryLink.walkHome}
         options={{
-          headerTitle: () => <Header isHome={isHome} onToggle={onToggle} />,
+          headerShown: false,
+        }}
+      />
+      <Stack.Screen
+        name={WalkEntryLink.walkActivity}
+        options={{
+          headerShown: false,
         }}
       />
     </Stack>

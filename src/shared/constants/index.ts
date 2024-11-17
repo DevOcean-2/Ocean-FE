@@ -21,3 +21,13 @@ export const PublicFeedEntryLink = {
   feedUpdate: `/feed/${FeedEntryLink.feedUpdate}`,
   feedVisitor: `/feed/${FeedEntryLink.feedVisitor}`,
 } as const;
+
+export const WalkEntryLink = {
+  walkHome: 'index',
+  walkActivity: 'walk-activity',
+} as const;
+
+export const PublicWalkEntryLink = {
+  walkHome: `/home/`,
+  walkActivity: `/home/${WalkEntryLink.walkActivity}`,
+} as const;

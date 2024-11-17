@@ -1,9 +1,12 @@
-import { Carousel } from 'react-native-ui-lib';
+import { Carousel, TouchableOpacity } from 'react-native-ui-lib';
 import { useMissions } from '../../hooks';
 import { MissionItem } from '../home/mission';
+import { useRouter } from 'expo-router';
+import { PublicWalkEntryLink } from '@/src/shared/constants';
 
 export const CurrentMissionCarousel = () => {
   const { missionList, missionPageIndex, setMissionPageIndex } = useMissions();
+  const router = useRouter();
   return (
     <Carousel
       pageControlProps={{ currentPage: missionPageIndex, numOfPages: missionList.length }}
@@ -13,7 +16,9 @@ export const CurrentMissionCarousel = () => {
       pageControlPosition="under"
     >
       {missionList.map((mission, index) => (
-        <MissionItem key={`${mission}-${index}`} mission={mission} />
+        <TouchableOpacity onPress={() => router.push(PublicWalkEntryLink.walkActivity)}>
+          <MissionItem key={`${mission}-${index}`} mission={mission} />
+        </TouchableOpacity>
       ))}
     </Carousel>
   );
