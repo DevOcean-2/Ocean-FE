@@ -1,4 +1,3 @@
-// SignUp/index.tsx
 import React from 'react';
 import { ScrollView, StyleSheet } from 'react-native';
 import { View, Button, Toast } from 'react-native-ui-lib';
@@ -19,14 +18,37 @@ const SignUp: React.FC = () => {
     goToPrevStep,
   } = useSignUpForm();
 
-  const renderNextButton = () => (
-    <Button style={SignUpStyles.nextButton} label="입력 완료" onPress={goToNextStep} />
-  );
+  const renderButtons = () => {
+    const showPrevButton = activeIndex > 0;
 
-  const renderPrevButton = () =>
-    activeIndex > 0 && (
-      <Button style={SignUpStyles.nextButton} label="이전 단계" onPress={goToPrevStep} />
+    const nextButton = (
+      <Button
+        style={[
+          SignUpStyles.button,
+          SignUpStyles.nextButton,
+          !showPrevButton && SignUpStyles.fullWidthButton,
+        ]}
+        label={activeIndex === 2 ? '시작하기' : '입력 완료'}
+        onPress={goToNextStep}
+      />
     );
+
+    if (!showPrevButton) {
+      return nextButton;
+    }
+
+    return (
+      <View style={SignUpStyles.halfWidthButton}>
+        <Button
+          style={[SignUpStyles.button, SignUpStyles.prevButton]}
+          labelStyle={SignUpStyles.prevButtonLabel}
+          label="이전 단계"
+          onPress={goToPrevStep}
+        />
+        {nextButton}
+      </View>
+    );
+  };
 
   return (
     <View style={SignUpStyles.container}>
@@ -40,10 +62,7 @@ const SignUp: React.FC = () => {
           <StepRenderer activeIndex={activeIndex} control={control} errors={errors} />
         </View>
       </ScrollView>
-      <View style={SignUpStyles.buttonContainer}>
-        {renderPrevButton()}
-        {renderNextButton()}
-      </View>
+      <View style={SignUpStyles.buttonContainer}>{renderButtons()}</View>
       {toastMessage && <Toast visible position="bottom" message={toastMessage} />}
     </View>
   );
@@ -55,37 +74,44 @@ const SignUpStyles = StyleSheet.create({
     paddingTop: 30,
     backgroundColor: 'white',
   },
-
   signUpViewContainer: {
     flexGrow: 1,
     paddingBottom: 20,
   },
   renderStepContainer: {
-    paddingHorizontal: 15,
+    paddingHorizontal: 5,
     paddingVertical: 10,
+  },
+  button: {
+    paddingVertical: 10,
+    borderRadius: 10,
+    marginBottom: 30,
+    flex: 1,
+    marginHorizontal: 8,
+  },
+  fullWidthButton: {
+    marginHorizontal: 24,
   },
 
+  halfWidthButton: {
+    flexDirection: 'row',
+    flex: 1,
+    marginHorizontal: 10,
+  },
   prevButton: {
-    paddingHorizontal: 20,
-    paddingVertical: 10,
-    marginHorizontal: 24,
     backgroundColor: '#ffffff',
-    color: 'black',
-    borderRadius: 10,
-    marginBottom: 30,
+    borderWidth: 1,
+    borderColor: '#D0D5DD',
+  },
+  prevButtonLabel: {
+    color: '#000000',
+    fontWeight: '600',
   },
   nextButton: {
-    paddingHorizontal: 20,
-    paddingVertical: 10,
-    marginHorizontal: 24,
     backgroundColor: '#04C755',
-    borderRadius: 10,
-    marginBottom: 30,
   },
   buttonContainer: {
     flexDirection: 'row',
-    justifyContent: 'space-between',
-    paddingHorizontal: 15,
     paddingBottom: 20,
   },
 });
