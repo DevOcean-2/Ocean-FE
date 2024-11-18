@@ -2,6 +2,7 @@ import { Banner } from '@/components/Banner';
 import { Text, View, Image, StyleSheet } from 'react-native';
 import { StepProps } from '../types/signUp';
 import React from 'react';
+import { useWatch } from 'react-hook-form';
 
 const ConfirmInfo: React.FC<StepProps> = ({ control }) => {
   const petInfo = {
@@ -18,20 +19,51 @@ const ConfirmInfo: React.FC<StepProps> = ({ control }) => {
     allergies: ['알러지 txt', '알러지 txt', '알러지 txt'],
   };
 
+  type FormValues = {
+    name: string;
+    gender: string;
+    size: string;
+    breed: string;
+    careLevel: string;
+    petImage: string;
+    birthDate: string;
+    kg: string;
+    prevKg: string;
+    diseases: string[];
+    allergies: string[];
+  };
+
+  const {
+    kg,
+    prevKg,
+    name,
+    gender,
+    size,
+    breed,
+    careLevel,
+    petImage,
+    birthDate,
+    diseases,
+    allergies,
+  } = useWatch<FormValues>({ control });
+
+  const weightChange = Number(kg) - Number(prevKg);
+  const weightChangeDisplay = weightChange > 0 ? `+${weightChange}kg` : `${weightChange}kg`;
+
   return (
     <View style={styles.container}>
       <Banner
         title="입력한 정보를 확인하는 단계입니다"
         subtitle="서비스 진입 후에도 얼마든지 변경할 수 있어요"
       />
-      <Text style={styles.infoTitle}>{`반려견 ${petInfo.name}의 정보`}</Text>
+      <Text style={styles.infoTitle}>{`반려견 ${name}의 정보`}</Text>
 
       <View style={styles.profileSection}>
         <View style={styles.nameSection}>
-          <Text style={styles.name}>{`${petInfo.gender} | ${petInfo.nickname}`}</Text>
-          <Text style={styles.birthDate}>{`생일 ${petInfo.birthDate}`}</Text>
+          <Text style={styles.name}>{`${gender} | ${breed}`}</Text>
+          <Text style={styles.birthDate}>{`생일 ${birthDate}`}</Text>
           <Text style={styles.earInfo}>
-            {petInfo.earType} | {petInfo.earLocation}
+            {careLevel} | {careLevel}
           </Text>
         </View>
       </View>
@@ -44,7 +76,7 @@ const ConfirmInfo: React.FC<StepProps> = ({ control }) => {
           <View style={styles.weightValue}>
             <Text style={styles.weight}>{petInfo.currentWeight}</Text>
             <View style={styles.weightChange}>
-              <Text style={styles.weightTextChange}> {petInfo.weightChange}</Text>
+              <Text style={styles.weightTextChange}> {weightChange}</Text>
             </View>
           </View>
         </View>
@@ -54,9 +86,9 @@ const ConfirmInfo: React.FC<StepProps> = ({ control }) => {
           <Text style={styles.weight}>{petInfo.previousWeight}</Text>
         </View>
 
-        <View style={styles.precautionsSection}>
+        {/* <View style={styles.precautionsSection}>
           <Text style={styles.weightLabel}>예방접종 | </Text>
-          {petInfo.precautions.map((item, index) => (
+          {diseases?.map((item, index) => (
             <Text key={index} style={styles.precautionItem}>
               {item}
               {index < petInfo.precautions.length - 1 ? ', ' : ''}
@@ -66,13 +98,13 @@ const ConfirmInfo: React.FC<StepProps> = ({ control }) => {
 
         <View style={styles.allergiesSection}>
           <Text style={styles.weightLabel}>알러지 | </Text>
-          {petInfo.allergies.map((allergy, index) => (
+          {allergies?.map((allergy, index) => (
             <Text key={index} style={styles.allergyItem}>
               {allergy}
               {index < petInfo.allergies.length - 1 ? ', ' : ''}
             </Text>
           ))}
-        </View>
+        </View> */}
       </View>
     </View>
   );

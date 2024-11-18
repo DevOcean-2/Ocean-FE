@@ -28,7 +28,7 @@ const SignUp: React.FC = () => {
           SignUpStyles.nextButton,
           !showPrevButton && SignUpStyles.fullWidthButton,
         ]}
-        label="입력 완료"
+        label={activeIndex === 2 ? '시작하기' : '입력 완료'}
         onPress={goToNextStep}
       />
     );
