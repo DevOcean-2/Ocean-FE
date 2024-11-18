@@ -107,6 +107,9 @@ importers:
       react-native-calendars:
         specifier: ^1.1307.0
         version: 1.1307.0(react-native@0.74.5(@babel/core@7.20.2)(@babel/preset-env@7.25.7(@babel/core@7.20.2))(@types/react@18.2.45)(react@18.2.0))(react@18.2.0)
+      react-native-gesture-handler:
+        specifier: ~2.16.1
+        version: 2.16.2(react-native@0.74.5(@babel/core@7.20.2)(@babel/preset-env@7.25.7(@babel/core@7.20.2))(@types/react@18.2.45)(react@18.2.0))(react@18.2.0)
       react-native-logs:
         specifier: ^5.2.1
         version: 5.3.0
@@ -130,7 +133,7 @@ importers:
         version: 1.5.0(react-native-svg@15.7.1(react-native@0.74.5(@babel/core@7.20.2)(@babel/preset-env@7.25.7(@babel/core@7.20.2))(@types/react@18.2.45)(react@18.2.0))(react@18.2.0))(react-native@0.74.5(@babel/core@7.20.2)(@babel/preset-env@7.25.7(@babel/core@7.20.2))(@types/react@18.2.45)(react@18.2.0))(typescript@5.3.3)
       react-native-ui-lib:
         specifier: ^7.32.0
-        version: 7.32.0(react-native-gesture-handler@2.21.0(react-native@0.74.5(@babel/core@7.20.2)(@babel/preset-env@7.25.7(@babel/core@7.20.2))(@types/react@18.2.45)(react@18.2.0))(react@18.2.0))(react-native-reanimated@3.10.1(@babel/core@7.20.2)(react-native@0.74.5(@babel/core@7.20.2)(@babel/preset-env@7.25.7(@babel/core@7.20.2))(@types/react@18.2.45)(react@18.2.0))(react@18.2.0))(react-native@0.74.5(@babel/core@7.20.2)(@babel/preset-env@7.25.7(@babel/core@7.20.2))(@types/react@18.2.45)(react@18.2.0))(react@18.2.0)
+        version: 7.32.0(react-native-gesture-handler@2.16.2(react-native@0.74.5(@babel/core@7.20.2)(@babel/preset-env@7.25.7(@babel/core@7.20.2))(@types/react@18.2.45)(react@18.2.0))(react@18.2.0))(react-native-reanimated@3.10.1(@babel/core@7.20.2)(react-native@0.74.5(@babel/core@7.20.2)(@babel/preset-env@7.25.7(@babel/core@7.20.2))(@types/react@18.2.45)(react@18.2.0))(react@18.2.0))(react-native@0.74.5(@babel/core@7.20.2)(@babel/preset-env@7.25.7(@babel/core@7.20.2))(@types/react@18.2.45)(react@18.2.0))(react@18.2.0)
       react-native-web:
         specifier: ~0.19.10
         version: 0.19.10(react-dom@18.2.0(react@18.2.0))(react@18.2.0)
@@ -4857,8 +4860,8 @@ packages:
   react-native-calendars@1.1307.0:
     resolution: {integrity: sha512-Fl9NxPgkXw6aboGOifER8Np+p8im753IUGh1sOy7eMuDAP+x5fSDw1K5GnChdVAKWAdLfsNWFIyYehHChf5vmw==}
 
-  react-native-gesture-handler@2.21.0:
-    resolution: {integrity: sha512-8fR1a8EX1aP+TFGiF8pP3UJks2CcfEu7WZzctkJg1yu2DtbVu+uJB/kAPS1XuZxFBKn7pyJcwuQhzuhilzK4DA==}
+  react-native-gesture-handler@2.16.2:
+    resolution: {integrity: sha512-vGFlrDKlmyI+BT+FemqVxmvO7nqxU33cgXVsn6IKAFishvlG3oV2Ds67D5nPkHMea8T+s1IcuMm0bF8ntZtAyg==}
     peerDependencies:
       react: '*'
       react-native: '*'
@@ -12343,11 +12346,12 @@ snapshots:
       - react
       - react-native
 
-  react-native-gesture-handler@2.21.0(react-native@0.74.5(@babel/core@7.20.2)(@babel/preset-env@7.25.7(@babel/core@7.20.2))(@types/react@18.2.45)(react@18.2.0))(react@18.2.0):
+  react-native-gesture-handler@2.16.2(react-native@0.74.5(@babel/core@7.20.2)(@babel/preset-env@7.25.7(@babel/core@7.20.2))(@types/react@18.2.45)(react@18.2.0))(react@18.2.0):
     dependencies:
       '@egjs/hammerjs': 2.0.17
       hoist-non-react-statics: 3.3.2
       invariant: 2.2.4
+      lodash: 4.17.21
       prop-types: 15.8.1
       react: 18.2.0
       react-native: 0.74.5(@babel/core@7.20.2)(@babel/preset-env@7.25.7(@babel/core@7.20.2))(@types/react@18.2.45)(react@18.2.0)
@@ -12377,14 +12381,14 @@ snapshots:
     transitivePeerDependencies:
       - supports-color
 
-  react-native-redash@12.6.1(react-native-gesture-handler@2.21.0(react-native@0.74.5(@babel/core@7.20.2)(@babel/preset-env@7.25.7(@babel/core@7.20.2))(@types/react@18.2.45)(react@18.2.0))(react@18.2.0))(react-native-reanimated@3.10.1(@babel/core@7.20.2)(react-native@0.74.5(@babel/core@7.20.2)(@babel/preset-env@7.25.7(@babel/core@7.20.2))(@types/react@18.2.45)(react@18.2.0))(react@18.2.0))(react-native@0.74.5(@babel/core@7.20.2)(@babel/preset-env@7.25.7(@babel/core@7.20.2))(@types/react@18.2.45)(react@18.2.0))(react@18.2.0):
+  react-native-redash@12.6.1(react-native-gesture-handler@2.16.2(react-native@0.74.5(@babel/core@7.20.2)(@babel/preset-env@7.25.7(@babel/core@7.20.2))(@types/react@18.2.45)(react@18.2.0))(react@18.2.0))(react-native-reanimated@3.10.1(@babel/core@7.20.2)(react-native@0.74.5(@babel/core@7.20.2)(@babel/preset-env@7.25.7(@babel/core@7.20.2))(@types/react@18.2.45)(react@18.2.0))(react@18.2.0))(react-native@0.74.5(@babel/core@7.20.2)(@babel/preset-env@7.25.7(@babel/core@7.20.2))(@types/react@18.2.45)(react@18.2.0))(react@18.2.0):
     dependencies:
       abs-svg-path: 0.1.1
       normalize-svg-path: 1.1.0
       parse-svg-path: 0.1.2
       react: 18.2.0
       react-native: 0.74.5(@babel/core@7.20.2)(@babel/preset-env@7.25.7(@babel/core@7.20.2))(@types/react@18.2.45)(react@18.2.0)
-      react-native-gesture-handler: 2.21.0(react-native@0.74.5(@babel/core@7.20.2)(@babel/preset-env@7.25.7(@babel/core@7.20.2))(@types/react@18.2.45)(react@18.2.0))(react@18.2.0)
+      react-native-gesture-handler: 2.16.2(react-native@0.74.5(@babel/core@7.20.2)(@babel/preset-env@7.25.7(@babel/core@7.20.2))(@types/react@18.2.45)(react@18.2.0))(react@18.2.0)
       react-native-reanimated: 3.10.1(@babel/core@7.20.2)(react-native@0.74.5(@babel/core@7.20.2)(@babel/preset-env@7.25.7(@babel/core@7.20.2))(@types/react@18.2.45)(react@18.2.0))(react@18.2.0)
       use-memo-one: 1.1.3(react@18.2.0)
 
@@ -12424,7 +12428,7 @@ snapshots:
 
   react-native-swipe-gestures@1.0.5: {}
 
-  react-native-ui-lib@7.32.0(react-native-gesture-handler@2.21.0(react-native@0.74.5(@babel/core@7.20.2)(@babel/preset-env@7.25.7(@babel/core@7.20.2))(@types/react@18.2.45)(react@18.2.0))(react@18.2.0))(react-native-reanimated@3.10.1(@babel/core@7.20.2)(react-native@0.74.5(@babel/core@7.20.2)(@babel/preset-env@7.25.7(@babel/core@7.20.2))(@types/react@18.2.45)(react@18.2.0))(react@18.2.0))(react-native@0.74.5(@babel/core@7.20.2)(@babel/preset-env@7.25.7(@babel/core@7.20.2))(@types/react@18.2.45)(react@18.2.0))(react@18.2.0):
+  react-native-ui-lib@7.32.0(react-native-gesture-handler@2.16.2(react-native@0.74.5(@babel/core@7.20.2)(@babel/preset-env@7.25.7(@babel/core@7.20.2))(@types/react@18.2.45)(react@18.2.0))(react@18.2.0))(react-native-reanimated@3.10.1(@babel/core@7.20.2)(react-native@0.74.5(@babel/core@7.20.2)(@babel/preset-env@7.25.7(@babel/core@7.20.2))(@types/react@18.2.45)(react@18.2.0))(react@18.2.0))(react-native@0.74.5(@babel/core@7.20.2)(@babel/preset-env@7.25.7(@babel/core@7.20.2))(@types/react@18.2.45)(react@18.2.0))(react@18.2.0):
     dependencies:
       babel-plugin-transform-inline-environment-variables: 0.0.2
       color: 3.2.1
@@ -12438,9 +12442,9 @@ snapshots:
       react: 18.2.0
       react-freeze: 1.0.4(react@18.2.0)
       react-native: 0.74.5(@babel/core@7.20.2)(@babel/preset-env@7.25.7(@babel/core@7.20.2))(@types/react@18.2.45)(react@18.2.0)
-      react-native-gesture-handler: 2.21.0(react-native@0.74.5(@babel/core@7.20.2)(@babel/preset-env@7.25.7(@babel/core@7.20.2))(@types/react@18.2.45)(react@18.2.0))(react@18.2.0)
+      react-native-gesture-handler: 2.16.2(react-native@0.74.5(@babel/core@7.20.2)(@babel/preset-env@7.25.7(@babel/core@7.20.2))(@types/react@18.2.45)(react@18.2.0))(react@18.2.0)
       react-native-reanimated: 3.10.1(@babel/core@7.20.2)(react-native@0.74.5(@babel/core@7.20.2)(@babel/preset-env@7.25.7(@babel/core@7.20.2))(@types/react@18.2.45)(react@18.2.0))(react@18.2.0)
-      react-native-redash: 12.6.1(react-native-gesture-handler@2.21.0(react-native@0.74.5(@babel/core@7.20.2)(@babel/preset-env@7.25.7(@babel/core@7.20.2))(@types/react@18.2.45)(react@18.2.0))(react@18.2.0))(react-native-reanimated@3.10.1(@babel/core@7.20.2)(react-native@0.74.5(@babel/core@7.20.2)(@babel/preset-env@7.25.7(@babel/core@7.20.2))(@types/react@18.2.45)(react@18.2.0))(react@18.2.0))(react-native@0.74.5(@babel/core@7.20.2)(@babel/preset-env@7.25.7(@babel/core@7.20.2))(@types/react@18.2.45)(react@18.2.0))(react@18.2.0)
+      react-native-redash: 12.6.1(react-native-gesture-handler@2.16.2(react-native@0.74.5(@babel/core@7.20.2)(@babel/preset-env@7.25.7(@babel/core@7.20.2))(@types/react@18.2.45)(react@18.2.0))(react@18.2.0))(react-native-reanimated@3.10.1(@babel/core@7.20.2)(react-native@0.74.5(@babel/core@7.20.2)(@babel/preset-env@7.25.7(@babel/core@7.20.2))(@types/react@18.2.45)(react@18.2.0))(react@18.2.0))(react-native@0.74.5(@babel/core@7.20.2)(@babel/preset-env@7.25.7(@babel/core@7.20.2))(@types/react@18.2.45)(react@18.2.0))(react@18.2.0)
       semver: 5.7.2
       tinycolor2: 1.6.0
       url-parse: 1.5.10

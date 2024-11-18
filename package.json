@@ -4,8 +4,8 @@
   "version": "1.0.0",
   "scripts": {
     "start": "expo start",
-    "android": "expo start --android",
-    "ios": "expo start --ios",
+    "android": "expo run:android",
+    "ios": "expo run:ios",
     "web": "expo start --web",
     "test": "jest --watchAll"
   },
@@ -57,7 +57,8 @@
     "react-native-web": "~0.19.10",
     "react-native-webview": "13.8.6",
     "react-refresh": "^0.14.2",
-    "zod": "^3.23.8"
+    "zod": "^3.23.8",
+    "react-native-gesture-handler": "~2.16.1"
   },
   "devDependencies": {
     "@babel/core": "^7.20.0",
