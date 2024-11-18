@@ -10,6 +10,7 @@ export function useNotifications(type: NotificationType | 'ALL' = 'ALL') {
     queryFn: NotificationStorage.getAll,
     select: (data: any) =>
       type === 'ALL' ? data : data.filter((notification: any) => notification.type === type),
+    staleTime: 1000,
   });
 
   const markAsRead = useMutation({

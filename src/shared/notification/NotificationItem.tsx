@@ -1,9 +1,10 @@
 import React from 'react';
-import {  StyleSheet } from 'react-native';
+import { StyleSheet, Animated } from 'react-native';
+import { GestureHandlerRootView, Swipeable } from 'react-native-gesture-handler';
+import { TouchableOpacity, Text, View } from 'react-native-ui-lib';
 import { NotificationHistory } from './types/NotificationHistory';
 import { getTimeAgo } from './utils/getTimeAgo';
 import { ICON_SUCCESS_MARK, ICON_WARNING_MARK } from '@/assets/svgs';
-import { TouchableOpacity, Text, View } from 'react-native-ui-lib';
 
 interface Props {
   notification: NotificationHistory;
@@ -11,20 +12,53 @@ interface Props {
 }
 
 export function NotificationItem({ notification, onPress }: Props) {
+  const renderRightActions = (
+    progress: Animated.AnimatedInterpolation<number>,
+    dragX: Animated.AnimatedInterpolation<number>,
+  ) => {
+    const trans = dragX.interpolate({
+      inputRange: [-100, 0],
+      outputRange: [0, 100],
+    });
+
+    return (
+      <Animated.View
+        style={[
+          {
+            transform: [{ translateX: trans }],
+          },
+        ]}
+      >
+        <TouchableOpacity onPress={onPress}>
+          <View style={{ width: 10, height: '100%' }} />
+        </TouchableOpacity>
+      </Animated.View>
+    );
+  };
+
   return (
-    <TouchableOpacity
-      style={[styles.container, !notification.isRead && styles.unread]}
-      onPress={onPress}
-    >
-      <View style={styles.iconContainer}>
-        {notification.status === 'SUCCESS' ? <ICON_SUCCESS_MARK /> : <ICON_WARNING_MARK />}
-      </View>
-      <View style={styles.content}>
-        <Text style={styles.title}>{notification.title}</Text>
-        <Text style={styles.body}>{notification.body}</Text>
-        <Text style={styles.time}>{getTimeAgo(notification.sentAt)}</Text>
-      </View>
-    </TouchableOpacity>
+    <GestureHandlerRootView style={{ flex: 1 }}>
+      <Swipeable
+        renderRightActions={renderRightActions}
+        rightThreshold={40}
+        onSwipeableOpen={(direction: any) => {
+          if (direction === 'right') {
+            onPress();
+          }
+        }}
+      >
+        <View style={[styles.container, !notification.isRead && styles.unread]}>
+          <View style={styles.iconContainer}>
+            {notification.status === 'SUCCESS' ? <ICON_SUCCESS_MARK /> : <ICON_WARNING_MARK />}
+          </View>
+          <View style={styles.content}>
+            <Text style={styles.title}>{notification.title}</Text>
+            <Text style={styles.body}>{notification.body}</Text>
+            <Text style={styles.time}>{getTimeAgo(notification.sentAt)}</Text>
+          </View>
+        </View>
+      </Swipeable>
+    </GestureHandlerRootView>
   );
 }
 
@@ -59,5 +93,21 @@ const styles = StyleSheet.create({
   time: {
     fontSize: 12,
     color: '#999',
+  },
+  deleteAction: {
+    width: 100,
+    height: '100%',
+    backgroundColor: '#FF3B30',
+    justifyContent: 'center',
+    alignItems: 'center',
+  },
+  deleteButton: {
+    flex: 1,
+    justifyContent: 'center',
+  },
+  deleteText: {
+    color: 'white',
+    fontWeight: '600',
+    padding: 20,
   },
 });

@@ -4,9 +4,10 @@ import { NotificationItem } from './NotificationItem';
 import { useNotifications } from './hooks/useNotifications';
 import { NotificationType } from './types/NotificationType';
 import { FilterTabs } from './FilterTabs';
-import { TouchableOpacity, View, Text } from 'react-native-ui-lib';
+import { View, Text, Button } from 'react-native-ui-lib';
 import { NotificationHeader } from './NotificationHeader';
 import { MainLayout } from '@/src/pages/home/components/frame';
+import { NotificationStorage } from './notification';
 
 export function NotificationList() {
   const [selectedType, setSelectedType] = useState<NotificationType | 'ALL'>('ALL');
@@ -21,6 +22,22 @@ export function NotificationList() {
   return (
     <MainLayout header={<NotificationHeader />}>
       <View style={styles.container}>
+        <Button
+          size="small"
+          style={{
+            marginLeft: 10,
+            width: 30,
+          }}
+          label="TEST"
+          onPress={async () => {
+            await NotificationStorage.save({
+              title: '알림 테스트',
+              body: '알림 테스트입니다.',
+              type: 'MISSION',
+              status: 'SUCCESS',
+            });
+          }}
+        />
         <FilterTabs
           tabs={tabs}
           selectedKey={selectedType}
