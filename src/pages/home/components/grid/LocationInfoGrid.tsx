@@ -1,6 +1,6 @@
 import { Image } from '@/src/shared/ui';
 import React from 'react';
-import { ViewStyle, TextStyle, ImageStyle } from 'react-native';
+import { ViewStyle, TextStyle, ImageStyle, ScrollView } from 'react-native';
 import { View, Text, ViewProps } from 'react-native-ui-lib';
 
 interface LocationInfoGridProps extends ViewProps {
@@ -16,7 +16,12 @@ export const LocationInfoGrid = (props: LocationInfoGridProps) => {
 
   return (
     <View {...rest}>
-      <View row style={styles.imageContainer}>
+      <ScrollView
+        horizontal
+        showsHorizontalScrollIndicator={false}
+        style={styles.scrollView}
+        contentContainerStyle={styles.imageContainer}
+      >
         {images.map((image, index) => (
           <Image
             key={index}
@@ -24,7 +29,7 @@ export const LocationInfoGrid = (props: LocationInfoGridProps) => {
             style={[styles.image, { marginRight: index !== images.length - 1 ? 8 : 0 }]}
           />
         ))}
-      </View>
+      </ScrollView>
 
       <View>
         <View row centerV>
@@ -51,8 +56,12 @@ export const LocationInfoGrid = (props: LocationInfoGridProps) => {
 };
 
 const styles = {
-  imageContainer: {
+  scrollView: {
     marginBottom: 16,
+  } as ViewStyle,
+
+  imageContainer: {
+    flexDirection: 'row',
   } as ViewStyle,
 
   image: {

@@ -1,16 +1,34 @@
 import { FeedHomeHeader } from '@/src/widgets/PageHeaders/FeedHeader';
 import { Button } from '@/src/shared/feed/ui';
-import { StyleSheet, Text, View } from 'react-native';
+import { Pressable, StyleSheet, Text, View } from 'react-native';
 import { Image } from '@/src/shared/ui';
 import TabController from '@/components/TabController';
 import { MainLayout, ScrollLayout } from '@/src/pages/Feed/ui';
-import { Link } from 'expo-router';
+import { Link, useRouter } from 'expo-router';
 import { PublicFeedEntryLink } from '@/src/shared/constants';
+import { useState } from 'react';
+import { getFeedPosts } from '@/src/pages/Feed/api';
+import { FeedPostsResponse } from '@/src/pages/Feed/types';
+import { useQuery } from '@tanstack/react-query';
+import { queryKeyMetaData } from '@/src/pages/Feed/constants';
 
 const MyHome = () => {
+  const route = useRouter();
+
+  const [feedPostList, setFeedPostList] = useState<FeedPostsResponse[]>();
+
+  const [userNickName, setUserNickName] = useState();
+  const [dogName, setDogName] = useState('강아지 이름 표시 영역');
+  const [dogType, setDogType] = useState('말티즈');
+
+  const { data, isLoading, error } = useQuery({
+    queryKey: [queryKeyMetaData.getFeedPosts],
+    queryFn: () => getFeedPosts('yonghoon_test'),
+  });
+
   return (
     <MainLayout>
-      <FeedHomeHeader />
+      <FeedHomeHeader userNickName={userNickName} />
       <ScrollLayout>
         <View style={styles.contentContainer}>
           <View style={styles.imageContentContainer}>
@@ -19,8 +37,8 @@ const MyHome = () => {
             </View>
             <View style={styles.imageTextContent}>
               <View style={styles.title}>
-                <Text style={styles.titleText}>강아지 이름 표시 영역</Text>
-                <Text style={styles.subTitleText}>말티즈</Text>
+                <Text style={styles.titleText}>{dogName}</Text>
+                <Text style={styles.subTitleText}>{dogType}</Text>
               </View>
               <View style={styles.imageRecordContent}>
                 <View style={styles.recordRow}>
@@ -67,34 +85,22 @@ const MyHome = () => {
             <TabController.TabBar />
             <TabController.TabPage index={0}>
               <View style={styles.tabContentPage}>
-                <View style={styles.imageDummy} />
-                <View style={styles.imageDummy} />
-                <View style={styles.imageDummy} />
-                <View style={styles.imageDummy} />
-                <View style={styles.imageDummy} />
-                <View style={styles.imageDummy} />
-                <View style={styles.imageDummy} />
-                <View style={styles.imageDummy} />
-                <View style={styles.imageDummy} />
-                <View style={styles.imageDummy} />
-                <View style={styles.imageDummy} />
-                <View style={styles.imageDummy} />
-                <View style={styles.imageDummy} />
-                <View style={styles.imageDummy} />
-                <View style={styles.imageDummy} />
-                <View style={styles.imageDummy} />
-                <View style={styles.imageDummy} />
-                <View style={styles.imageDummy} />
-                <View style={styles.imageDummy} />
-                <View style={styles.imageDummy} />
-                <View style={styles.imageDummy} />
-                <View style={styles.imageDummy} />
-                <View style={styles.imageDummy} />
-                <View style={styles.imageDummy} />
-                <View style={styles.imageDummy} />
-                <View style={styles.imageDummy} />
-                <View style={styles.imageDummy} />
-                <View style={styles.imageDummy} />
+                {data?.map((info, index) => {
+                  return (
+                    <Pressable
+                      key={info.post_id}
+                      style={styles.feedImageWrapper}
+                      onPress={() =>
+                        route.push({
+                          pathname: PublicFeedEntryLink.feedDetail,
+                          params: { data: index },
+                        })
+                      }
+                    >
+                      <Image style={styles.feedImage} source={{ uri: info.image_urls[0] }} />
+                    </Pressable>
+                  );
+                })}
               </View>
             </TabController.TabPage>
             <TabController.TabPage index={1}>
@@ -147,7 +153,7 @@ const styles = StyleSheet.create({
   introductionText: {
     color: '#222B45',
     fontSize: 14,
-    fontWeight: 400,
+    fontWeight: 'bold',
   },
   title: {
     gap: 4,
@@ -155,17 +161,17 @@ const styles = StyleSheet.create({
   titleText: {
     color: '#101426',
     fontSize: 16,
-    fontWeight: 500,
+    fontWeight: 'bold',
   },
   subTitleText: {
     color: '#8F9BB3',
     fontSize: 14,
-    fontWeight: 500,
+    fontWeight: 'bold',
   },
   recordText: {
     color: '#101426',
     fontSize: 14,
-    fontWeight: 400,
+    fontWeight: 'bold',
   },
   visitor: {
     flex: 1,
@@ -196,12 +202,20 @@ const styles = StyleSheet.create({
   buttonText: {
     color: '#101426',
     fontSize: 14,
-    fontWeight: 600,
+    fontWeight: 'bold',
   },
   image: {
     width: 80,
     height: 80,
     borderRadius: 100,
+  },
+  feedImageWrapper: {
+    width: '31.5%',
+    height: 110,
+  },
+  feedImage: {
+    width: '100%',
+    height: '100%',
   },
   separator: {
     width: 1,
