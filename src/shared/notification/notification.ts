@@ -22,6 +22,22 @@ export const NotificationStorage = {
     }
   },
 
+  /**
+   * 알림을 저장하고, 스마트폰에 push 알림을 보냅니다.
+   *
+   * title: 알림 제목
+   * body: 알림 내용
+   * status: 알림 상태 (성공 알림 SUCCESS, 실패 알림 FAIL)
+   * type: 알림 타입 (미션 알림 MISSION, 피드 활동 알림 FEED)
+   *
+   * @example
+   * await NotificationStorage.save({
+   *  title: '알림 테스트',
+   *  body: '알림 테스트입니다.',
+   *  type: 'MISSION',
+   *  status: 'SUCCESS',
+   * })
+   */
   save: async (
     notification: Omit<NotificationHistory, 'id' | 'sentAt' | 'isRead'>,
   ): Promise<void> => {
