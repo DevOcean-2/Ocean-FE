@@ -17,7 +17,6 @@ const options = [
 
 const AdditionalInfo: React.FC<StepProps> = ({ control }) => {
   const [aOption, setAOption] = useState<string[]>([]);
-  const [prevKgButton, setPrevKgButton] = useState(false);
 
   const hasDate = useWatch({
     control,

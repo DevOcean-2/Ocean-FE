@@ -9,6 +9,8 @@ import CustomImageButton from '@/components/CustomImageButton';
 import CustomButton from '@/components/CustomButton';
 import renderTrack from './renderTrack';
 import { Banner } from '@/components/Banner';
+import { useQuery } from '@tanstack/react-query';
+import { fetchDogBreeds } from '../api/dogBreed';
 
 const options = [
   { label: '토끼', value: '토끼' },
@@ -21,6 +23,22 @@ const options = [
 const BasicInfo: React.FC<StepProps> = ({ control }) => {
   const [dogBreed, setDogBreed] = useState('');
   const [isBreed, setIsBreed] = useState(true);
+
+  const {
+    data: dogBreeds,
+    isLoading,
+    error,
+  } = useQuery({
+    queryKey: ['dogBreeds'],
+    queryFn: fetchDogBreeds,
+    select: (data) =>
+      data.map((breed) => ({
+        label: breed.name,
+        value: breed.name,
+      })),
+  });
+
+  console.log(dogBreeds);
 
   return (
     <ScrollView style={styles.stepContainer}>
