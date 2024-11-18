@@ -273,7 +273,7 @@ const AdditionalInfo: React.FC<StepProps> = ({ control }) => {
         {hasPrevKg && (
           <Controller
             control={control}
-            name="hasPrevKg"
+            name="prevKg"
             defaultValue={false}
             render={({ field: { onChange, value } }) => (
               <View style={AdditionalInfoStyles.checkboxContainer}>

@@ -50,6 +50,8 @@ const ConfirmInfo: React.FC<StepProps> = ({ control }) => {
   const weightChange = Number(kg) - Number(prevKg);
   const weightChangeDisplay = weightChange > 0 ? `+${weightChange}kg` : `${weightChange}kg`;
 
+  console.log(kg, prevKg, weightChange, weightChangeDisplay);
+
   return (
     <View style={styles.container}>
       <Banner
@@ -74,16 +76,16 @@ const ConfirmInfo: React.FC<StepProps> = ({ control }) => {
         <View style={styles.weightRow}>
           <Text style={styles.weightLabel}>현재 몸무게 |</Text>
           <View style={styles.weightValue}>
-            <Text style={styles.weight}>{petInfo.currentWeight}</Text>
+            <Text style={styles.weight}>{`${kg}kg`}</Text>
             <View style={styles.weightChange}>
-              <Text style={styles.weightTextChange}> {weightChange}</Text>
+              <Text style={styles.weightTextChange}> {weightChangeDisplay}</Text>
             </View>
           </View>
         </View>
 
         <View style={styles.weightRow}>
           <Text style={styles.weightLabel}>이전 몸무게 |</Text>
-          <Text style={styles.weight}>{petInfo.previousWeight}</Text>
+          <Text style={styles.weight}>{`${prevKg}kg`}</Text>
         </View>
 
         {/* <View style={styles.precautionsSection}>
