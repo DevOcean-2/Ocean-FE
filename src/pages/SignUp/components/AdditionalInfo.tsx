@@ -17,6 +17,7 @@ const options = [
 
 const AdditionalInfo: React.FC<StepProps> = ({ control }) => {
   const [aOption, setAOption] = useState<string[]>([]);
+  const [prevKgButton, setPrevKgButton] = useState(false);
 
   const hasDate = useWatch({
     control,
@@ -24,6 +25,11 @@ const AdditionalInfo: React.FC<StepProps> = ({ control }) => {
     defaultValue: false,
   });
 
+  const hasPrevKg = useWatch({
+    control,
+    name: 'hasPrevKg',
+    defaultValue: false,
+  });
   const hasKg = useWatch({
     control,
     name: 'hasKg',
@@ -236,6 +242,51 @@ const AdditionalInfo: React.FC<StepProps> = ({ control }) => {
             )}
           />
         )}
+        <Controller
+          control={control}
+          name="hasPrevKg"
+          defaultValue={false}
+          render={({ field: { onChange, value } }) => (
+            <TouchableOpacity
+              onPress={() => onChange(!hasPrevKg)}
+              style={AdditionalInfoStyles.checkboxContainer}
+            >
+              {value ? (
+                <ICON_CHECK_BOX
+                  width={24}
+                  height={24}
+                  fill="white"
+                  style={[AdditionalInfoStyles.checkStyle]}
+                />
+              ) : (
+                <ICON_UN_CHECK_BOX
+                  width={24}
+                  height={24}
+                  fill="white"
+                  style={[AdditionalInfoStyles.checkStyle]}
+                />
+              )}
+              <Text style={AdditionalInfoStyles.checkboxLabel}>이전 몸무게</Text>
+            </TouchableOpacity>
+          )}
+        />
+        {hasPrevKg && (
+          <Controller
+            control={control}
+            name="hasPrevKg"
+            defaultValue={false}
+            render={({ field: { onChange, value } }) => (
+              <View style={AdditionalInfoStyles.checkboxContainer}>
+                <TextField
+                  value={value}
+                  onChangeText={onChange}
+                  fieldStyle={AdditionalInfoStyles.inputField}
+                  placeholder="이전 몸무게를 입력해주세요"
+                />
+              </View>
+            )}
+          />
+        )}
 
         <Controller
           control={control}
@@ -401,6 +452,9 @@ const AdditionalInfoStyles = StyleSheet.create({
     marginTop: 20,
     flex: 1,
   },
+  sectionContainer: {
+    marginBottom: 20,
+  },
   itemContainer: {
     padding: 16,
   },
@@ -484,6 +538,32 @@ const AdditionalInfoStyles = StyleSheet.create({
   pickerField: {
     marginBottom: 20,
     paddingTop: 10,
+  },
+
+  cannotFindButton: {
+    borderWidth: 1,
+    borderRadius: 8,
+    padding: 14,
+    borderColor: '#D0D5DD',
+  },
+  cannotFindText: {
+    textAlign: 'center',
+    color: '#000000',
+    fontSize: 14,
+    fontWeight: '500',
+  },
+  canFindButton: {
+    borderWidth: 1,
+    borderRadius: 8,
+    padding: 16,
+    borderColor: '#04C755',
+    backgroundColor: '#F1FFF2',
+  },
+  canFindText: {
+    textAlign: 'center',
+    color: '#101828',
+    fontSize: 14,
+    fontWeight: '600',
   },
 });
 
