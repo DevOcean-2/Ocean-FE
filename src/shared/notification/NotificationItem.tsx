@@ -1,6 +1,6 @@
 import React from 'react';
 import { StyleSheet, Animated } from 'react-native';
-import { GestureHandlerRootView, Swipeable } from 'react-native-gesture-handler';
+import { Swipeable } from 'react-native-gesture-handler';
 import { TouchableOpacity, Text, View } from 'react-native-ui-lib';
 import { NotificationHistory } from './types/NotificationHistory';
 import { getTimeAgo } from './utils/getTimeAgo';
@@ -37,28 +37,26 @@ export function NotificationItem({ notification, onPress }: Props) {
   };
 
   return (
-    <GestureHandlerRootView style={{ flex: 1 }}>
-      <Swipeable
-        renderRightActions={renderRightActions}
-        rightThreshold={40}
-        onSwipeableOpen={(direction: any) => {
-          if (direction === 'right') {
-            onPress();
-          }
-        }}
-      >
-        <View style={[styles.container, !notification.isRead && styles.unread]}>
-          <View style={styles.iconContainer}>
-            {notification.status === 'SUCCESS' ? <ICON_SUCCESS_MARK /> : <ICON_WARNING_MARK />}
-          </View>
-          <View style={styles.content}>
-            <Text style={styles.title}>{notification.title}</Text>
-            <Text style={styles.body}>{notification.body}</Text>
-            <Text style={styles.time}>{getTimeAgo(notification.sentAt)}</Text>
-          </View>
+    <Swipeable
+      renderRightActions={renderRightActions}
+      rightThreshold={40}
+      onSwipeableOpen={(direction: any) => {
+        if (direction === 'right') {
+          onPress();
+        }
+      }}
+    >
+      <View style={[styles.container, !notification.isRead && styles.unread]}>
+        <View style={styles.iconContainer}>
+          {notification.status === 'SUCCESS' ? <ICON_SUCCESS_MARK /> : <ICON_WARNING_MARK />}
         </View>
-      </Swipeable>
-    </GestureHandlerRootView>
+        <View style={styles.content}>
+          <Text style={styles.title}>{notification.title}</Text>
+          <Text style={styles.body}>{notification.body}</Text>
+          <Text style={styles.time}>{getTimeAgo(notification.sentAt)}</Text>
+        </View>
+      </View>
+    </Swipeable>
   );
 }
 

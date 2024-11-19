@@ -4,7 +4,7 @@ import { NotificationItem } from './NotificationItem';
 import { useNotifications } from './hooks/useNotifications';
 import { NotificationType } from './types/NotificationType';
 import { FilterTabs } from './FilterTabs';
-import { View, Text, Button } from 'react-native-ui-lib';
+import { View, Button } from 'react-native-ui-lib';
 import { NotificationHeader } from './NotificationHeader';
 import { MainLayout } from '@/src/pages/home/components/frame';
 import { NotificationStorage } from './notification';
