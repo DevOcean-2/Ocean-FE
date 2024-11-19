@@ -1,7 +1,7 @@
 import React, { useState } from 'react';
 import { ScrollView, StyleSheet, View } from 'react-native';
 import { Colors, Picker, Slider, Text, TextField, TouchableOpacity } from 'react-native-ui-lib';
-import { Controller } from 'react-hook-form';
+import { Controller, useWatch } from 'react-hook-form';
 import { StepProps } from '../types/signUp';
 import { styles } from '../styles';
 import CustomImageButton from '@/components/CustomImageButton';
@@ -10,24 +10,15 @@ import CustomButton from '@/components/CustomButton';
 import renderTrack from './renderTrack';
 import { Banner } from '@/components/Banner';
 import { useQuery } from '@tanstack/react-query';
-import { fetchDogBreeds } from '../api/dogBreed';
+import { fetchDogBreeds } from '../api/dogInfoApi';
 
-const options = [
-  { label: '토끼', value: '토끼' },
-  { label: '사과', value: '사과' },
-  { label: '고양이', value: '고양이' },
-  { label: '몰라', value: '몰라' },
-  { label: '배고픔', value: '배고픔' },
-];
+
 
 const BasicInfo: React.FC<StepProps> = ({ control }) => {
-  const [dogBreed, setDogBreed] = useState('');
   const [isBreed, setIsBreed] = useState(true);
 
   const {
     data: dogBreeds,
-    isLoading,
-    error,
   } = useQuery({
     queryKey: ['dogBreeds'],
     queryFn: fetchDogBreeds,
@@ -38,7 +29,13 @@ const BasicInfo: React.FC<StepProps> = ({ control }) => {
       })),
   });
 
-  console.log(dogBreeds);
+  const breed = useWatch({
+    control,
+    name: "breed",
+    defaultValue: ""
+  });
+  
+
 
   return (
     <ScrollView style={styles.stepContainer}>
@@ -148,10 +145,9 @@ const BasicInfo: React.FC<StepProps> = ({ control }) => {
                   <Picker
                     placeholder="품종을 선택해주세요"
                     placeholderTextColor="#8F9BB3"
-                    value={dogBreed}
+                    value={value}
                     enableModalBlur={false}
                     onChange={(item) => {
-                      setDogBreed(item as string);
                       onChange(item);
                     }}
                     topBarProps={{
@@ -161,26 +157,26 @@ const BasicInfo: React.FC<StepProps> = ({ control }) => {
                     showSearch
                     searchPlaceholder="품종을 선택해주세요"
                     onSearchChange={(value) => console.warn('value', value)}
-                    items={options}
+                    items={dogBreeds}
                     containerStyle={BasicInfoStyles.pickerContainer}
                     style={BasicInfoStyles.picker}
                   />
-                  <Text style={BasicInfoStyles.orText}>또는</Text>
+                  
                 </>
               )}
-
-              <TouchableOpacity
-                style={isBreed ? BasicInfoStyles.cannotFindButton : BasicInfoStyles.canFindButton}
-                onPress={() => {
-                  setIsBreed((prev) => !prev);
-                }}
-              >
-                <Text
-                  style={isBreed ? BasicInfoStyles.cannotFindText : BasicInfoStyles.canFindText}
-                >
-                  정형화 할 수 없어요
-                </Text>
-              </TouchableOpacity>
+              {breed === "" && (
+                  <View>
+                    <Text style={BasicInfoStyles.orText}>또는</Text>
+                    <TouchableOpacity
+                      style={isBreed ? BasicInfoStyles.cannotFindButton : BasicInfoStyles.canFindButton}
+                      onPress={() => setIsBreed(prev => !prev)}
+                    >
+                      <Text style={isBreed ? BasicInfoStyles.cannotFindText : BasicInfoStyles.canFindText}>
+                        정형화 할 수 없어요
+                      </Text>
+                    </TouchableOpacity>
+                  </View>
+                )}
             </View>
           )}
         />

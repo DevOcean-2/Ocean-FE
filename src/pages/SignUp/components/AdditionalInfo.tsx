@@ -6,14 +6,11 @@ import * as ImagePicker from 'expo-image-picker';
 import { StepProps } from '../types/signUp';
 import { Banner } from '@/components/Banner';
 import { ICON_IMAGE, ICON_CHECK_BOX, ICON_UN_CHECK_BOX } from '@/assets/svgs';
+import { useQuery } from '@tanstack/react-query';
+import { fetchDogDiseases } from '../api/dogInfoApi';
+import useDogData from '../hooks/queries/useDogData';
 
-const options = [
-  { label: '토끼', value: '토끼' },
-  { label: '사과', value: '사과' },
-  { label: '고양이', value: '고양이' },
-  { label: '몰라', value: '몰라' },
-  { label: '배고픔', value: '배고픔' },
-];
+
 
 const AdditionalInfo: React.FC<StepProps> = ({ control }) => {
   const [aOption, setAOption] = useState<string[]>([]);
@@ -53,12 +50,8 @@ const AdditionalInfo: React.FC<StepProps> = ({ control }) => {
     defaultValue: false,
   });
 
-  // 체크박스가 해제되면 생일 데이터 초기화
-  // useEffect(() => {
-  //   if (!hasDate) {
-  //     control.setValue('birthDate', '');
-  //   }
-  // }, [hasDate]);
+  const { diseases, vaccinations, allergies, isLoading, isError } = useDogData();
+
 
   const pickImage = async (onChange: (value: string) => void) => {
     let result = await ImagePicker.launchImageLibraryAsync({
@@ -102,6 +95,7 @@ const AdditionalInfo: React.FC<StepProps> = ({ control }) => {
 
     return true;
   };
+
 
   return (
     <ScrollView style={AdditionalInfoStyles.stepContainer}>
@@ -323,15 +317,15 @@ const AdditionalInfo: React.FC<StepProps> = ({ control }) => {
             render={({ field: { onChange, value } }) => (
               <Picker
                 placeholder="과거 또는 현재 질병 이력을 추가해주세요"
-                value={aOption}
+                value={value}
                 mode={Picker.modes.MULTI}
                 enableModalBlur={false}
-                onChange={(items) => setAOption(items as string[])}
+                onChange={(items) =>  onChange(items)}
                 topBarProps={{ title: 'ABC' }}
                 showSearch
                 searchPlaceholder={'질병 정보 추가하기'}
                 onSearchChange={(value) => console.warn('value', value)}
-                items={options}
+                items={diseases}
                 style={AdditionalInfoStyles.pickerField}
               />
             )}
@@ -384,7 +378,7 @@ const AdditionalInfo: React.FC<StepProps> = ({ control }) => {
                 searchPlaceholder={'알러지 정보를 추가하기'}
                 style={AdditionalInfoStyles.pickerField}
                 onSearchChange={(value) => console.warn('value', value)}
-                items={options}
+                items={vaccinations}
               />
             )}
           />
@@ -436,7 +430,7 @@ const AdditionalInfo: React.FC<StepProps> = ({ control }) => {
                 searchPlaceholder={'예방접종 정보를 추가하기'}
                 style={AdditionalInfoStyles.pickerField}
                 onSearchChange={(value) => console.warn('value', value)}
-                items={options}
+                items={allergies}
               />
             )}
           />
