@@ -51,6 +51,7 @@ export function useNotifications(type: NotificationType | 'ALL' = 'ALL') {
   return {
     notifications,
     isLoading,
+    refetch,
     markAsRead: markAsRead.mutate,
     deleteNotification: deleteMutation.mutate,
   };
