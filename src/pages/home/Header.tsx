@@ -5,13 +5,26 @@ import { HeaderLayout } from './components/frame';
 import { useHomeParameter } from './hooks';
 import { useRouter } from 'expo-router';
 import { PublicWalkEntryLink } from '@/src/shared/constants';
+import { useNotifications } from '@/src/shared/notification/hooks/useNotifications';
+import { useEffect } from 'react';
 
 export const Header = () => {
-  // @TODO notification 리스트들 존재 여부 판단
-  const hasNotification = true;
+  const { notifications, refetch } = useNotifications();
+  const hasNotification = notifications.length > 0;
   const { changeMenu, isHome } = useHomeParameter();
 
   const router = useRouter();
+
+  useEffect(() => {
+    const interval = setInterval(() => {
+      refetch();
+    }, 1000);
+
+    return () => {
+      clearInterval(interval);
+    };
+  }, []);
+
   return (
     <HeaderLayout>
       <View style={{ marginRight: 'auto' }}>

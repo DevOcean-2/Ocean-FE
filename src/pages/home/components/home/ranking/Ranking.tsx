@@ -4,6 +4,7 @@ import { Text, View } from 'react-native-ui-lib';
 import { RankingItem } from './RankingItem';
 import { Card } from '../../frame';
 import { useCurrentTown } from '../../../hooks/useCurrentTown';
+import { useWalkRanking } from '../../../hooks';
 
 interface RankingProps {
   location: { latitude?: number; longitude?: number } | null;
@@ -13,6 +14,8 @@ export const Ranking: React.FC<RankingProps> = (props) => {
   const { location } = props;
   const { data } = useCurrentTown(location?.latitude, location?.longitude);
   const month = new Date().getMonth() + 1;
+
+  const { data: rankingList } = useWalkRanking();
 
   return (
     <Card style={styles.container}>
@@ -27,9 +30,31 @@ export const Ranking: React.FC<RankingProps> = (props) => {
       </View>
 
       <View style={styles.rankingList}>
-        <RankingItem rank={1} username="유저 닉네임 길어졌을 때에는 ellipsis 처리" distance={100} />
-        <RankingItem rank={2} username="유저 닉네임" distance={200} />
-        <RankingItem rank={3} username="유저 닉네임2" distance={300} />
+        {/* {rankingList?.map((ranking, index) => (
+          <RankingItem
+            key={index}
+            rank={index + 1}
+            username={ranking.nickName}
+            distance={ranking.totalDistance}
+            userId={ranking.userId}
+            profileImageUrl={ranking.profileImageUrl}
+          />
+        ))} */}
+        <RankingItem
+          rank={1}
+          username="유저 닉네임 길어졌을 때에는 ellipsis 처리"
+          userId="1"
+          distance={100}
+          profileImageUrl=""
+        />
+        <RankingItem rank={2} username="유저 닉네임" userId="2" distance={200} profileImageUrl="" />
+        <RankingItem
+          rank={3}
+          username="유저 닉네임2"
+          userId="3"
+          distance={300}
+          profileImageUrl=""
+        />
       </View>
     </Card>
   );

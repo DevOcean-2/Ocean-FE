@@ -1,32 +1,45 @@
 import { Image } from '@/src/shared/ui';
 import { ViewStyle, TextStyle, ImageStyle } from 'react-native';
-import { View, Text } from 'react-native-ui-lib';
+import { View, Text, TouchableOpacity } from 'react-native-ui-lib';
 
 interface RankingItemProps {
   rank: number;
   username: string;
   distance: number;
+  userId: string;
+  profileImageUrl: string;
 }
 
 export const RankingItem = (props: RankingItemProps) => {
-  const { rank, username, distance } = props;
+  const { rank, username, distance, userId, profileImageUrl } = props;
+
+  const imageURI =
+    profileImageUrl.length > 0
+      ? profileImageUrl
+      : 'https://img.freepik.com/free-photo/friendly-smart-basenji-dog-giving-his-paw-close-up-isolated-white_346278-1626.jpg?t=st=1729658603~exp=1729662203~hmac=c93172aa7d60615eabe095b7c6353c75adf2fb686c981abcbd21acded998134e&w=1800';
 
   return (
-    <View style={styles.container}>
-      <View style={styles.userInfoContainer}>
-        <Text style={styles.rankNumber}>{rank}</Text>
-        <Image
-          source={{
-            uri: 'https://img.freepik.com/free-photo/friendly-smart-basenji-dog-giving-his-paw-close-up-isolated-white_346278-1626.jpg?t=st=1729658603~exp=1729662203~hmac=c93172aa7d60615eabe095b7c6353c75adf2fb686c981abcbd21acded998134e&w=1800',
-          }}
-          style={styles.profileImage}
-        />
-        <Text numberOfLines={1} style={styles.username}>
-          {username}
-        </Text>
+    <TouchableOpacity
+      onPress={() => {
+        console.log('해당 user의 피드로 이동한다.');
+      }}
+    >
+      <View style={styles.container}>
+        <View style={styles.userInfoContainer}>
+          <Text style={styles.rankNumber}>{rank}</Text>
+          <Image
+            source={{
+              uri: imageURI,
+            }}
+            style={styles.profileImage}
+          />
+          <Text numberOfLines={1} style={styles.username}>
+            {username}
+          </Text>
+        </View>
+        <Text style={styles.distance}>{`${distance} km`}</Text>
       </View>
-      <Text style={styles.distance}>{`${distance} km`}</Text>
-    </View>
+    </TouchableOpacity>
   );
 };
 
