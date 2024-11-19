@@ -3,8 +3,15 @@ import { ViewStyle, TextStyle } from 'react-native';
 import { Text, View } from 'react-native-ui-lib';
 import { RankingItem } from './RankingItem';
 import { Card } from '../../frame';
+import { useCurrentTown } from '../../../hooks/useCurrentTown';
 
-export const Ranking = () => {
+interface RankingProps {
+  location: { latitude?: number; longitude?: number } | null;
+}
+
+export const Ranking: React.FC<RankingProps> = (props) => {
+  const { location } = props;
+  const { data } = useCurrentTown(location?.latitude, location?.longitude);
   const month = new Date().getMonth() + 1;
 
   return (
@@ -12,7 +19,9 @@ export const Ranking = () => {
       <View style={styles.header}>
         <View style={styles.titleContainer}>
           <ICON_RANKING />
-          <Text style={styles.titleText}>{`${month}월 강남구 산책왕`}</Text>
+          <Text
+            style={styles.titleText}
+          >{`${month}월 ${data?.region_2depth_name ?? '알 수 없음'} 산책왕`}</Text>
         </View>
         <ICON_ARROW_RIGHT />
       </View>

@@ -1,20 +1,14 @@
 import React, { useEffect, useMemo } from 'react';
 import { View, Text, TouchableOpacity } from 'react-native-ui-lib';
 import { StyleSheet, Animated, Easing } from 'react-native';
-import { useWeather } from '../../../hooks';
+import { useCurrentLocation, useWeather } from '../../../hooks';
 import { ICON_POSITION, ICON_REFRESH } from '@/assets/svgs';
 import { Image } from '@/src/shared/ui';
 import { Card } from '../../frame';
 import { useCurrentTown } from '../../../hooks/useCurrentTown';
 
-interface PositionInfoProps {
-  location: { latitude?: number; longitude?: number } | null;
-  getCurrentLocation: () => Promise<void>;
-}
-
-export const PositionInfo: React.FC<PositionInfoProps> = (props) => {
-  const { location, getCurrentLocation } = props;
-
+export const WalkPositionInfo = () => {
+  const { location, getCurrentLocation } = useCurrentLocation();
   const { data, isLoading, refetch } = useCurrentTown(location?.latitude, location?.longitude);
   const { data: weatherData } = useWeather(location?.latitude, location?.longitude);
   const weatherMainText = useMemo(() => {

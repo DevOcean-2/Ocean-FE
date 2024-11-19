@@ -7,7 +7,13 @@ import { LocationInfoGrid } from '../../grid/LocationInfoGrid';
 const MOCK_CAFE_IMAGE =
   'https://img.freepik.com/free-photo/friendly-smart-basenji-dog-giving-his-paw-close-up-isolated-white_346278-1626.jpg?t=st=1729658603~exp=1729662203~hmac=c93172aa7d60615eabe095b7c6353c75adf2fb686c981abcbd21acded998134e&w=1800';
 
-export const Recommend = () => {
+interface RecommendProps {
+  location: { latitude?: number; longitude?: number } | null;
+}
+
+export const Recommend: React.FC<RecommendProps> = (props) => {
+  const { location } = props;
+
   const mockImages = [MOCK_CAFE_IMAGE, MOCK_CAFE_IMAGE, MOCK_CAFE_IMAGE];
 
   return (

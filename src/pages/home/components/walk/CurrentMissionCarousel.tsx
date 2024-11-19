@@ -16,8 +16,11 @@ export const CurrentMissionCarousel = () => {
       pageControlPosition="under"
     >
       {missionList.map((mission, index) => (
-        <TouchableOpacity onPress={() => router.push(PublicWalkEntryLink.walkActivity)}>
-          <MissionItem key={`${mission}-${index}`} mission={mission} />
+        <TouchableOpacity
+          key={`${mission}-${index}`}
+          onPress={() => router.push(PublicWalkEntryLink.walkActivity)}
+        >
+          <MissionItem mission={mission} />
         </TouchableOpacity>
       ))}
     </Carousel>
