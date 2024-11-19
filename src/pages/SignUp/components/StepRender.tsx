@@ -18,7 +18,7 @@ export const StepRenderer: React.FC<StepRendererProps> = ({ activeIndex, control
     case 1:
       return <AdditionalInfo control={control} errors={errors} />;
     case 2:
-      return <ConfirmInfo />;
+      return <ConfirmInfo control={control} errors={errors} />;
     default:
       return null;
   }
