@@ -14,7 +14,7 @@ export const CustomWizard: React.FC<CustomWizardProps> = ({
   onActiveIndexChanged,
   getStepState,
 }) => (
-  <View style={CustomWizardStyles.wizardContainer}>
+  <View style={activeIndex > 2 ? CustomWizardStyles.noWizardContainer: CustomWizardStyles.wizardContainer}>
     <Wizard
       activeIndex={activeIndex}
       containerStyle={CustomWizardStyles.wizardInnerContainer}
@@ -58,6 +58,10 @@ const CustomWizardStyles = StyleSheet.create({
     backgroundColor: 'white',
     elevation: 2,
   },
+  noWizardContainer : {
+    display: 'none',
+  },
+
   wizardInnerContainer: {
     backgroundColor: 'transparent',
     width: '100%',

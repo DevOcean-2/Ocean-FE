@@ -43,7 +43,10 @@ export const useSignUpForm = () => {
       setActiveIndex(activeIndex + 1);
       setCompletedStepIndex(activeIndex);
     } else {
+      //TODO : handleSubmit(onSubmit) 호출 후 성공하면 next로 넘어가도록 구현
       handleSubmit(onSubmit)();
+      setActiveIndex(activeIndex + 1);
+      setCompletedStepIndex(activeIndex);
     }
   };
 

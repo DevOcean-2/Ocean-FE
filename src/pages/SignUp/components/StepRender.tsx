@@ -4,6 +4,7 @@ import { Control, FieldErrors } from 'react-hook-form';
 import BasicInfo from './BasicInfo';
 import AdditionalInfo from './AdditionalInfo';
 import ConfirmInfo from './ConfirmInfo';
+import OnBoardingSession from './OnBoardingSession';
 
 interface StepRendererProps {
   activeIndex: number;
@@ -19,6 +20,8 @@ export const StepRenderer: React.FC<StepRendererProps> = ({ activeIndex, control
       return <AdditionalInfo control={control} errors={errors} />;
     case 2:
       return <ConfirmInfo control={control} errors={errors} />;
+    case 3:
+      return <OnBoardingSession activeIndex={activeIndex}/>
     default:
       return null;
   }
