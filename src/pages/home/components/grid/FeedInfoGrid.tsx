@@ -5,7 +5,13 @@ import { View, Text, ViewProps } from 'react-native-ui-lib';
 import { LikeBadge } from '../badge/LikeBadge';
 
 interface FeedInfoGridProps extends ViewProps {
-  items: { id: string; imageUrl: string; title: string; likeCount?: number }[];
+  items: {
+    userId: string;
+    postId: number;
+    profileImage: string;
+    userName: string;
+    liked: number;
+  }[];
   numColumns?: number;
 }
 
@@ -22,19 +28,18 @@ export const FeedInfoGrid = (props: FeedInfoGridProps) => {
       <View {...rest} style={styles.container}>
         {items.map((item, index) => (
           <View
-            key={item.id}
+            key={`${item.userId}-${index}`}
             style={[styles.itemWrapper, { marginRight: index !== items.length - 1 ? 12 : 0 }]}
           >
             <View style={styles.itemContainer}>
-              <Image source={{ uri: item.imageUrl }} style={styles.image} />
-              {item.likeCount && (
-                <View row centerV style={styles.badgeContainer}>
-                  <LikeBadge count={item.likeCount} />
-                </View>
-              )}
+              <Image source={{ uri: item.profileImage }} style={styles.image} />
+
+              <View row centerV style={styles.badgeContainer}>
+                <LikeBadge count={item.liked} />
+              </View>
             </View>
-            <Text text80 numberOfLines={1} style={styles.title}>
-              {item.title}
+            <Text text80 numberOfLines={1} style={styles.userName}>
+              {item.userName}
             </Text>
           </View>
         ))}
@@ -81,7 +86,7 @@ const styles = {
     borderRadius: 12,
   } as ViewStyle,
 
-  title: {
+  userName: {
     marginTop: 4,
   } as TextStyle,
 };

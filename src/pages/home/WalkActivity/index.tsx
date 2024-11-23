@@ -7,6 +7,7 @@ import { WalkActivityHeader } from './WalkActivityHeader';
 import { ICON_CALENDAR, ICON_CHEVRON_LEFT, ICON_CHEVRON_RIGHT } from '@/assets/svgs';
 import { Image } from '@/src/shared/ui';
 import { MissionItem } from '../components/home/mission';
+import { useMissionList } from '../hooks';
 
 LocaleConfig.locales['kr'] = {
   monthNames: [
@@ -51,6 +52,8 @@ export const WalkActivity = () => {
     year: number;
     timestamp: number;
   }>();
+
+  const { data } = useMissionList();
 
   const getInitialDate = useCallback(() => {
     const today = new Date();
@@ -177,10 +180,16 @@ export const WalkActivity = () => {
               fontWeight: 600,
             }}
           >{`${selected?.month ?? 1}월의 미션`}</Text>
-
-          <MissionItem mission='test1' />
-          <MissionItem mission='test2' />
-          <MissionItem mission='test3' />
+          {data?.map((mission, index) => (
+            <MissionItem
+              key={`${mission}-${index}`}
+              mission={mission.missionName}
+              missionType={mission.missionType}
+              missionProgressType={mission.missionProgressType as 'READY' | 'PROGRESS' | 'COMPLETE'}
+              missionId={mission.missionId}
+              percent={mission.percent}
+            />
+          )) ?? []}
         </View>
       </ScrollView>
     </MainLayout>

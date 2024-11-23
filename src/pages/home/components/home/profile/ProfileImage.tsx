@@ -2,33 +2,38 @@ import React from 'react';
 import { ViewStyle, TextStyle, ImageStyle } from 'react-native';
 import { Text, View } from 'react-native-ui-lib';
 import { Image } from '@/src/shared/ui';
+import { useMyInformation } from '../../../hooks';
 
-export const ProfileImage: React.FC = () => (
-  <View style={styles.container}>
-    <Image
-      source={{
-        uri: 'https://img.freepik.com/free-photo/friendly-smart-basenji-dog-giving-his-paw-close-up-isolated-white_346278-1626.jpg?t=st=1729658603~exp=1729662203~hmac=c93172aa7d60615eabe095b7c6353c75adf2fb686c981abcbd21acded998134e&w=1800',
-      }}
-      style={styles.profileImage}
-    />
-    <View style={styles.infoContainer}>
-      <View>
-        <Text style={styles.nameText}>강아지 이름</Text>
-        <Text style={styles.breedText}>견종</Text>
-      </View>
-      <View>
-        <View style={styles.statContainer}>
-          <Text style={styles.statLabel}>누적 산책 거리</Text>
-          <Text style={styles.statValue}>100KM</Text>
+export const ProfileImage: React.FC = () => {
+  const { data } = useMyInformation();
+
+  return (
+    <View style={styles.container}>
+      <Image
+        source={{
+          uri: data?.profileImage ?? '',
+        }}
+        style={styles.profileImage}
+      />
+      <View style={styles.infoContainer}>
+        <View>
+          <Text style={styles.nameText}>{data?.dogName}</Text>
+          <Text style={styles.breedText}>{data?.dogBreed}</Text>
         </View>
-        <View style={styles.statContainer}>
-          <Text style={styles.statLabel}>최고 랭킹</Text>
-          <Text style={styles.statValue}>1위</Text>
+        <View>
+          <View style={styles.statContainer}>
+            <Text style={styles.statLabel}>누적 산책 거리</Text>
+            <Text style={styles.statValue}>{data?.walkDistance ?? 100} KM</Text>
+          </View>
+          <View style={styles.statContainer}>
+            <Text style={styles.statLabel}>최고 랭킹</Text>
+            <Text style={styles.statValue}>{data?.highestRank ?? 11} 위</Text>
+          </View>
         </View>
       </View>
     </View>
-  </View>
-);
+  );
+};
 
 const styles = {
   container: {

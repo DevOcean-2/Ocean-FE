@@ -10,6 +10,18 @@ interface RankingProps {
   location: { latitude?: number; longitude?: number } | null;
 }
 
+const TEMP_DATA = [
+  <RankingItem
+    rank={1}
+    username="유저 닉네임 길어졌을 때에는 ellipsis 처리"
+    userId="1"
+    distance={100}
+    profileImageUrl=""
+  />,
+  <RankingItem rank={2} username="유저 닉네임" userId="2" distance={200} profileImageUrl="" />,
+  <RankingItem rank={3} username="유저 닉네임2" userId="3" distance={300} profileImageUrl="" />,
+];
+
 export const Ranking: React.FC<RankingProps> = (props) => {
   const { location } = props;
   const { data } = useCurrentTown(location?.latitude, location?.longitude);
@@ -30,7 +42,7 @@ export const Ranking: React.FC<RankingProps> = (props) => {
       </View>
 
       <View style={styles.rankingList}>
-        {/* {rankingList?.map((ranking, index) => (
+        {rankingList?.map((ranking, index) => (
           <RankingItem
             key={index}
             rank={index + 1}
@@ -39,22 +51,7 @@ export const Ranking: React.FC<RankingProps> = (props) => {
             userId={ranking.userId}
             profileImageUrl={ranking.profileImageUrl}
           />
-        ))} */}
-        <RankingItem
-          rank={1}
-          username="유저 닉네임 길어졌을 때에는 ellipsis 처리"
-          userId="1"
-          distance={100}
-          profileImageUrl=""
-        />
-        <RankingItem rank={2} username="유저 닉네임" userId="2" distance={200} profileImageUrl="" />
-        <RankingItem
-          rank={3}
-          username="유저 닉네임2"
-          userId="3"
-          distance={300}
-          profileImageUrl=""
-        />
+        ))}
       </View>
     </Card>
   );
