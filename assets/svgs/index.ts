@@ -40,3 +40,4 @@ export { default as ICON_CHEVRON_RIGHT } from './chevron_right.svg';
 export { default as ICON_MORE } from './more.svg';
 export { default as ICON_MORE_FILL } from './more-fill.svg';
 export { default as ICON_PAW } from './paw.svg';
+export { default as ICON_PAW_FILL } from './paw-fill.svg';
