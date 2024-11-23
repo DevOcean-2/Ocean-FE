@@ -3,10 +3,15 @@ import { MainLayout, ScrollLayout } from '@/src/pages/Feed/ui';
 import { StyleSheet, Text, View } from 'react-native';
 import { Image } from '@/src/shared/ui';
 import { Button } from '@/src/shared/feed/ui';
+import { useRouter } from 'expo-router';
+import { PublicFeedEntryLink } from '@/src/shared/constants';
 
 const FeedVisitor = () => {
   const dummyDataList = [1, 2, 3, 4, 5, 6, 7, 8, 9, 10];
 
+  const router = useRouter();
+
+  // PublicFeedEntryLink.feedDetail
   return (
     <MainLayout>
       <FeedVisitorHeader />
@@ -14,12 +19,15 @@ const FeedVisitor = () => {
         <View style={styles.contentContainer}>
           {dummyDataList.map((item) => {
             return (
-              <View style={styles.itemWrapper}>
+              <View key={item} style={styles.itemWrapper}>
                 <View style={styles.profileWrapper}>
                   <Image style={styles.image} source={require('./assets/dummy.png')} />
                   <Text>유저 닉네임</Text>
                 </View>
-                <Button style={styles.button}>
+                <Button
+                  style={styles.button}
+                  onPress={() => router.push(PublicFeedEntryLink.feedOther)}
+                >
                   <Text>방문하기</Text>
                 </Button>
               </View>
