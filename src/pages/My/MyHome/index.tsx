@@ -9,7 +9,7 @@ const MyHome = () => {
       <View style={styles.contentContainer}>
         <View style={styles.myInfoContainer}>
           <View style={styles.myImageContentArea}>
-            <Image style={styles.image} source={require('./assets/dog.png')} />
+            <Image style={styles.image} source={require('../assets/images/dog-2.png')} />
             <Button>
               <Text style={styles.imageText}>사진 변경</Text>
             </Button>
