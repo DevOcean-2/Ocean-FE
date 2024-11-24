@@ -56,6 +56,21 @@ export interface RecommendFeedResponse {
   }[];
 }
 
+export interface NotificationResponse {
+  isSuccess: boolean;
+  code: number;
+  message: string;
+  result: {
+    missionList: {
+      missionProgressType: 'READY' | 'PROGRESS' | 'COMPLETE';
+      percent: number;
+      message: string;
+      distance: number;
+      complete: boolean;
+    }[];
+  };
+}
+
 export const walkApi = {
   // 산책 랭킹
   getWalkRanking: async () => {
@@ -119,8 +134,52 @@ export const walkApi = {
     return feedList;
   },
 
-  // 미션 완료
-  completeMission: async (params: { image_urls: string[]; content: string }) => {
+  // 미션 등록
+  startMission: async (params: { missionType: 'TREASURE_HUNT' | 'FEED' | 'LANDMARK' }) => {
+    const { missionType } = params;
+    console.log('[API Request] startMission', { missionType });
+
+    await apiClient.get('mission/api/notification/subscribe', {
+      params: {
+        missionType,
+      },
+      headers: {
+        Authorization:
+          'Bearer eyJ0eXAiOiJKV1QiLCJhbGciOiJIUzI1NiJ9.eyJzdWIiOiJ5b25naG9vbl90ZXN0Iiwic29jaWFsX2lkIjoieW9uZ2hvb25fdGVzdCIsImV4cCI6MTc0MDM3NTI4NywidHlwZSI6ImFjY2VzcyJ9.Jt5XIcq_3Gzaq8_qJcVTyqj1jrkVXW0b60fYI52gT08',
+      },
+    });
+  },
+
+  getWalkNotification: async () => {
+    console.log('[API Request] getWalkNotification');
+    const response = await apiClient.get<NotificationResponse>('mission/api/notification/list', {
+      headers: {
+        Authorization:
+          'Bearer eyJ0eXAiOiJKV1QiLCJhbGciOiJIUzI1NiJ9.eyJzdWIiOiJ5b25naG9vbl90ZXN0Iiwic29jaWFsX2lkIjoieW9uZ2hvb25fdGVzdCIsImV4cCI6MTc0MDM3NTI4NywidHlwZSI6ImFjY2VzcyJ9.Jt5XIcq_3Gzaq8_qJcVTyqj1jrkVXW0b60fYI52gT08',
+      },
+    });
+
+    return response.data.result.missionList;
+  },
+
+  completeWalkMission: async (params: { missionType: 'TREASURE_HUNT' | 'LANDMARK' }) => {
+    const { missionType } = params;
+
+    // 산책 종료
+    await apiClient.delete('mission/api/notification/unsubscribe', {
+      params: {
+        missionType,
+        
+      },
+      headers: {
+        Authorization:
+          'Bearer eyJ0eXAiOiJKV1QiLCJhbGciOiJIUzI1NiJ9.eyJzdWIiOiJ5b25naG9vbl90ZXN0Iiwic29jaWFsX2lkIjoieW9uZ2hvb25fdGVzdCIsImV4cCI6MTc0MDM3NTI4NywidHlwZSI6ImFjY2VzcyJ9.Jt5XIcq_3Gzaq8_qJcVTyqj1jrkVXW0b60fYI52gT08',
+      },
+    });
+  },
+
+  // FEED 미션 완료
+  completeFeedMission: async (params: { image_urls: string[]; content: string }) => {
     console.log('[API Request] completeMission', params);
     const { image_urls, content } = params;
 
@@ -148,6 +207,17 @@ export const walkApi = {
       hashTag: 'lol', // test 값
     });
     console.log('[API Response] completeMission - mission complete:', completeResponse.data);
+
+    // 산책 종료
+    await apiClient.delete('mission/api/notification/unsubscribe', {
+      params: {
+        missionType: 'FEED',
+      },
+      headers: {
+        Authorization:
+          'Bearer eyJ0eXAiOiJKV1QiLCJhbGciOiJIUzI1NiJ9.eyJzdWIiOiJ5b25naG9vbl90ZXN0Iiwic29jaWFsX2lkIjoieW9uZ2hvb25fdGVzdCIsImV4cCI6MTc0MDM3NTI4NywidHlwZSI6ImFjY2VzcyJ9.Jt5XIcq_3Gzaq8_qJcVTyqj1jrkVXW0b60fYI52gT08',
+      },
+    });
 
     return completeResponse.data.result;
   },

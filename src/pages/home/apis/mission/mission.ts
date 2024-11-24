@@ -19,6 +19,21 @@ export interface MissionResponse {
   };
 }
 
+export interface CheckMissionResponse {
+  isSuccess: boolean;
+  code: number;
+  message: string;
+  result: {
+    missionList: {
+      message: string;
+      percent: string;
+      missionProgressType: string;
+      distance: number;
+      complete: boolean;
+    }[];
+  };
+}
+
 export interface MyActivityResponse {
   isSuccess: boolean;
   code: number;
@@ -62,5 +77,33 @@ export const missionApi = {
     console.log(response.data.result);
 
     return response.data.result;
+  },
+
+  checkLandMarkMission: async () => {
+    console.log('[API Request] checkLandMarkMission');
+    const response = await apiClient.post<CheckMissionResponse>('mission/api/landmark', {
+      headers: {
+        Authorization:
+          'Bearer eyJ0eXAiOiJKV1QiLCJhbGciOiJIUzI1NiJ9.eyJzdWIiOiJ5b25naG9vbl90ZXN0Iiwic29jaWFsX2lkIjoieW9uZ2hvb25fdGVzdCIsImV4cCI6MTc0MDM3NTI4NywidHlwZSI6ImFjY2VzcyJ9.Jt5XIcq_3Gzaq8_qJcVTyqj1jrkVXW0b60fYI52gT08',
+      },
+    });
+
+    console.log(response.data.result.missionList);
+
+    return response.data.result.missionList;
+  },
+
+  checkTreasureHuntMission: async () => {
+    console.log('[API Request] checkTreasureHuntMission');
+    const response = await apiClient.post<CheckMissionResponse>('mission/api/treasure-hunt', {
+      headers: {
+        Authorization:
+          'Bearer eyJ0eXAiOiJKV1QiLCJhbGciOiJIUzI1NiJ9.eyJzdWIiOiJ5b25naG9vbl90ZXN0Iiwic29jaWFsX2lkIjoieW9uZ2hvb25fdGVzdCIsImV4cCI6MTc0MDM3NTI4NywidHlwZSI6ImFjY2VzcyJ9.Jt5XIcq_3Gzaq8_qJcVTyqj1jrkVXW0b60fYI52gT08',
+      },
+    });
+
+    console.log(response.data.result.missionList);
+
+    return response.data.result.missionList;
   },
 };
