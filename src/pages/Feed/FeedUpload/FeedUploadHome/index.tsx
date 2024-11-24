@@ -91,12 +91,12 @@ const styles = StyleSheet.create({
   },
   text: {
     fontSize: 14,
-    fontWeight: 500,
+    fontWeight: '500',
     color: '#8F9BB3',
   },
   selectorText: {
     color: '#101426',
     fontSize: 14,
-    fontWeight: 400,
+    fontWeight: '400',
   },
 });

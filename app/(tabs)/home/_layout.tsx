@@ -7,7 +7,7 @@ import { QueryClient, QueryClientProvider } from '@tanstack/react-query';
 const HomeStackLayout = () => {
   const router = useRouter();
   const [isHome, setIsHome] = useState<boolean>(true);
-  
+
   const queryClient = new QueryClient();
 
   useEffect(() => {
@@ -36,6 +36,12 @@ const HomeStackLayout = () => {
         />
         <Stack.Screen
           name={WalkEntryLink.walkActivity}
+          options={{
+            headerShown: false,
+          }}
+        />
+        <Stack.Screen
+          name={WalkEntryLink.walkRanking}
           options={{
             headerShown: false,
           }}

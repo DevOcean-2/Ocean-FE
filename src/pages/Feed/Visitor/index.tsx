@@ -84,6 +84,6 @@ const styles = StyleSheet.create({
   text: {
     color: '#101426',
     fontSize: 11,
-    fontWeight: 500,
+    fontWeight: '500',
   },
 });

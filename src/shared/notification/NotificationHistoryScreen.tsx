@@ -22,22 +22,6 @@ export function NotificationList() {
   return (
     <MainLayout header={<NotificationHeader />}>
       <View style={styles.container}>
-        <Button
-          size="small"
-          style={{
-            marginLeft: 10,
-            width: 30,
-          }}
-          label="TEST"
-          onPress={async () => {
-            await NotificationStorage.save({
-              title: '알림 테스트',
-              body: '알림 테스트입니다.',
-              type: 'MISSION',
-              status: 'SUCCESS',
-            });
-          }}
-        />
         <FilterTabs
           tabs={tabs}
           selectedKey={selectedType}

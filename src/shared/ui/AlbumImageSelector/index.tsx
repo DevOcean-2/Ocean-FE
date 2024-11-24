@@ -149,7 +149,7 @@ const styles = StyleSheet.create({
   numberText: {
     color: '#101426',
     fontSize: 16,
-    fontWeight: 600,
+    fontWeight: '600',
   },
   iconWrapper: {
     position: 'absolute',

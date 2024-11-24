@@ -1,6 +1,6 @@
 import React, { FC, ReactNode } from 'react';
 import { Tabs } from 'expo-router';
-import { StyleSheet, Text } from 'react-native';
+import { Platform, StyleSheet, Text } from 'react-native';
 
 import Colors from '@/constants/Colors';
 import { useColorScheme } from '@/components/useColorScheme';
@@ -87,7 +87,14 @@ const TabLayout = () => {
         tabBarIcon: ({ color, focused }) => (
           <TabBarIcon Icon={ICON_GRID} IconFill={ICON_GRID_FILL} color={color} focused={focused} />
         ),
-        tabBarStyle: { display: tabBarDisplayPage(getFocusedRouteNameFromRoute(route)) },
+        tabBarStyle: {
+          display:
+            Platform.OS === 'ios'
+              ? tabBarDisplayPage(getFocusedRouteNameFromRoute(route))
+              : tabBarDisplayPage(getFocusedRouteNameFromRoute(route))
+                ? 'flex'
+                : 'none',
+        },
       }),
     },
     {
@@ -137,12 +144,12 @@ export default TabLayout;
 const styles = StyleSheet.create({
   text: {
     fontSize: 12,
-    fontWeight: 400,
+    fontWeight: '400',
     lineHeight: 12,
   },
   focused: {
     fontSize: 12,
-    fontWeight: 500,
+    fontWeight: '500',
     lineHeight: 12,
   },
 });

@@ -21,7 +21,7 @@ export const styles = StyleSheet.create({
   },
   title: {
     fontSize: 20,
-    fontWeight: 600,
+    fontWeight: '600',
     marginBottom: 20,
   },
   label: {

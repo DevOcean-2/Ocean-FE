@@ -17,6 +17,6 @@ export const feedHeaderStyle = StyleSheet.create({
   },
   text: {
     fontSize: 18,
-    fontWeight: 600,
+    fontWeight: '600',
   },
 });

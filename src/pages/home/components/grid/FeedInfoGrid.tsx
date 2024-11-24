@@ -1,16 +1,26 @@
 import { Image } from '@/src/shared/ui';
 import React from 'react';
 import { ViewStyle, TextStyle, ImageStyle, ScrollView } from 'react-native';
-import { View, Text, ViewProps } from 'react-native-ui-lib';
+import { View, Text, ViewProps, TouchableOpacity } from 'react-native-ui-lib';
 import { LikeBadge } from '../badge/LikeBadge';
+import { useRouter } from 'expo-router';
+import { PublicFeedEntryLink } from '@/src/shared/constants';
 
 interface FeedInfoGridProps extends ViewProps {
-  items: { id: string; imageUrl: string; title: string; likeCount?: number }[];
+  items: {
+    userId: string;
+    postId: number;
+    profileImage: string;
+    userName: string;
+    liked: number;
+  }[];
   numColumns?: number;
 }
 
 export const FeedInfoGrid = (props: FeedInfoGridProps) => {
   const { items, numColumns = 3, ...rest } = props;
+
+  const router = useRouter();
 
   return (
     <ScrollView
@@ -21,22 +31,26 @@ export const FeedInfoGrid = (props: FeedInfoGridProps) => {
     >
       <View {...rest} style={styles.container}>
         {items.map((item, index) => (
-          <View
-            key={item.id}
-            style={[styles.itemWrapper, { marginRight: index !== items.length - 1 ? 12 : 0 }]}
+          <TouchableOpacity
+            key={`${item.userId}-${index}`}
+            onPress={() => router.push(PublicFeedEntryLink.feedHome)}
           >
-            <View style={styles.itemContainer}>
-              <Image source={{ uri: item.imageUrl }} style={styles.image} />
-              {item.likeCount && (
+            <View
+              key={`${item.userId}-${index}`}
+              style={[styles.itemWrapper, { marginRight: index !== items.length - 1 ? 12 : 0 }]}
+            >
+              <View style={styles.itemContainer}>
+                <Image source={{ uri: item.profileImage }} style={styles.image} />
+
                 <View row centerV style={styles.badgeContainer}>
-                  <LikeBadge count={item.likeCount} />
+                  <LikeBadge count={item.liked} />
                 </View>
-              )}
+              </View>
+              <Text text80 numberOfLines={1} style={styles.userName}>
+                {item.userName}
+              </Text>
             </View>
-            <Text text80 numberOfLines={1} style={styles.title}>
-              {item.title}
-            </Text>
-          </View>
+          </TouchableOpacity>
         ))}
       </View>
     </ScrollView>
@@ -81,7 +95,7 @@ const styles = {
     borderRadius: 12,
   } as ViewStyle,
 
-  title: {
+  userName: {
     marginTop: 4,
   } as TextStyle,
 };

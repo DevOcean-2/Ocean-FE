@@ -26,12 +26,14 @@ export const WalkEntryLink = {
   walkHome: 'index',
   walkActivity: 'walk-activity',
   notification: 'notification',
+  walkRanking: 'walk-ranking',
 } as const;
 
 export const PublicWalkEntryLink = {
   walkHome: `/home/`,
   walkActivity: `/home/${WalkEntryLink.walkActivity}`,
   notification: `/home/${WalkEntryLink.notification}`,
+  walkRanking: `/home/${WalkEntryLink.walkRanking}`,
 } as const;
 
 export const MyEntryLink = {

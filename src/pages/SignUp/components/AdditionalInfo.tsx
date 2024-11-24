@@ -459,7 +459,7 @@ const AdditionalInfoStyles = StyleSheet.create({
   },
   title: {
     fontSize: 20,
-    fontWeight: 600,
+    fontWeight: '600',
     marginBottom: 30,
     color: '#101426',
   },
@@ -501,7 +501,7 @@ const AdditionalInfoStyles = StyleSheet.create({
   },
   checkboxLabel: {
     fontSize: 16,
-    fontWeight: 400,
+    fontWeight: '400',
     color: '#8F9BB3',
   },
   dateFieldContainer: {

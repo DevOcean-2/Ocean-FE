@@ -113,7 +113,7 @@ const styles = StyleSheet.create({
   },
   boldText: {
     fontSize: 16,
-    fontWeight: 600,
+    fontWeight: '600',
   },
   locationContents: { display: 'flex', flexDirection: 'row', gap: 6, alignItems: 'center' },
   locationContainer: {

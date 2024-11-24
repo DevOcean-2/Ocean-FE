@@ -124,22 +124,22 @@ const styles = StyleSheet.create({
   imageText: {
     color: '#101828',
     fontSize: 12,
-    fontWeight: 500,
+    fontWeight: '500',
   },
   myDogInfoText: {
     color: '#101426',
     fontSize: 16,
-    fontWeight: 400,
+    fontWeight: '400',
   },
   myInfoText: {
     color: '#101426',
     fontSize: 16,
-    fontWeight: 400,
+    fontWeight: '400',
   },
   editButtonText: {
     color: '#101426',
     fontSize: 14,
-    fontWeight: 600,
+    fontWeight: '600',
   },
   image: {
     width: 80,

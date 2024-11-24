@@ -1,10 +1,10 @@
-import { ICON_ARROW_LEFT } from '@/assets/svgs';
-import { HeaderLayout } from '@/src/pages/home/components/frame';
-import { useNavigation } from 'expo-router';
-import { Pressable } from 'react-native';
 import { View, Text } from 'react-native-ui-lib';
+import { HeaderLayout } from '../components/frame';
+import { ICON_ARROW_LEFT } from '@/assets/svgs';
+import { Pressable } from 'react-native';
+import { useNavigation } from 'expo-router';
 
-export const NotificationHeader = () => {
+export const WalkRankingHeader = () => {
   const navigation = useNavigation();
 
   return (
@@ -28,7 +28,7 @@ export const NotificationHeader = () => {
             fontWeight: '600',
           }}
         >
-          알림
+          산책 랭킹
         </Text>
       </View>
     </HeaderLayout>
