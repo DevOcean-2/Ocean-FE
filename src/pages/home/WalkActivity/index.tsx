@@ -7,7 +7,7 @@ import { WalkActivityHeader } from './WalkActivityHeader';
 import { ICON_CALENDAR, ICON_CHEVRON_LEFT, ICON_CHEVRON_RIGHT } from '@/assets/svgs';
 import { Image } from '@/src/shared/ui';
 import { MissionItem } from '../components/home/mission';
-import { useMissionList } from '../hooks';
+import { useMissionList, useMyActivity } from '../hooks';
 
 LocaleConfig.locales['kr'] = {
   monthNames: [
@@ -61,10 +61,12 @@ export const WalkActivity = () => {
     const month = String(today.getMonth() + 1).padStart(2, '0'); // 월은 0부터 시작하므로 1을 더함
     const day = String(today.getDate()).padStart(2, '0');
 
-    return `${year}-${month}-${day}`;
+    return `2024-11-19`;
   }, []);
 
   const today = useMemo(() => getInitialDate(), [getInitialDate]);
+  const { data: activityData } = useMyActivity(selected?.dateString ?? today);
+  const firstActivityData = activityData?.[0] ?? null;
 
   useEffect(() => {
     setSelected({
@@ -143,19 +145,19 @@ export const WalkActivity = () => {
                   {/* Time */}
                   <View style={styles.statItem}>
                     <Text style={styles.statLabel}>시간</Text>
-                    <Text style={styles.statValue}>0:20:10</Text>
+                    <Text style={styles.statValue}>{firstActivityData?.time ?? 0} 시간</Text>
                   </View>
 
                   {/* Distance */}
                   <View style={styles.statItem}>
                     <Text style={styles.statLabel}>거리</Text>
-                    <Text style={styles.statValue}>81.45km</Text>
+                    <Text style={styles.statValue}>{firstActivityData?.distance ?? 0} km</Text>
                   </View>
 
                   {/* Calories */}
                   <View style={styles.statItem}>
                     <Text style={styles.statLabel}>칼로리</Text>
-                    <Text style={styles.statValue}>2200kcal</Text>
+                    <Text style={styles.statValue}>{firstActivityData?.kcal ?? 0} kcal</Text>
                   </View>
                 </View>
               </View>
@@ -164,7 +166,7 @@ export const WalkActivity = () => {
               <View style={styles.mapContainer}>
                 <Image
                   source={{
-                    uri: 'https://img.freepik.com/free-photo/friendly-smart-basenji-dog-giving-his-paw-close-up-isolated-white_346278-1626.jpg?t=st=1729658603~exp=1729662203~hmac=c93172aa7d60615eabe095b7c6353c75adf2fb686c981abcbd21acded998134e&w=1800',
+                    uri: 'https://images.pexels.com/photos/4587979/pexels-photo-4587979.jpeg?auto=compress&cs=tinysrgb&w=1260&h=750&dpr=2',
                   }}
                   style={{ width: 150, height: 150 }}
                 />
