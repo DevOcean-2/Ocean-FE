@@ -9,5 +9,7 @@ export const useHomeParameter = () => {
   return {
     isHome: context.isHome,
     changeMenu: context.changeMenu,
+    myRanking: context.myRanking,
+    updateMyRanking: context.updateMyRanking,
   };
 };

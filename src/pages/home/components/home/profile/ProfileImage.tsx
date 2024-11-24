@@ -1,11 +1,19 @@
-import React from 'react';
+import React, { useEffect } from 'react';
 import { ViewStyle, TextStyle, ImageStyle } from 'react-native';
 import { Text, View } from 'react-native-ui-lib';
 import { Image } from '@/src/shared/ui';
-import { useMyInformation } from '../../../hooks';
+import { useHomeParameter, useMyInformation } from '../../../hooks';
 
 export const ProfileImage: React.FC = () => {
   const { data } = useMyInformation();
+  const { updateMyRanking } = useHomeParameter();
+
+  const tempDistance = data?.walkDistance ?? 100;
+  const tempRank = data?.highestRank ?? 11;
+
+  useEffect(() => {
+    updateMyRanking(tempRank);
+  }, [tempRank]);
 
   return (
     <View style={styles.container}>
@@ -23,11 +31,11 @@ export const ProfileImage: React.FC = () => {
         <View>
           <View style={styles.statContainer}>
             <Text style={styles.statLabel}>누적 산책 거리</Text>
-            <Text style={styles.statValue}>{data?.walkDistance ?? 100} KM</Text>
+            <Text style={styles.statValue}>{tempDistance} KM</Text>
           </View>
           <View style={styles.statContainer}>
             <Text style={styles.statLabel}>최고 랭킹</Text>
-            <Text style={styles.statValue}>{data?.highestRank ?? 11} 위</Text>
+            <Text style={styles.statValue}>{tempRank} 위</Text>
           </View>
         </View>
       </View>

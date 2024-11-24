@@ -36,7 +36,6 @@ export const RecommendFeed = () => {
       <View style={styles.header}>
         <ICON_GRID fill="#04C755" />
         <Text style={styles.title}>인기 멍멍이 피드 구경하기</Text>
-        <ICON_ARROW_RIGHT style={styles.arrowIcon} />
       </View>
       <FeedInfoGrid items={data ?? []} />
     </Card>

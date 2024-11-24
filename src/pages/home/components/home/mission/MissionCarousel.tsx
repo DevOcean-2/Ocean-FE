@@ -1,5 +1,5 @@
 import React, { useMemo } from 'react';
-import { View, Text, Carousel } from 'react-native-ui-lib';
+import { View, Text, Carousel, TouchableOpacity } from 'react-native-ui-lib';
 import { StyleSheet } from 'react-native';
 import { useMissionList, useMissions } from '../../../hooks';
 import { ICON_ARROW_RIGHT, ICON_FLAG } from '@/assets/svgs';
@@ -17,9 +17,9 @@ import { useRouter } from 'expo-router';
  * 6. 산책 시작
  * 7. 산책 완료
  * 8. 산책 완료 시 사진 업로드 기능 구현
- * 
- * 
- * @returns 
+ *
+ *
+ * @returns
  */
 
 export const MissionCarousel = () => {
@@ -29,22 +29,27 @@ export const MissionCarousel = () => {
   const { data } = useMissionList();
 
   const router = useRouter();
+
+  const gotoActivityPage = () => router.push(PublicWalkEntryLink.walkActivity);
+
   return (
     <Card style={{ marginBottom: 20 }}>
-      <View
-        style={{
-          display: 'flex',
-          height: 24,
-          flexDirection: 'row',
-          gap: 6,
-          alignItems: 'flex-start',
-          marginBottom: 16,
-        }}
-      >
-        <ICON_FLAG />
-        <Text style={styles.sectionTitle}>{`${month}월 미션`}</Text>
-        <ICON_ARROW_RIGHT style={{ marginLeft: 'auto' }} />
-      </View>
+      <TouchableOpacity onPress={gotoActivityPage}>
+        <View
+          style={{
+            display: 'flex',
+            height: 24,
+            flexDirection: 'row',
+            gap: 6,
+            alignItems: 'flex-start',
+            marginBottom: 16,
+          }}
+        >
+          <ICON_FLAG />
+          <Text style={styles.sectionTitle}>{`${month}월 미션`}</Text>
+          <ICON_ARROW_RIGHT style={{ marginLeft: 'auto' }} />
+        </View>
+      </TouchableOpacity>
       <Carousel
         pageControlProps={{ currentPage: missionPageIndex, numOfPages: missionList.length }}
         onChangePage={(newPageIndex, oldPageINdex, info) => {
@@ -60,7 +65,7 @@ export const MissionCarousel = () => {
             missionProgressType={mission.missionProgressType as 'READY' | 'PROGRESS' | 'COMPLETE'}
             missionId={mission.missionId}
             percent={mission.percent}
-            onPress={() => router.push(PublicWalkEntryLink.walkActivity)}
+            onPress={gotoActivityPage}
           />
         )) ?? []}
       </Carousel>

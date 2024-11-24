@@ -14,6 +14,21 @@ export interface RankingResponse {
   };
 }
 
+export interface RecommendPlaceResponse {
+  isSuccess: boolean;
+  code: number;
+  message: string;
+  result: {
+    list: {
+      name: string;
+      category: string;
+      pictures: string[];
+      distance: number;
+      address: string;
+    }[];
+  };
+}
+
 export interface MyInfoResponse {
   user_name: string;
   dog_name: string;
@@ -46,7 +61,7 @@ export const walkApi = {
   getWalkRanking: async () => {
     console.log('[API Request] getWalkRanking');
     const response = await apiClient.get<RankingResponse>('walk/api/walk/rank');
-    console.log('[API Response] getWalkRanking:', response.data);
+    console.log('[API Response] getWalkRanking:', response.data.result.rankList);
 
     return response.data.result.rankList;
   },
@@ -74,9 +89,9 @@ export const walkApi = {
   // 추천 장소
   getRecommendPlace: async () => {
     console.log('[API Request] getRecommendPlace');
-    const response = await apiClient.get('walk/api/walk/place');
-    console.log('[API Response] getRecommendPlace:', response.data);
-    return response.data;
+    const response = await apiClient.get<RecommendPlaceResponse>('walk/api/dummy/place-recommend');
+    console.log('[API Response] getRecommendPlace:', response.data.result.list);
+    return response.data.result.list;
   },
 
   // 피드 추천

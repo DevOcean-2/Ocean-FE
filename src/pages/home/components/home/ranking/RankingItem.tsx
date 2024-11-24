@@ -8,13 +8,14 @@ interface RankingItemProps {
   distance: number;
   userId: string;
   profileImageUrl: string;
+  selected?: boolean;
 }
 
 export const RankingItem = (props: RankingItemProps) => {
-  const { rank, username, distance, userId, profileImageUrl } = props;
+  const { rank, username, distance, userId, selected = false, profileImageUrl } = props;
 
   const imageURI =
-    profileImageUrl.length > 0
+    (profileImageUrl?.length ?? 0 > 0)
       ? profileImageUrl
       : 'https://img.freepik.com/free-photo/friendly-smart-basenji-dog-giving-his-paw-close-up-isolated-white_346278-1626.jpg?t=st=1729658603~exp=1729662203~hmac=c93172aa7d60615eabe095b7c6353c75adf2fb686c981abcbd21acded998134e&w=1800';
 
@@ -24,7 +25,7 @@ export const RankingItem = (props: RankingItemProps) => {
         console.log('해당 user의 피드로 이동한다.');
       }}
     >
-      <View style={styles.container}>
+      <View style={selected ? styles.selectedContainer : styles.container}>
         <View style={styles.userInfoContainer}>
           <Text style={styles.rankNumber}>{rank}</Text>
           <Image
@@ -49,6 +50,17 @@ const styles = {
     flexDirection: 'row',
     justifyContent: 'space-between',
     alignItems: 'center',
+  } as ViewStyle,
+
+  selectedContainer: {
+    display: 'flex',
+    flexDirection: 'row',
+    justifyContent: 'space-between',
+    alignItems: 'center',
+    backgroundColor: '#a5ecc3',
+    borderRadius: 10,
+    paddingHorizontal: 8,
+    paddingVertical: 10,
   } as ViewStyle,
 
   userInfoContainer: {

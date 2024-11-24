@@ -1,57 +1,50 @@
 import { ICON_ARROW_RIGHT, ICON_RANKING } from '@/assets/svgs';
 import { ViewStyle, TextStyle } from 'react-native';
-import { Text, View } from 'react-native-ui-lib';
+import { Text, TouchableOpacity, View } from 'react-native-ui-lib';
 import { RankingItem } from './RankingItem';
 import { Card } from '../../frame';
 import { useCurrentTown } from '../../../hooks/useCurrentTown';
 import { useWalkRanking } from '../../../hooks';
+import { useRouter } from 'expo-router';
+import { PublicWalkEntryLink } from '@/src/shared/constants';
 
 interface RankingProps {
   location: { latitude?: number; longitude?: number } | null;
 }
-
-const TEMP_DATA = [
-  <RankingItem
-    rank={1}
-    username="유저 닉네임 길어졌을 때에는 ellipsis 처리"
-    userId="1"
-    distance={100}
-    profileImageUrl=""
-  />,
-  <RankingItem rank={2} username="유저 닉네임" userId="2" distance={200} profileImageUrl="" />,
-  <RankingItem rank={3} username="유저 닉네임2" userId="3" distance={300} profileImageUrl="" />,
-];
 
 export const Ranking: React.FC<RankingProps> = (props) => {
   const { location } = props;
   const { data } = useCurrentTown(location?.latitude, location?.longitude);
   const month = new Date().getMonth() + 1;
 
+  const router = useRouter();
   const { data: rankingList } = useWalkRanking();
 
   return (
     <Card style={styles.container}>
-      <View style={styles.header}>
-        <View style={styles.titleContainer}>
-          <ICON_RANKING />
-          <Text
-            style={styles.titleText}
-          >{`${month}월 ${data?.region_2depth_name ?? '알 수 없음'} 산책왕`}</Text>
+      <TouchableOpacity onPress={() => router.push(PublicWalkEntryLink.walkRanking)}>
+        <View style={styles.header}>
+          <View style={styles.titleContainer}>
+            <ICON_RANKING />
+            <Text
+              style={styles.titleText}
+            >{`${month}월 ${data?.region_2depth_name ?? '알 수 없음'} 산책왕`}</Text>
+          </View>
+          <ICON_ARROW_RIGHT />
         </View>
-        <ICON_ARROW_RIGHT />
-      </View>
+      </TouchableOpacity>
 
       <View style={styles.rankingList}>
         {rankingList?.map((ranking, index) => (
           <RankingItem
             key={index}
             rank={index + 1}
-            username={ranking.nickName}
+            username={ranking?.nickName ?? '닉네임 없음'}
             distance={ranking.totalDistance}
             userId={ranking.userId}
             profileImageUrl={ranking.profileImageUrl}
           />
-        ))}
+        )) ?? []}
       </View>
     </Card>
   );
