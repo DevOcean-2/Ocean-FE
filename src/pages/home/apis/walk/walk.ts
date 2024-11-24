@@ -71,6 +71,18 @@ export interface NotificationResponse {
   };
 }
 
+export interface WalkResponse {
+  id: string;
+  event: 'LANDMARK' | 'TREASURE_HUNT';
+  data: {
+    type: 'LANDMARK' | 'TREASURE_HUNT';
+    message: {
+      userId: string;
+      userMissionInfoList: any[];
+    };
+  } | null;
+}
+
 export const walkApi = {
   // 산책 랭킹
   getWalkRanking: async () => {
@@ -139,7 +151,7 @@ export const walkApi = {
     const { missionType } = params;
     console.log('[API Request] startMission', { missionType });
 
-    await apiClient.get('mission/api/notification/subscribe', {
+    const response = await apiClient.get<WalkResponse>('mission/api/notification/subscribe', {
       params: {
         missionType,
       },
@@ -148,6 +160,10 @@ export const walkApi = {
           'Bearer eyJ0eXAiOiJKV1QiLCJhbGciOiJIUzI1NiJ9.eyJzdWIiOiJ5b25naG9vbl90ZXN0Iiwic29jaWFsX2lkIjoieW9uZ2hvb25fdGVzdCIsImV4cCI6MTc0MDM3NTI4NywidHlwZSI6ImFjY2VzcyJ9.Jt5XIcq_3Gzaq8_qJcVTyqj1jrkVXW0b60fYI52gT08',
       },
     });
+
+    console.log(response.data);
+
+    const completedMission = response.data.data?.message;
   },
 
   getWalkNotification: async () => {
@@ -169,7 +185,6 @@ export const walkApi = {
     await apiClient.delete('mission/api/notification/unsubscribe', {
       params: {
         missionType,
-        
       },
       headers: {
         Authorization:
@@ -179,33 +194,17 @@ export const walkApi = {
   },
 
   // FEED 미션 완료
-  completeFeedMission: async (params: { image_urls: string[]; content: string }) => {
+  completeFeedMission: async (params: { postId: number }) => {
     console.log('[API Request] completeMission', params);
-    const { image_urls, content } = params;
 
-    // post 업로드
-    const response = await apiClient.post(
-      'feed/posts',
-      {
-        image_urls,
-        content,
-      },
-      {
-        headers: {
-          Authorization:
-            'Bearer Bearer eyJ0eXAiOiJKV1QiLCJhbGciOiJIUzI1NiJ9.eyJzdWIiOiJ5b25naG9vbl90ZXN0Iiwic29jaWFsX2lkIjoieW9uZ2hvb25fdGVzdCIsImV4cCI6MTc0MDM3NTI4NywidHlwZSI6ImFjY2VzcyJ9.Jt5XIcq_3Gzaq8_qJcVTyqj1jrkVXW0b60fYI52gT08',
-        },
-      },
-    );
-    console.log('[API Response] completeMission - post upload:', response.data);
-
-    const postId = response.data.post_id;
-
+    const { postId } = params;
+    
     // mission 완료
     const completeResponse = await apiClient.post('mission/api/feed-mission', {
       missionId: postId,
       hashTag: 'lol', // test 값
     });
+
     console.log('[API Response] completeMission - mission complete:', completeResponse.data);
 
     // 산책 종료

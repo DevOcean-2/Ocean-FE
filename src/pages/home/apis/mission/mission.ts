@@ -79,28 +79,48 @@ export const missionApi = {
     return response.data.result;
   },
 
-  checkLandMarkMission: async () => {
+  checkLandMarkMission: async (params: { latitude: number; longitude: number }) => {
     console.log('[API Request] checkLandMarkMission');
-    const response = await apiClient.post<CheckMissionResponse>('mission/api/landmark', {
-      headers: {
-        Authorization:
-          'Bearer eyJ0eXAiOiJKV1QiLCJhbGciOiJIUzI1NiJ9.eyJzdWIiOiJ5b25naG9vbl90ZXN0Iiwic29jaWFsX2lkIjoieW9uZ2hvb25fdGVzdCIsImV4cCI6MTc0MDM3NTI4NywidHlwZSI6ImFjY2VzcyJ9.Jt5XIcq_3Gzaq8_qJcVTyqj1jrkVXW0b60fYI52gT08',
+
+    const { latitude, longitude } = params;
+    const response = await apiClient.post<CheckMissionResponse>(
+      'mission/api/landmark',
+      {
+        missionType: 'LANDMARK',
+        latitude,
+        longitude,
       },
-    });
+      {
+        headers: {
+          Authorization:
+            'Bearer eyJ0eXAiOiJKV1QiLCJhbGciOiJIUzI1NiJ9.eyJzdWIiOiJ5b25naG9vbl90ZXN0Iiwic29jaWFsX2lkIjoieW9uZ2hvb25fdGVzdCIsImV4cCI6MTc0MDM3NTI4NywidHlwZSI6ImFjY2VzcyJ9.Jt5XIcq_3Gzaq8_qJcVTyqj1jrkVXW0b60fYI52gT08',
+        },
+      },
+    );
 
     console.log(response.data.result.missionList);
 
     return response.data.result.missionList;
   },
 
-  checkTreasureHuntMission: async () => {
+  checkTreasureHuntMission: async (params: { latitude: number; longitude: number }) => {
     console.log('[API Request] checkTreasureHuntMission');
-    const response = await apiClient.post<CheckMissionResponse>('mission/api/treasure-hunt', {
-      headers: {
-        Authorization:
-          'Bearer eyJ0eXAiOiJKV1QiLCJhbGciOiJIUzI1NiJ9.eyJzdWIiOiJ5b25naG9vbl90ZXN0Iiwic29jaWFsX2lkIjoieW9uZ2hvb25fdGVzdCIsImV4cCI6MTc0MDM3NTI4NywidHlwZSI6ImFjY2VzcyJ9.Jt5XIcq_3Gzaq8_qJcVTyqj1jrkVXW0b60fYI52gT08',
+
+    const { latitude, longitude } = params;
+    const response = await apiClient.post<CheckMissionResponse>(
+      'mission/api/treasure-hunt',
+      {
+        missionType: 'TREASURE_HUNT',
+        latitude,
+        longitude,
       },
-    });
+      {
+        headers: {
+          Authorization:
+            'Bearer eyJ0eXAiOiJKV1QiLCJhbGciOiJIUzI1NiJ9.eyJzdWIiOiJ5b25naG9vbl90ZXN0Iiwic29jaWFsX2lkIjoieW9uZ2hvb25fdGVzdCIsImV4cCI6MTc0MDM3NTI4NywidHlwZSI6ImFjY2VzcyJ9.Jt5XIcq_3Gzaq8_qJcVTyqj1jrkVXW0b60fYI52gT08',
+        },
+      },
+    );
 
     console.log(response.data.result.missionList);
 

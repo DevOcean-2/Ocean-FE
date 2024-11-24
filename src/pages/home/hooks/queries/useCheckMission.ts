@@ -6,12 +6,14 @@ export const useCheckMission = (missionType: 'TREASURE_HUNT' | 'LANDMARK') => {
   if (missionType === 'LANDMARK') {
     return useMutation({
       mutationKey: queryKeys.mission.checkLandMarkMission,
-      mutationFn: () => missionApi.checkLandMarkMission(),
+      mutationFn: (position: { latitude: number; longitude: number }) =>
+        missionApi.checkLandMarkMission(position),
     });
   } else {
     return useMutation({
       mutationKey: queryKeys.mission.checkTreasureHuntMission,
-      mutationFn: () => missionApi.checkTreasureHuntMission(),
+      mutationFn: (position: { latitude: number; longitude: number }) =>
+        missionApi.checkTreasureHuntMission(position),
     });
   }
 };

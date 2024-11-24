@@ -7,14 +7,16 @@ import { WalkPositionInfo } from '../components/home/location';
 import { WalkMap } from '../components/map/WalkMap';
 import { CurrentMissionCarousel } from '../components/walk/CurrentMissionCarousel';
 import { useRouter } from 'expo-router';
-import { PublicWalkEntryLink } from '@/src/shared/constants';
+import { FeedEntryLink, PublicWalkEntryLink } from '@/src/shared/constants';
 import {
   useCheckMission,
-  useCompleteMission,
+  useCompleteWalkMission,
   useMissionList,
   useMyActivity,
   useStartMission,
 } from '../hooks';
+import { MissionSuccessDialog } from '../components/dialog';
+import { NotificationStorage } from '@/src/shared/notification/notification';
 
 export const Walk = () => {
   const [isWalking, setIsWalking] = useState<boolean>(false);
@@ -25,12 +27,21 @@ export const Walk = () => {
   const [currentLocation, setCurrentLocation] = useState<Location.LocationObject | null>(null);
   const [positions, setPositions] = useState<Location.LocationObject[]>([]);
 
+  // 시연용 count state
+  const [count, setCount] = useState<number>(0);
+
   const router = useRouter();
   const timeIntervalRef = useRef<ReturnType<typeof setInterval> | null>(null);
   const locationIntervalRef = useRef<ReturnType<typeof setInterval> | null>(null);
   const missionCheckIntervalRef = useRef<ReturnType<typeof setInterval> | null>(null);
 
   const today = `${new Date().getFullYear()}-${new Date().getMonth() + 1}-${new Date().getDate()}`;
+
+  const [openSuccessDialog, setOpenSuccessDialog] = useState<boolean>(false);
+  const [successMissionType, setSuccessMissionType] = useState<
+    'FEED' | 'TREASURE_HUNT' | 'LANDMARK'
+  >();
+
   const { data: activityData } = useMyActivity('2024-11-19');
   const { data: missionList } = useMissionList();
 
@@ -40,9 +51,8 @@ export const Walk = () => {
   const { mutate: checkLandmarkMission } = useCheckMission('LANDMARK');
   const { mutate: checkTreasureHuntMission } = useCheckMission('TREASURE_HUNT');
 
-  const { mutate: completeFeedMission } = useCompleteMission('FEED');
-  const { mutate: completeTreasureMission } = useCompleteMission('TREASURE_HUNT');
-  const { mutate: completeLandmarkMission } = useCompleteMission('LANDMARK');
+  const { mutate: completeTreasureMission } = useCompleteWalkMission('TREASURE_HUNT');
+  const { mutate: completeLandmarkMission } = useCompleteWalkMission('LANDMARK');
 
   const formatTime = (seconds: number) => {
     const hrs = Math.floor(seconds / 3600);
@@ -109,14 +119,92 @@ export const Walk = () => {
 
   const checkMissions = () => {
     if (!missionList || missionList.length === 0) return;
+    console.log('start check missions:', count);
 
-    missionList.forEach((mission) => {
-      if (mission.missionType === 'TREASURE_HUNT') {
-        checkTreasureHuntMission();
-      } else if (mission.missionType === 'LANDMARK') {
-        checkLandmarkMission();
-      }
-    });
+    if (count < 2) {
+      console.log('Fail Checking missions:', count);
+      const currentCoords = {
+        latitude: currentLocation?.coords?.latitude ?? 0,
+        longitude: currentLocation?.coords?.longitude ?? 0,
+      };
+
+      missionList.forEach((mission) => {
+        if (mission.missionType === 'TREASURE_HUNT') {
+          checkTreasureHuntMission(currentCoords, {
+            onSuccess: (missionList) => {
+              missionList.map((mission) => {
+                if (mission.complete) {
+                  setOpenSuccessDialog(true);
+                  setSuccessMissionType('TREASURE_HUNT');
+                }
+              });
+            },
+          });
+        } else if (mission.missionType === 'LANDMARK') {
+          checkLandmarkMission(currentCoords, {
+            onSuccess: (missionList) => {
+              missionList.map((mission) => {
+                if (mission.complete) {
+                  setOpenSuccessDialog(true);
+                  setSuccessMissionType('LANDMARK');
+                }
+              });
+            },
+          });
+        }
+      });
+
+      setCount((prev) => prev + 1);
+    } else {
+      console.log('Success Checking missions:', count);
+
+      const currentCoords = {
+        latitude: 37.450169463,
+        longitude: 126.655214526,
+      };
+
+      missionList.forEach((mission) => {
+        if (mission.missionType === 'TREASURE_HUNT') {
+          checkTreasureHuntMission(currentCoords, {
+            onSuccess: (missionList) => {
+              missionList.map((mission) => {
+                if (mission.complete) {
+                  setOpenSuccessDialog(true);
+                  setSuccessMissionType('TREASURE_HUNT');
+
+                  NotificationStorage.save({
+                    title: '보물찾기 미션 완료!',
+                    type: 'MISSION',
+                    body: '보물찾기 미션을 성공적으로 완료했습니다.',
+                    status: 'SUCCESS',
+                  });
+                }
+              });
+            },
+          });
+        } else if (mission.missionType === 'LANDMARK') {
+          checkLandmarkMission(currentCoords, {
+            onSuccess: (missionList) => {
+              missionList.map((mission) => {
+                if (mission.complete) {
+                  setOpenSuccessDialog(true);
+                  setSuccessMissionType('LANDMARK');
+
+                  NotificationStorage.save({
+                    title: '랜드마크 미션 완료!',
+                    type: 'MISSION',
+                    body: '랜드마크 미션을 성공적으로 완료했습니다.',
+                    status: 'SUCCESS',
+                  });
+                }
+              });
+            },
+          });
+        }
+      });
+
+      setCount(0);
+    }
   };
 
   const startIntervals = () => {
@@ -178,13 +266,69 @@ export const Walk = () => {
 
     if (missionList && missionList.length > 0) {
       missionList.forEach((mission) => {
-        if (mission.missionType === 'FEED') {
-          // TODO 사진 등록 있어야 한다.
-          completeFeedMission();
-        } else if (mission.missionType === 'TREASURE_HUNT') {
+        if (mission.missionType === 'TREASURE_HUNT') {
           completeTreasureMission();
         } else if (mission.missionType === 'LANDMARK') {
           completeLandmarkMission();
+        }
+      });
+
+      const currentCoords = {
+        latitude: 37.450169463,
+        longitude: 126.655214526,
+      };
+
+      missionList.forEach((mission) => {
+        if (mission.missionType === 'TREASURE_HUNT') {
+          checkTreasureHuntMission(currentCoords, {
+            onSuccess: (missionList) => {
+              missionList.map((mission) => {
+                if (mission.complete) {
+                  setOpenSuccessDialog(true);
+                  setSuccessMissionType('TREASURE_HUNT');
+
+                  NotificationStorage.save({
+                    title: '보물찾기 미션 완료!',
+                    type: 'MISSION',
+                    body: '보물찾기 미션을 성공적으로 완료했습니다.',
+                    status: 'SUCCESS',
+                  });
+                } else {
+                  NotificationStorage.save({
+                    title: '보물찾기 미션 실패!',
+                    type: 'MISSION',
+                    body: '보물찾기 미션을 실패했습니다.',
+                    status: 'ERROR',
+                  });
+                }
+              });
+            },
+          });
+        } else if (mission.missionType === 'LANDMARK') {
+          checkLandmarkMission(currentCoords, {
+            onSuccess: (missionList) => {
+              missionList.map((mission) => {
+                if (mission.complete) {
+                  setOpenSuccessDialog(true);
+                  setSuccessMissionType('LANDMARK');
+
+                  NotificationStorage.save({
+                    title: '랜드마크 미션 완료!',
+                    type: 'MISSION',
+                    body: '랜드마크 미션을 성공적으로 완료했습니다.',
+                    status: 'SUCCESS',
+                  });
+                } else {
+                  NotificationStorage.save({
+                    title: '랜드마크 미션 실패!',
+                    type: 'MISSION',
+                    body: '랜드마크 미션을 실패했습니다.',
+                    status: 'ERROR',
+                  });
+                }
+              });
+            },
+          });
         }
       });
     }
@@ -220,6 +364,9 @@ export const Walk = () => {
 
   return (
     <View>
+      <Button onPress={() => router.push(FeedEntryLink.feedUpload)}>
+        <Text>test</Text>
+      </Button>
       <View style={{ paddingHorizontal: 20 }}>
         <WalkPositionInfo />
       </View>
@@ -300,6 +447,11 @@ export const Walk = () => {
           </>
         )}
       </View>
+      <MissionSuccessDialog
+        isVisible={openSuccessDialog}
+        onDismiss={() => setOpenSuccessDialog(false)}
+        missionType={successMissionType ?? 'TREASURE_HUNT'}
+      />
     </View>
   );
 };

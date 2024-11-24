@@ -1,11 +1,14 @@
 import { StyleSheet } from 'react-native';
 import { View, Text, ProgressBar, TouchableOpacity } from 'react-native-ui-lib';
+import { useCompleteFeedMission } from '../../../hooks';
+import { useRouter } from 'expo-router';
+import { FeedEntryLink } from '@/src/shared/constants';
 
 interface MissionItemProps {
   percent: string;
   missionId: number;
   missionProgressType: 'READY' | 'PROGRESS' | 'COMPLETE';
-  missionType: string;
+  missionType: 'TREASURE_HUNT' | 'LANDMARK' | 'FEED';
   mission: string;
   onPress?: () => void;
 }
@@ -29,13 +32,20 @@ export const MissionItem = ({
   percent,
   onPress,
 }: MissionItemProps) => {
+  const { mutate: completeFeedMission } = useCompleteFeedMission();
+  const router = useRouter();
+
   const handlePress = () => {
     if (onPress) {
       onPress?.();
     } else if (missionProgressType === 'COMPLETE') {
       return;
-    } else {
-      console.log('미션 진행');
+    } else if (missionType === 'FEED') {
+      // 피드 업로드
+      router.push(FeedEntryLink.feedUpload);
+
+      // 완료
+      completeFeedMission(0);
     }
   };
 
