@@ -198,12 +198,21 @@ export const walkApi = {
     console.log('[API Request] completeMission', params);
 
     const { postId } = params;
-    
+
     // mission 완료
-    const completeResponse = await apiClient.post('mission/api/feed-mission', {
-      missionId: postId,
-      hashTag: 'lol', // test 값
-    });
+    const completeResponse = await apiClient.post(
+      'mission/api/feed-mission',
+      {
+        missionId: postId,
+        hashTag: 'lol', // test 값
+      },
+      {
+        headers: {
+          Authorization:
+            'Bearer eyJ0eXAiOiJKV1QiLCJhbGciOiJIUzI1NiJ9.eyJzdWIiOiJ5b25naG9vbl90ZXN0Iiwic29jaWFsX2lkIjoieW9uZ2hvb25fdGVzdCIsImV4cCI6MTc0MDM3NTI4NywidHlwZSI6ImFjY2VzcyJ9.Jt5XIcq_3Gzaq8_qJcVTyqj1jrkVXW0b60fYI52gT08',
+        },
+      },
+    );
 
     console.log('[API Response] completeMission - mission complete:', completeResponse.data);
 

@@ -2,7 +2,10 @@ import { StyleSheet } from 'react-native';
 import { View, Text, ProgressBar, TouchableOpacity } from 'react-native-ui-lib';
 import { useCompleteFeedMission } from '../../../hooks';
 import { useRouter } from 'expo-router';
-import { FeedEntryLink } from '@/src/shared/constants';
+import { PublicFeedEntryLink } from '@/src/shared/constants';
+import { NotificationStorage } from '@/src/shared/notification/notification';
+import { MissionSuccessDialog } from '../../dialog';
+import { useState } from 'react';
 
 interface MissionItemProps {
   percent: string;
@@ -35,17 +38,51 @@ export const MissionItem = ({
   const { mutate: completeFeedMission } = useCompleteFeedMission();
   const router = useRouter();
 
+  const [openSuccessDialog, setOpenSuccessDialog] = useState<boolean>(false);
+
+  const [count, setCount] = useState<number>(0);
+
   const handlePress = () => {
+    setCount((prev) => prev + 1);
+
+    router.push(PublicFeedEntryLink.feedUpload);
     if (onPress) {
       onPress?.();
     } else if (missionProgressType === 'COMPLETE') {
       return;
     } else if (missionType === 'FEED') {
-      // 피드 업로드
-      router.push(FeedEntryLink.feedUpload);
+      if (count === 1) {
+        // 완료 되었는지 체크
+        completeFeedMission(1, {
+          onSuccess: (result) => {
+            if (!result) {
+              // 피드 업로드
+              router.push(PublicFeedEntryLink.feedUpload);
+            } else {
+              // 미션 성공
+              setOpenSuccessDialog(true);
 
-      // 완료
-      completeFeedMission(0);
+              NotificationStorage.save({
+                title: '축하합니다!',
+                body: '피드 미션을 완료했습니다.',
+                type: 'MISSION',
+                status: 'SUCCESS',
+              });
+            }
+          },
+        });
+      } else {
+        completeFeedMission(0, {
+          onSuccess: () => {
+            // 피드 업로드
+            router.push(PublicFeedEntryLink.feedUpload);
+          },
+          onError: () => {
+            // 피드 업로드
+            router.push(PublicFeedEntryLink.feedUpload);
+          },
+        });
+      }
     }
   };
 
@@ -72,7 +109,7 @@ export const MissionItem = ({
             style={{
               color: '#222B45',
               fontSize: 14,
-              fontWeight: 600,
+              fontWeight: '600',
               lineHeight: 16,
             }}
           >
@@ -80,6 +117,13 @@ export const MissionItem = ({
           </Text>
         </View>
       </View>
+      <MissionSuccessDialog
+        isVisible={openSuccessDialog}
+        missionType="FEED"
+        onDismiss={() => {
+          setOpenSuccessDialog(false);
+        }}
+      />
     </TouchableOpacity>
   );
 };
