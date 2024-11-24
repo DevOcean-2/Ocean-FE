@@ -7,7 +7,12 @@ import { useRouter } from 'expo-router';
 import { PublicFeedEntryLink } from '@/src/shared/constants';
 
 const FeedVisitor = () => {
-  const dummyDataList = [1, 2, 3, 4, 5, 6, 7, 8, 9, 10];
+  const dummyDataList = [
+    { userId: 'yonghoon_test', nickName: '용훈' },
+    { userId: 'yonghoon_test', nickName: '종대' },
+    { userId: 'yonghoon_test', nickName: '지훈' },
+    { userId: 'yonghoon_test', nickName: '가영' },
+  ];
 
   const router = useRouter();
 
@@ -19,14 +24,19 @@ const FeedVisitor = () => {
         <View style={styles.contentContainer}>
           {dummyDataList.map((item) => {
             return (
-              <View key={item} style={styles.itemWrapper}>
+              <View key={item.nickName} style={styles.itemWrapper}>
                 <View style={styles.profileWrapper}>
                   <Image style={styles.image} source={require('./assets/dummy.png')} />
-                  <Text>유저 닉네임</Text>
+                  <Text>{item.nickName}</Text>
                 </View>
                 <Button
                   style={styles.button}
-                  onPress={() => router.push(PublicFeedEntryLink.feedOther)}
+                  onPress={() =>
+                    router.push({
+                      pathname: PublicFeedEntryLink.feedOther,
+                      params: { ...item },
+                    })
+                  }
                 >
                   <Text>방문하기</Text>
                 </Button>

@@ -1,14 +1,33 @@
 import { FeedOtherHomeHeader } from '@/src/widgets/PageHeaders/FeedHeader';
 import { Button } from '@/src/shared/feed/ui';
-import { StyleSheet, Text, View } from 'react-native';
+import { Pressable, StyleSheet, Text, View } from 'react-native';
 import { Image } from '@/src/shared/ui';
 import TabController from '@/components/TabController';
 import { MainLayout, ScrollLayout } from '@/src/pages/Feed/ui';
+import { useLocalSearchParams, useRouter } from 'expo-router';
+import { useEffect } from 'react';
+import { useQuery } from '@tanstack/react-query';
+import { queryKeyMetaData } from '@/src/pages/Feed/constants';
+import { getFeedPosts } from '@/src/pages/Feed/api';
+import { PublicFeedEntryLink } from '@/src/shared/constants';
 
 const OtherHome = () => {
+  const params = useLocalSearchParams<{ userId: string; nickName: string }>();
+
+  const route = useRouter();
+
+  useEffect(() => {
+    console.log(params);
+  }, [params]);
+
+  const { data: feedData } = useQuery({
+    queryKey: [queryKeyMetaData.getFeedPosts],
+    queryFn: () => getFeedPosts('yonghoon_test'),
+  });
+
   return (
     <MainLayout>
-      <FeedOtherHomeHeader />
+      <FeedOtherHomeHeader userNickName={params.nickName} />
       <ScrollLayout>
         <View style={styles.contentContainer}>
           <View style={styles.imageContentContainer}>
@@ -66,34 +85,22 @@ const OtherHome = () => {
             <TabController.TabBar />
             <TabController.TabPage index={0}>
               <View style={styles.tabContentPage}>
-                <View style={styles.imageDummy} />
-                <View style={styles.imageDummy} />
-                <View style={styles.imageDummy} />
-                <View style={styles.imageDummy} />
-                <View style={styles.imageDummy} />
-                <View style={styles.imageDummy} />
-                <View style={styles.imageDummy} />
-                <View style={styles.imageDummy} />
-                <View style={styles.imageDummy} />
-                <View style={styles.imageDummy} />
-                <View style={styles.imageDummy} />
-                <View style={styles.imageDummy} />
-                <View style={styles.imageDummy} />
-                <View style={styles.imageDummy} />
-                <View style={styles.imageDummy} />
-                <View style={styles.imageDummy} />
-                <View style={styles.imageDummy} />
-                <View style={styles.imageDummy} />
-                <View style={styles.imageDummy} />
-                <View style={styles.imageDummy} />
-                <View style={styles.imageDummy} />
-                <View style={styles.imageDummy} />
-                <View style={styles.imageDummy} />
-                <View style={styles.imageDummy} />
-                <View style={styles.imageDummy} />
-                <View style={styles.imageDummy} />
-                <View style={styles.imageDummy} />
-                <View style={styles.imageDummy} />
+                {feedData?.map((info, index) => {
+                  return (
+                    <Pressable
+                      key={info.post_id}
+                      style={styles.feedImageWrapper}
+                      onPress={() =>
+                        route.push({
+                          pathname: PublicFeedEntryLink.feedDetail,
+                          params: { data: index },
+                        })
+                      }
+                    >
+                      <Image style={styles.feedImage} source={{ uri: info.image_urls[0] }} />
+                    </Pressable>
+                  );
+                })}
               </View>
             </TabController.TabPage>
             <TabController.TabPage index={1}>
@@ -226,5 +233,13 @@ const styles = StyleSheet.create({
     width: '31.5%',
     height: 110,
     backgroundColor: '#E4E9F2',
+  },
+  feedImageWrapper: {
+    width: '31.5%',
+    height: 110,
+  },
+  feedImage: {
+    width: '100%',
+    height: '100%',
   },
 });
