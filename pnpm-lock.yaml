@@ -107,9 +107,6 @@ importers:
       react-native-calendars:
         specifier: ^1.1307.0
         version: 1.1307.0(react-native@0.74.5(@babel/core@7.20.2)(@babel/preset-env@7.25.7(@babel/core@7.20.2))(@types/react@18.2.45)(react@18.2.0))(react@18.2.0)
-      react-native-gesture-handler:
-        specifier: ~2.16.1
-        version: 2.16.2(react-native@0.74.5(@babel/core@7.20.2)(@babel/preset-env@7.25.7(@babel/core@7.20.2))(@types/react@18.2.45)(react@18.2.0))(react@18.2.0)
       react-native-logs:
         specifier: ^5.2.1
         version: 5.3.0
