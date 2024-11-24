@@ -3,6 +3,19 @@ import { MyHomeHeader } from '@/src/widgets/PageHeaders/MyHeader';
 import { StyleSheet, Text, View } from 'react-native';
 
 const MyHome = () => {
+  const dogInfoMetaData = [
+    { label: '댕댕이 이름' },
+    { label: '성별' },
+    { label: '댕댕이 크기' },
+    { label: '품종' },
+    { label: '귀여움 상태' },
+    { label: '출생연도' },
+    { label: '몸무게' },
+    { label: '접종 백신' },
+    { label: '과거 질병 이력' },
+    { label: '알러지 정보' },
+  ];
+
   return (
     <MainLayout>
       <MyHomeHeader />
@@ -10,7 +23,7 @@ const MyHome = () => {
         <View style={styles.myInfoContainer}>
           <View style={styles.myImageContentArea}>
             <Image style={styles.image} source={require('../assets/images/dog-2.png')} />
-            <Button>
+            <Button style={styles.imageEditButton}>
               <Text style={styles.imageText}>사진 변경</Text>
             </Button>
           </View>
@@ -30,21 +43,21 @@ const MyHome = () => {
           </View>
         </View>
         <View style={styles.myEditButtonContainer}>
-          <Button>
+          <Button style={styles.dogInfoEditButton}>
             <Text style={styles.editButtonText}>강아지 정보 편집</Text>
           </Button>
         </View>
         <View style={styles.myDogInfoContainer}>
           <ScrollLayout>
             <View style={styles.myDogInfoTextContentArea}>
-              <View style={styles.myDogInfoTextContent}>
-                <Text style={styles.myDogInfoText}>댕댕이 이름</Text>
-                <Text style={styles.myDogInfoText}>쫑아</Text>
-              </View>
-              <View style={styles.myDogInfoTextContent}>
-                <Text style={styles.myDogInfoText}>댕댕이 이름</Text>
-                <Text style={styles.myDogInfoText}>쫑아</Text>
-              </View>
+              {dogInfoMetaData.map((dogInfo) => {
+                return (
+                  <View key={dogInfo.label} style={styles.myDogInfoTextContent}>
+                    <Text style={styles.myDogInfoText}>{dogInfo.label}</Text>
+                    <Text style={styles.myDogInfoText}>쫑아</Text>
+                  </View>
+                );
+              })}
             </View>
           </ScrollLayout>
         </View>
@@ -69,6 +82,8 @@ const styles = StyleSheet.create({
   myImageContentArea: {
     flexDirection: 'column',
     gap: 12,
+    alignItems: 'center',
+    justifyContent: 'center',
   },
   myInfoTextContentArea: {
     flexDirection: 'column',
@@ -86,6 +101,7 @@ const styles = StyleSheet.create({
   myDogInfoContainer: {
     paddingLeft: 20,
     paddingRight: 20,
+    height: '37.5%',
   },
   myDogInfoTextContentArea: {
     flexDirection: 'column',
@@ -94,12 +110,14 @@ const styles = StyleSheet.create({
   myDogInfoTextContent: {
     width: '100%',
     height: 40,
+    flexDirection: 'row',
     alignItems: 'center',
     justifyContent: 'space-between',
   },
   myInfoTextContent: {
     width: '100%',
     height: 40,
+    flexDirection: 'row',
     alignItems: 'center',
     justifyContent: 'space-between',
   },
@@ -124,8 +142,15 @@ const styles = StyleSheet.create({
     fontWeight: 600,
   },
   image: {
-    width: 28,
-    height: 28,
+    width: 80,
+    height: 80,
     borderRadius: 100,
+  },
+  imageEditButton: {
+    width: 65,
+    height: 32,
+  },
+  dogInfoEditButton: {
+    height: 42,
   },
 });

@@ -6,8 +6,8 @@ import TabController from '@/components/TabController';
 import { MainLayout, ScrollLayout } from '@/src/pages/Feed/ui';
 import { Link, useRouter } from 'expo-router';
 import { PublicFeedEntryLink } from '@/src/shared/constants';
-import { useState } from 'react';
-import { getFeedPosts } from '@/src/pages/Feed/api';
+import { useEffect, useState } from 'react';
+import { getFeedPosts, getUserInfo } from '@/src/pages/Feed/api';
 import { FeedPostsResponse } from '@/src/pages/Feed/types';
 import { useQuery } from '@tanstack/react-query';
 import { queryKeyMetaData } from '@/src/pages/Feed/constants';
@@ -21,10 +21,20 @@ const FeedHome = () => {
   const [dogName, setDogName] = useState('강아지 이름 표시 영역');
   const [dogType, setDogType] = useState('말티즈');
 
-  const { data, isLoading, error } = useQuery({
+  const { data: feedData } = useQuery({
     queryKey: [queryKeyMetaData.getFeedPosts],
     queryFn: () => getFeedPosts('yonghoon_test'),
   });
+
+  const { data: userData, error: userError } = useQuery({
+    queryKey: [queryKeyMetaData.getUserInfo],
+    queryFn: () => getUserInfo('yonghoon_test'),
+  });
+
+  useEffect(() => {
+    console.log('----- 이거');
+    console.log(userError);
+  }, [userError]);
 
   return (
     <MainLayout>
@@ -85,7 +95,7 @@ const FeedHome = () => {
             <TabController.TabBar />
             <TabController.TabPage index={0}>
               <View style={styles.tabContentPage}>
-                {data?.map((info, index) => {
+                {feedData?.map((info, index) => {
                   return (
                     <Pressable
                       key={info.post_id}
