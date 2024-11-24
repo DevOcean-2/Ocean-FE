@@ -23,3 +23,15 @@ export const createFeedPost = async (feedContent: FeedCreateRequest) => {
   const response = await apiClient.post('/posts', feedContent);
   return response.data;
 };
+
+export const deleteFeedPost = async (feedId: number) => {
+  const response = await apiClient.delete(`/posts/${feedId}`);
+  return response.data;
+};
+
+export const toggleFeedLike = async (postId: number) => {
+  // const { post_id, ...rest } = checkLikeContent;
+
+  const response = await apiClient.post(`/posts/${postId}/likes`, {});
+  return response.data;
+};

@@ -1,10 +1,12 @@
-import React from 'react';
-import { StyleSheet, Animated } from 'react-native';
-import { Swipeable } from 'react-native-gesture-handler';
+import React, { useRef } from 'react';
+import { StyleSheet, Animated, PanResponder, Dimensions } from 'react-native';
 import { TouchableOpacity, Text, View } from 'react-native-ui-lib';
 import { NotificationHistory } from './types/NotificationHistory';
 import { getTimeAgo } from './utils/getTimeAgo';
 import { ICON_SUCCESS_MARK, ICON_WARNING_MARK } from '@/assets/svgs';
+
+const SCREEN_WIDTH = Dimensions.get('window').width;
+const SWIPE_THRESHOLD = SCREEN_WIDTH * 0.25;
 
 interface Props {
   notification: NotificationHistory;
@@ -12,41 +14,46 @@ interface Props {
 }
 
 export function NotificationItem({ notification, onPress }: Props) {
-  const renderRightActions = (
-    progress: Animated.AnimatedInterpolation<number>,
-    dragX: Animated.AnimatedInterpolation<number>,
-  ) => {
-    const trans = dragX.interpolate({
-      inputRange: [-100, 0],
-      outputRange: [0, 100],
-    });
+  const position = useRef(new Animated.ValueXY()).current;
 
-    return (
-      <Animated.View
-        style={[
-          {
-            transform: [{ translateX: trans }],
-          },
-        ]}
-      >
-        <TouchableOpacity onPress={onPress}>
-          <View style={{ width: 10, height: '100%' }} />
-        </TouchableOpacity>
-      </Animated.View>
-    );
+  const panResponder = PanResponder.create({
+    onStartShouldSetPanResponder: () => true,
+    onMoveShouldSetPanResponder: () => true,
+    onPanResponderMove: (event, gesture) => {
+      if (gesture.dx < 0) {
+        position.setValue({ x: gesture.dx, y: 0 });
+      }
+    },
+    onPanResponderRelease: (event, gesture) => {
+      if (gesture.dx < -SWIPE_THRESHOLD) {
+        Animated.timing(position, {
+          toValue: { x: -SCREEN_WIDTH, y: 0 },
+          duration: 250,
+          useNativeDriver: false,
+        }).start(onPress);
+      } else {
+        Animated.spring(position, {
+          toValue: { x: 0, y: 0 },
+          useNativeDriver: false,
+        }).start();
+      }
+    },
+  });
+
+  const itemStyle = {
+    transform: position.getTranslateTransform(),
   };
 
   return (
-    <Swipeable
-      renderRightActions={renderRightActions}
-      rightThreshold={40}
-      onSwipeableOpen={(direction: any) => {
-        if (direction === 'right') {
-          onPress();
-        }
-      }}
-    >
-      <View style={[styles.container, !notification.isRead && styles.unread]}>
+    <View style={styles.containerWrapper}>
+      {/* 삭제 영역 */}
+      <View style={styles.deleteAction} />
+
+      {/* 알림 내용 */}
+      <Animated.View
+        style={[styles.container, !notification.isRead && styles.unread, itemStyle]}
+        {...panResponder.panHandlers}
+      >
         <View style={styles.iconContainer}>
           {notification.status === 'SUCCESS' ? <ICON_SUCCESS_MARK /> : <ICON_WARNING_MARK />}
         </View>
@@ -55,18 +62,21 @@ export function NotificationItem({ notification, onPress }: Props) {
           <Text style={styles.body}>{notification.body}</Text>
           <Text style={styles.time}>{getTimeAgo(notification.sentAt)}</Text>
         </View>
-      </View>
-    </Swipeable>
+      </Animated.View>
+    </View>
   );
 }
 
 const styles = StyleSheet.create({
+  containerWrapper: {
+    position: 'relative',
+    marginBottom: 8,
+  },
   container: {
     flexDirection: 'row',
     padding: 16,
     backgroundColor: 'white',
     borderRadius: 12,
-    marginBottom: 8,
   },
   unread: {
     backgroundColor: '#FFFFFF',
@@ -93,19 +103,18 @@ const styles = StyleSheet.create({
     color: '#999',
   },
   deleteAction: {
-    width: 100,
-    height: '100%',
-    backgroundColor: '#FF3B30',
+    position: 'absolute',
+    right: 0,
+    top: 0,
+    bottom: 0,
+    width: SCREEN_WIDTH,
     justifyContent: 'center',
-    alignItems: 'center',
-  },
-  deleteButton: {
-    flex: 1,
-    justifyContent: 'center',
+    alignItems: 'flex-end',
+    paddingRight: 20,
+    borderRadius: 12,
   },
   deleteText: {
     color: 'white',
     fontWeight: '600',
-    padding: 20,
   },
 });
