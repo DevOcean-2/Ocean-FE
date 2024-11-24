@@ -12,7 +12,7 @@ import { FeedPostsResponse } from '@/src/pages/Feed/types';
 import { useQuery } from '@tanstack/react-query';
 import { queryKeyMetaData } from '@/src/pages/Feed/constants';
 
-const MyHome = () => {
+const FeedHome = () => {
   const route = useRouter();
 
   const [feedPostList, setFeedPostList] = useState<FeedPostsResponse[]>();
@@ -126,7 +126,7 @@ const MyHome = () => {
   );
 };
 
-export default MyHome;
+export default FeedHome;
 
 const styles = StyleSheet.create({
   contentContainer: {

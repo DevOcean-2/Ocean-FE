@@ -33,3 +33,11 @@ export const PublicWalkEntryLink = {
   walkActivity: `/home/${WalkEntryLink.walkActivity}`,
   notification: `/home/${WalkEntryLink.notification}`,
 } as const;
+
+export const MyEntryLink = {
+  myHome: 'index',
+} as const;
+
+export const PublicMyEntryLink = {
+  myHome: `/my/`,
+} as const;
