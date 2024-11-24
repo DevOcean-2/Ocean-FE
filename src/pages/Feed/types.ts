@@ -26,3 +26,18 @@ export interface FeedToggleLikeRequest {
 export interface FeedDeleteRequest {
   post_id: number;
 }
+
+export interface UserInfoResponse {
+  user_name: string;
+  dog_name: string;
+  dog_gender: string;
+  dog_size: string;
+  dog_cuteness: number;
+  dog_breed: string;
+  photo_path: string;
+  birth_day: string;
+  current_weight: number;
+  past_weight: number;
+  weight_change: number;
+  age: string;
+}
