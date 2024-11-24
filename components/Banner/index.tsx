@@ -56,7 +56,7 @@ const BannerStyles = StyleSheet.create({
   },
   bannerSubTitle: {
     fontSize: 13,
-    fontWeight: 400,
+    fontWeight: '400',
     color: '#101828',
   },
 });

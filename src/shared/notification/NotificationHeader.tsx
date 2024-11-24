@@ -25,7 +25,7 @@ export const NotificationHeader = () => {
         <Text
           style={{
             fontSize: 18,
-            fontWeight: 600,
+            fontWeight: '600',
           }}
         >
           알림

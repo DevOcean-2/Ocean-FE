@@ -7,7 +7,7 @@ import { WalkPositionInfo } from '../components/home/location';
 import { WalkMap } from '../components/map/WalkMap';
 import { CurrentMissionCarousel } from '../components/walk/CurrentMissionCarousel';
 import { useRouter } from 'expo-router';
-import { FeedEntryLink, PublicWalkEntryLink } from '@/src/shared/constants';
+import { PublicWalkEntryLink } from '@/src/shared/constants';
 import {
   useCheckMission,
   useCompleteWalkMission,
@@ -364,9 +364,6 @@ export const Walk = () => {
 
   return (
     <View>
-      <Button onPress={() => router.push(FeedEntryLink.feedUpload)}>
-        <Text>test</Text>
-      </Button>
       <View style={{ paddingHorizontal: 20 }}>
         <WalkPositionInfo />
       </View>

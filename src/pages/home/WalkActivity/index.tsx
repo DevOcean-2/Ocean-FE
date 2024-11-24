@@ -127,7 +127,7 @@ export const WalkActivity = () => {
           <Text
             style={{
               fontSize: 18,
-              fontWeight: 600,
+              fontWeight: '600',
             }}
           >
             활동 데이터
@@ -179,7 +179,7 @@ export const WalkActivity = () => {
           <Text
             style={{
               fontSize: 18,
-              fontWeight: 600,
+              fontWeight: '600',
             }}
           >{`${selected?.month ?? 1}월의 미션`}</Text>
           {data?.map((mission, index) => (

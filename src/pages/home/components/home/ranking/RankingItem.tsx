@@ -1,4 +1,6 @@
+import { PublicFeedEntryLink } from '@/src/shared/constants';
 import { Image } from '@/src/shared/ui';
+import { useRouter } from 'expo-router';
 import { ViewStyle, TextStyle, ImageStyle } from 'react-native';
 import { View, Text, TouchableOpacity } from 'react-native-ui-lib';
 
@@ -14,6 +16,8 @@ interface RankingItemProps {
 export const RankingItem = (props: RankingItemProps) => {
   const { rank, username, distance, userId, selected = false, profileImageUrl } = props;
 
+  const router = useRouter();
+
   const imageURI =
     (profileImageUrl?.length ?? 0 > 0)
       ? profileImageUrl
@@ -22,7 +26,7 @@ export const RankingItem = (props: RankingItemProps) => {
   return (
     <TouchableOpacity
       onPress={() => {
-        console.log('해당 user의 피드로 이동한다.');
+        router.push(PublicFeedEntryLink.feedHome);
       }}
     >
       <View style={selected ? styles.selectedContainer : styles.container}>

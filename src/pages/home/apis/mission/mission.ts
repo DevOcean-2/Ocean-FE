@@ -9,7 +9,7 @@ export interface MissionResponse {
       missionId: number;
       userMissionId: number;
       missionName: string;
-      missionType: string;
+      missionType: 'TREASURE_HUNT' | 'LANDMARK' | 'FEED';
       count: number;
       percent: string;
       missionProgressType: string;

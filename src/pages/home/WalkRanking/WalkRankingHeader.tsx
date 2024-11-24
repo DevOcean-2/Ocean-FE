@@ -25,7 +25,7 @@ export const WalkRankingHeader = () => {
         <Text
           style={{
             fontSize: 18,
-            fontWeight: 600,
+            fontWeight: '600',
           }}
         >
           산책 랭킹

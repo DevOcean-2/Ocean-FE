@@ -191,7 +191,7 @@ const styles = StyleSheet.create({
   titleText: {
     color: '#101426',
     fontSize: 14,
-    fontWeight: 500,
+    fontWeight: '500',
   },
   iconWrapper: {
     width: 24,
@@ -226,17 +226,17 @@ const styles = StyleSheet.create({
   date: {},
   likeText: {
     color: '#101426',
-    fontWeight: 400,
+    fontWeight: '400',
     fontSize: 12,
   },
   contentText: {
     color: '#101426',
-    fontWeight: 400,
+    fontWeight: '400',
     fontSize: 12,
   },
   dateText: {
     color: '#8F9BB3',
-    fontWeight: 400,
+    fontWeight: '400',
     fontSize: 11,
   },
   actionSheetContainer: {},

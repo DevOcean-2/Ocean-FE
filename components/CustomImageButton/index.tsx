@@ -94,7 +94,7 @@ const styles = StyleSheet.create({
   },
   label: {
     fontSize: 20,
-    fontWeight: 500,
+    fontWeight: '500',
     color: '#222B45',
   },
   subLabel: {
