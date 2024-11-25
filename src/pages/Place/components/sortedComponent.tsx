@@ -1,54 +1,54 @@
 import React, { useState } from 'react';
 import { View, Modal, TouchableOpacity, Text, StyleSheet } from 'react-native';
 import { atom, useAtom } from 'jotai';
+import { ICON_ARROW_DOWN } from '@/assets/svgs';
 
 const sortTypeAtom = atom<'location' | 'distance'>('location');
-const selectedOptionAtom = atom<string>('지도중심');
-
-interface ChipProps {
-  label: string;
-  active: boolean;
-  onPress: () => void;
-}
-
-const Chip: React.FC<ChipProps> = ({ label, active, onPress }) => (
-  <TouchableOpacity style={[styles.chip, active && styles.activeChip]} onPress={onPress}>
-    <Text style={[styles.chipText, active && styles.activeChipText]}>{label}</Text>
-  </TouchableOpacity>
-);
+const locationOptionAtom = atom<string>('지도중심');
+const distanceOptionAtom = atom<string>('정확도순');
 
 const SortingComponent = () => {
   const [sortType, setSortType] = useAtom(sortTypeAtom);
-  const [selectedOption, setSelectedOption] = useAtom(selectedOptionAtom);
+  const [locationOption, setLocationOption] = useAtom(locationOptionAtom);
+  const [distanceOption, setDistanceOption] = useAtom(distanceOptionAtom);
   const [modalVisible, setModalVisible] = useState(false);
 
   const locationOptions = ['지도중심', '내 위치'];
   const distanceOptions = ['정확도순', '거리순'];
 
   const handleOptionSelect = (option: string) => {
-    setSelectedOption(option);
+    if (sortType === 'location') {
+      setLocationOption(option);
+    } else {
+      setDistanceOption(option);
+    }
     setModalVisible(false);
   };
 
   return (
-    <View style={styles.container}>
-      <View style={styles.chipContainer}>
-        <Chip
-          label="지도중심"
-          active={sortType === 'location'}
+    <View>
+      <View style={styles.buttonContainer}>
+        <TouchableOpacity
+          style={styles.button}
           onPress={() => {
             setSortType('location');
             setModalVisible(true);
           }}
-        />
-        <Chip
-          label="거리순"
-          active={sortType === 'distance'}
+        >
+          <Text style={styles.buttonText}>{locationOption}</Text>
+          <ICON_ARROW_DOWN />
+        </TouchableOpacity>
+
+        <TouchableOpacity
+          style={styles.button}
           onPress={() => {
             setSortType('distance');
             setModalVisible(true);
           }}
-        />
+        >
+          <Text style={styles.buttonText}>{distanceOption}</Text>
+          <ICON_ARROW_DOWN />
+        </TouchableOpacity>
       </View>
 
       <Modal
@@ -69,7 +69,9 @@ const SortingComponent = () => {
                 onPress={() => handleOptionSelect(option)}
               >
                 <Text style={styles.optionText}>{option}</Text>
-                {selectedOption === option && <Text style={styles.checkmark}>✓</Text>}
+                {(sortType === 'location' ? locationOption : distanceOption) === option && (
+                  <Text style={styles.checkmark}>✓</Text>
+                )}
               </TouchableOpacity>
             ))}
           </View>
@@ -80,28 +82,22 @@ const SortingComponent = () => {
 };
 
 const styles = StyleSheet.create({
-  container: {
-    padding: 10,
-  },
-  chipContainer: {
+  buttonContainer: {
     flexDirection: 'row',
-    gap: 8,
+    justifyContent: 'flex-start',
+    gap: 20,
   },
-  chip: {
-    paddingHorizontal: 12,
+  button: {
+    flexDirection: 'row',
+    alignItems: 'center',
     paddingVertical: 6,
     borderRadius: 16,
-    backgroundColor: '#f5f5f5',
+    backgroundColor: 'transparent',
+    gap: 4,
   },
-  activeChip: {
-    backgroundColor: '#e0e0e0',
-  },
-  chipText: {
+  buttonText: {
     fontSize: 14,
     color: '#666',
-  },
-  activeChipText: {
-    color: '#000',
   },
   modalOverlay: {
     flex: 1,
