@@ -1,10 +1,12 @@
-import { useRef, useState } from "react"
-import { View,Text, Dimensions, TextInput, Button } from "react-native"
-import WebView from "react-native-webview"
+import { useRef, useState } from 'react';
+import { View, Text, Dimensions, TextInput, Button } from 'react-native';
+import WebView from 'react-native-webview';
+import SortingComponent from './components/sortedComponent';
+import CategoryList from './components/cateogoryList';
 
 const PlaceComponent = () => {
-    const [keyword, setKeyword] = useState('이태원 맛집')
-  const webViewRef = useRef<WebView>(null)
+  const [keyword, setKeyword] = useState('이태원 맛집');
+  const webViewRef = useRef<WebView>(null);
 
   const handleSearch = () => {
     // WebView로 검색어 전달
@@ -12,9 +14,9 @@ const PlaceComponent = () => {
       document.getElementById('keyword').value = '${keyword}';
       searchPlaces();
       true;
-    `)
-  }
-   const html = `
+    `);
+  };
+  const html = `
    <html>
 <head>
     <meta charset="utf-8">
@@ -300,28 +302,28 @@ function removeAllChildNods(el) {
 
   const onMessage = (event: any) => {
     try {
-      const data = JSON.parse(event.nativeEvent.data)
+      const data = JSON.parse(event.nativeEvent.data);
       if (data.type === 'searchResult') {
-        console.log('Search Results:', data.data)
+        console.log('Search Results:', data.data);
         // 여기서 검색 결과 처리
       }
     } catch (error) {
-      console.error('Failed to parse WebView message:', error)
+      console.error('Failed to parse WebView message:', error);
     }
-  }
+  };
   return (
     <View style={{ flex: 1, height: Dimensions.get('window').height }}>
       {/* 추가된 검색 UI */}
       <View style={{ padding: 10, flexDirection: 'row', alignItems: 'center' }}>
         <TextInput
-          style={{ 
-            flex: 1, 
-            height: 40, 
-            borderColor: 'gray', 
-            borderWidth: 1, 
+          style={{
+            flex: 1,
+            height: 40,
+            borderColor: 'gray',
+            borderWidth: 1,
             marginRight: 10,
             paddingHorizontal: 10,
-            borderRadius: 5
+            borderRadius: 5,
           }}
           value={keyword}
           onChangeText={setKeyword}
@@ -331,9 +333,9 @@ function removeAllChildNods(el) {
       </View>
 
       {/* WebView에 ref와 onMessage 추가 */}
-      <WebView 
+      <WebView
         ref={webViewRef}
-        source={{ html }} 
+        source={{ html }}
         style={{ flex: 1, width: '100%' }}
         javaScriptEnabled={true}
         domStorageEnabled={true}
@@ -342,8 +344,10 @@ function removeAllChildNods(el) {
         geolocationEnabled={true}
         onMessage={onMessage}
       />
-    </View>
-  )
-}
 
-export default PlaceComponent
+      <CategoryList />
+    </View>
+  );
+};
+
+export default PlaceComponent;
