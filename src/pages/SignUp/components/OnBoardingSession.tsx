@@ -1,11 +1,10 @@
-import { useState } from 'react';
-import { View, Text, Image, StyleSheet, Dimensions, TouchableOpacity } from 'react-native';
-import { atom, useAtom } from 'jotai';
+import { View, Text, Image, StyleSheet, Dimensions } from 'react-native';
 import { ICON_GALLERY, ICON_PIN_GREEN, ICON_NAVIGATE,FIRST_SESSION, SECOND_SESSION, THIRD_SESSION
   } from '@/assets/svgs';
 import { SvgProps } from 'react-native-svg';
+import { Button } from 'react-native-ui-lib';
+import { useState } from 'react';
 
-// 타입 정의
 interface OnboardingSlide {
   id: number;
   title: string;
@@ -50,26 +49,37 @@ const slides: OnboardingSlide[] = [
 const { width } = Dimensions.get('window');
 
 const OnBoardingSession = ({activeIndex} : OnboardingSessionProps) => {
-  const CurrentIcon = slides[activeIndex-3].icon;
-  const CurrentImage = slides[activeIndex-3].image;
-  console.log(activeIndex)
+  const [onboardingIndex, setOnboardingIndex] = useState(activeIndex);
+  const CurrentIcon = slides[onboardingIndex-3].icon;
+  const CurrentImage = slides[onboardingIndex-3].image;
+
+  const buttonStyle = [
+    styles.button,
+    onboardingIndex === 5 ? styles.lastButton : styles.normalButton
+  ];
+
+  
   return (
     <View style={styles.container}>
-      {/* 현재 슬라이드 */}
       <View style={styles.slideContainer}>
         
         <View style={styles.titleContainer}>
         <CurrentIcon/>
-        <Text style={styles.title}>{ slides[activeIndex-3].title}</Text>
+        <Text style={styles.title}>{ slides[onboardingIndex-3].title}</Text>
 
         </View>
-        <Text style={styles.description}>{slides[activeIndex-3].description}</Text>
+        <Text style={styles.description}>{slides[onboardingIndex-3].description}</Text>
       </View>
       <View style={styles.imageContainer}>
       <CurrentImage/>
 
       </View>
-
+      <Button
+        style={buttonStyle}
+        label={onboardingIndex === 5 ? '시작하기' : '다음'}
+        onPress={() => setOnboardingIndex(onboardingIndex + 1)}
+        color={onboardingIndex === 5 ? 'white' : 'black'} 
+      />
     </View>
   );
 };
@@ -78,7 +88,7 @@ const styles = StyleSheet.create({
   container: {
     flex: 1,
     backgroundColor: '#fff',
-    marginTop  :40,
+    marginTop  :20,
   },
   titleContainer : {
     flexDirection : "row",
@@ -112,48 +122,29 @@ const styles = StyleSheet.create({
     fontWeight : "500",
     lineHeight: 24,
   },
-  pagination: {
-    flexDirection: 'row',
-    justifyContent: 'center',
-    alignItems: 'center',
-    marginBottom: 40,
-  },
-  paginationDot: {
-    width: 8,
-    height: 8,
-    borderRadius: 4,
-    backgroundColor: '#ccc',
-    marginHorizontal: 4,
-  },
-  paginationDotActive: {
-    backgroundColor: '#000',
-  },
-  navigationButtons: {
-    flexDirection: 'row',
-    justifyContent: 'space-between',
-    paddingHorizontal: 20,
-    paddingBottom: 40,
-  },
-  button: {
-    paddingVertical: 12,
-    paddingHorizontal: 24,
-    borderRadius: 8,
-  },
-  buttonText: {
-    fontSize: 16,
-    color: '#666',
-  },
-  primaryButton: {
-    backgroundColor: '#000',
-  },
-  primaryButtonText: {
-    color: '#fff',
-  },
+
+
   startButton: {
     flex: 1,
     marginHorizontal: 20,
     justifyContent: 'center',
     alignItems: 'center',
+  },
+ 
+  button: {
+    paddingVertical: 10,
+    borderRadius: 10,
+    marginTop: 30,
+    flex: 1,
+    marginHorizontal: 20,
+  },
+  lastButton: {
+    backgroundColor: '#04C755',
+  },
+  normalButton: {
+    backgroundColor: '#FFFFFF',
+    borderWidth: 1,
+    borderColor: '#D0D5DD',
   },
 });
 

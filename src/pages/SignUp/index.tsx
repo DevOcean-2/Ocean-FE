@@ -38,7 +38,7 @@ const SignUp: React.FC = () => {
     }
 
     return (
-      <View style={SignUpStyles.halfWidthButton}>
+      <View style={ SignUpStyles.halfWidthButton}>
         <Button
           style={[SignUpStyles.button, SignUpStyles.prevButton]}
           labelStyle={SignUpStyles.prevButtonLabel}
@@ -49,6 +49,7 @@ const SignUp: React.FC = () => {
       </View>
     );
   };
+
 
   return (
     <View style={SignUpStyles.container}>
@@ -62,7 +63,8 @@ const SignUp: React.FC = () => {
           <StepRenderer activeIndex={activeIndex} control={control} errors={errors} />
         </View>
       </ScrollView>
-      <View style={SignUpStyles.buttonContainer}>{renderButtons()}</View>
+      {activeIndex !== 3 &&  <View style={SignUpStyles.buttonContainer}>{renderButtons()}</View>}
+      
       {toastMessage && <Toast visible position="bottom" message={toastMessage} />}
     </View>
   );
