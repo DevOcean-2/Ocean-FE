@@ -45,7 +45,6 @@ export const MissionItem = ({
   const handlePress = () => {
     setCount((prev) => prev + 1);
 
-    router.push(PublicFeedEntryLink.feedUpload);
     if (onPress) {
       onPress?.();
     } else if (missionProgressType === 'COMPLETE') {

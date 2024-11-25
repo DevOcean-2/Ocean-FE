@@ -186,7 +186,7 @@ export const WalkActivity = () => {
             <MissionItem
               key={`${mission}-${index}`}
               mission={mission.missionName}
-              missionType={mission.missionType}
+              missionType={mission.missionType as 'FEED' | 'TREASURE_HUNT' | 'LANDMARK'}
               missionProgressType={mission.missionProgressType as 'READY' | 'PROGRESS' | 'COMPLETE'}
               missionId={mission.missionId}
               percent={mission.percent}

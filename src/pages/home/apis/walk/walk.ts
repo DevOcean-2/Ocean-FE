@@ -48,7 +48,8 @@ export interface RecommendFeedResponse {
   post_id: number;
   user_id: string;
   user_name: string;
-  image_urls: string[];
+  profile_image_url: string;
+  like_count: number;
   liked_by: {
     user_id: string;
     nickname: string;
@@ -94,7 +95,7 @@ export const walkApi = {
   },
 
   // 유저 정보
-  getMyInformation: async (userId: number) => {
+  getMyInformation: async (userId: string) => {
     console.log('[API Request] getMyInformation', { userId });
     const response = await apiClient.get<MyInfoResponse>(`user/profiles/${userId}`);
     console.log('[API Response] getMyInformation:', response.data);
@@ -137,10 +138,9 @@ export const walkApi = {
       userId: feed.user_id,
       userName: feed.user_name,
       profileImage:
-        feed.image_urls?.[0].length > 30
-          ? feed.image_urls[0]
-          : 'https://images.pexels.com/photos/4587979/pexels-photo-4587979.jpeg?auto=compress&cs=tinysrgb&w=1260&h=750&dpr=2',
-      liked: feed.liked_by.length,
+        feed?.profile_image_url ??
+        'https://images.pexels.com/photos/4587979/pexels-photo-4587979.jpeg?auto=compress&cs=tinysrgb&w=1260&h=750&dpr=2',
+      liked: feed.like_count,
     }));
 
     return feedList;

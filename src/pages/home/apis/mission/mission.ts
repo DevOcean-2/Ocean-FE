@@ -45,6 +45,20 @@ export interface MyActivityResponse {
   }[];
 }
 
+export interface FeedMissionResponse {
+  isSuccess: boolean;
+  code: number;
+  message: string;
+  result: {
+    mission: string;
+    hashtag: string[];
+    month: number;
+    year: number;
+    missionId: number;
+    isDone: boolean;
+  };
+}
+
 export const missionApi = {
   // 미션 조회
   getMission: async () => {
@@ -57,6 +71,36 @@ export const missionApi = {
     });
     console.log('[API Response] getMission:', response.data.result.missionList);
     return response.data.result.missionList;
+  },
+
+  // 피드 미션 조회
+  getFeedMission: async (year: number, month: number) => {
+    const response = await apiClient.get<FeedMissionResponse>('mission/api/feed-mission', {
+      params: {
+        year,
+        month,
+      },
+      headers: {
+        Authorization:
+          'Bearer eyJ0eXAiOiJKV1QiLCJhbGciOiJIUzI1NiJ9.eyJzdWIiOiJ5b25naG9vbl90ZXN0Iiwic29jaWFsX2lkIjoieW9uZ2hvb25fdGVzdCIsImV4cCI6MTc0MDM3NTI4NywidHlwZSI6ImFjY2VzcyJ9.Jt5XIcq_3Gzaq8_qJcVTyqj1jrkVXW0b60fYI52gT08',
+      },
+    });
+
+    const feedMissionData = response.data;
+
+    return [
+      {
+        missionId: feedMissionData.result.missionId,
+        userMissionId: '',
+        missionName: feedMissionData.result.mission,
+        missionType: 'FEED',
+        count: 0,
+        percent: feedMissionData.result?.isDone ? '100' : '0',
+        missionProgressType: feedMissionData.result?.isDone ? 'COMPLETE' : 'READY',
+        completeDate: '',
+        complete: Boolean(feedMissionData.result?.isDone),
+      },
+    ];
   },
 
   // 내 활동 조회

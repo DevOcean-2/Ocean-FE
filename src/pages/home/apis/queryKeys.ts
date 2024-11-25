@@ -22,5 +22,6 @@ export const queryKeys = {
     checkLandMarkMission: ['check-landmark'] as const, // 랜드마크 미션 조회 - Home V
     checkTreasureHuntMission: ['check-treasure'] as const, // 보물찾기 미션 조회 - Home
     getMission: ['w-mission'] as const, // 미션 조회 - Home V
+    getFeedMission: ['w-feed-mission'] as const, // 피드 미션 조회 - Home V
   },
 };
