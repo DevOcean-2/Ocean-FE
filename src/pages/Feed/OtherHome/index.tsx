@@ -1,34 +1,33 @@
-import { FeedHomeHeader } from '@/src/widgets/PageHeaders/FeedHeader';
+import { FeedOtherHomeHeader } from '@/src/widgets/PageHeaders/FeedHeader';
 import { Button } from '@/src/shared/feed/ui';
 import { Pressable, StyleSheet, Text, View } from 'react-native';
 import { Image } from '@/src/shared/ui';
 import TabController from '@/components/TabController';
 import { MainLayout, ScrollLayout } from '@/src/pages/Feed/ui';
-import { Link, useRouter } from 'expo-router';
-import { PublicFeedEntryLink } from '@/src/shared/constants';
-import { useState } from 'react';
-import { getFeedPosts } from '@/src/pages/Feed/api';
-import { FeedPostsResponse } from '@/src/pages/Feed/types';
+import { useLocalSearchParams, useRouter } from 'expo-router';
+import { useEffect } from 'react';
 import { useQuery } from '@tanstack/react-query';
 import { queryKeyMetaData } from '@/src/pages/Feed/constants';
+import { getFeedPosts } from '@/src/pages/Feed/api';
+import { PublicFeedEntryLink } from '@/src/shared/constants';
 
-const MyHome = () => {
+const OtherHome = () => {
+  const params = useLocalSearchParams<{ userId: string; nickName: string }>();
+
   const route = useRouter();
 
-  const [feedPostList, setFeedPostList] = useState<FeedPostsResponse[]>();
+  useEffect(() => {
+    console.log(params);
+  }, [params]);
 
-  const [userNickName, setUserNickName] = useState();
-  const [dogName, setDogName] = useState('강아지 이름 표시 영역');
-  const [dogType, setDogType] = useState('말티즈');
-
-  const { data, isLoading, error } = useQuery({
+  const { data: feedData } = useQuery({
     queryKey: [queryKeyMetaData.getFeedPosts],
     queryFn: () => getFeedPosts('yonghoon_test'),
   });
 
   return (
     <MainLayout>
-      <FeedHomeHeader userNickName={userNickName} />
+      <FeedOtherHomeHeader userNickName={params.nickName} />
       <ScrollLayout>
         <View style={styles.contentContainer}>
           <View style={styles.imageContentContainer}>
@@ -37,8 +36,8 @@ const MyHome = () => {
             </View>
             <View style={styles.imageTextContent}>
               <View style={styles.title}>
-                <Text style={styles.titleText}>{dogName}</Text>
-                <Text style={styles.subTitleText}>{dogType}</Text>
+                <Text style={styles.titleText}>강아지 이름 표시 영역</Text>
+                <Text style={styles.subTitleText}>말티즈</Text>
               </View>
               <View style={styles.imageRecordContent}>
                 <View style={styles.recordRow}>
@@ -53,9 +52,10 @@ const MyHome = () => {
             </View>
             <View style={styles.visitor}>
               <View style={styles.visitorBadge}>
-                <Link href={PublicFeedEntryLink.feedVisitor}>
-                  <Text>1,234</Text>
-                </Link>
+                {/* 다른 사람 방문자는 확인 x */}
+                {/*<Link href={PublicFeedEntryLink.feedVisitor}>*/}
+                <Text>1,234</Text>
+                {/*</Link>*/}
               </View>
             </View>
           </View>
@@ -72,9 +72,9 @@ const MyHome = () => {
             </View>
           </View>
           <View style={styles.profileButton}>
-            <Button style={styles.button}>
-              <Text>프로필 편집</Text>
-            </Button>
+            {/*<Button style={styles.button}>*/}
+            {/*  <Text>프로필 편집</Text>*/}
+            {/*</Button>*/}
             <Button style={styles.button}>
               <Text>프로필 공유</Text>
             </Button>
@@ -85,7 +85,7 @@ const MyHome = () => {
             <TabController.TabBar />
             <TabController.TabPage index={0}>
               <View style={styles.tabContentPage}>
-                {data?.map((info, index) => {
+                {feedData?.map((info, index) => {
                   return (
                     <Pressable
                       key={info.post_id}
@@ -126,7 +126,7 @@ const MyHome = () => {
   );
 };
 
-export default MyHome;
+export default OtherHome;
 
 const styles = StyleSheet.create({
   contentContainer: {
@@ -209,14 +209,6 @@ const styles = StyleSheet.create({
     height: 80,
     borderRadius: 100,
   },
-  feedImageWrapper: {
-    width: '31.5%',
-    height: 110,
-  },
-  feedImage: {
-    width: '100%',
-    height: '100%',
-  },
   separator: {
     width: 1,
     height: 13,
@@ -241,5 +233,13 @@ const styles = StyleSheet.create({
     width: '31.5%',
     height: 110,
     backgroundColor: '#E4E9F2',
+  },
+  feedImageWrapper: {
+    width: '31.5%',
+    height: 110,
+  },
+  feedImage: {
+    width: '100%',
+    height: '100%',
   },
 });

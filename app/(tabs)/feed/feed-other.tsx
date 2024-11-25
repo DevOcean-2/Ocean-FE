@@ -1,11 +1,7 @@
-import { Text, View } from 'react-native';
+import OtherHome from '@/src/pages/Feed/OtherHome';
 
 const FeedOther = () => {
-  return (
-    <View>
-      <Text>Feed 타유저</Text>
-    </View>
-  );
+  return <OtherHome />;
 };
 
 export default FeedOther;

@@ -9,6 +9,7 @@ export const WalkActivityHeader = () => {
   const navigation = useNavigation();
   const [isVisible, setIsVisible] = useState<boolean>(false);
   return (
+    
     <HeaderLayout headerBackgroundColor="#FFFFFF">
       <View
         style={{
@@ -26,7 +27,7 @@ export const WalkActivityHeader = () => {
         <Text
           style={{
             fontSize: 18,
-            fontWeight: 600,
+            fontWeight: '600',
           }}
         >
           내 활동
@@ -41,7 +42,7 @@ export const WalkActivityHeader = () => {
               style={{
                 color: '#8F9BB3',
                 fontSize: 15,
-                fontWeight: 400,
+                fontWeight: '400',
               }}
             >
               산책한 날짜만 조회됩니다.

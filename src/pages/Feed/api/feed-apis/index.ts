@@ -1,8 +1,9 @@
 import AxiosConfig from '@/src/pages/Feed/api/AxiosConfig';
 import axios from 'axios';
-import { FeedCreateRequest, FeedPostsResponse } from '@/src/pages/Feed/types';
+import { FeedCreateRequest, FeedPostsResponse, UserInfoResponse } from '@/src/pages/Feed/types';
 
-const apiClient = new AxiosConfig('https://balbalm.yubin.dev/feed/', {});
+const feedApiClient = new AxiosConfig('https://balbalm.yubin.dev/feed/', {});
+const userApiClient = new AxiosConfig('https://balbalm.yubin.dev/user/', {});
 
 export const getApiList = async () => {
   // return await axios.get('https://balbalm.yubin.dev/feed');
@@ -15,11 +16,32 @@ export const getApiList = async () => {
 };
 
 export const getFeedPosts = async (userId: string): Promise<FeedPostsResponse[]> => {
-  const response = await apiClient.get('/posts', { params: { user_id: userId } });
+  const response = await feedApiClient.get('/posts', { params: { user_id: userId } });
   return response.data;
 };
 
 export const createFeedPost = async (feedContent: FeedCreateRequest) => {
-  const response = await apiClient.post('/posts', feedContent);
+  const response = await feedApiClient.post('/posts', feedContent);
+  return response.data;
+};
+
+export const deleteFeedPost = async (feedId: number) => {
+  const response = await feedApiClient.delete(`/posts/${feedId}`);
+  return response.data;
+};
+
+export const toggleFeedLike = async (postId: number) => {
+  // const { post_id, ...rest } = checkLikeContent;
+
+  const response = await feedApiClient.post(`/posts/${postId}/likes`, {});
+  return response.data;
+};
+
+export const getUserApiList = async () => {
+  return axios.get('https://balbalm.yubin.dev/user');
+};
+
+export const getUserInfo = async (userId: string): Promise<UserInfoResponse> => {
+  const response = await userApiClient.get(`/profiles/${userId}`);
   return response.data;
 };

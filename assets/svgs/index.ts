@@ -46,3 +46,6 @@ export { default as ICON_GALLERY } from './gallery.svg';
 export { default as FIRST_SESSION } from './first_session.svg';
 export { default as SECOND_SESSION } from './second_session.svg';
 export { default as THIRD_SESSION } from './third_session.svg';
+export { default as ICON_PAW_FILL } from './paw-fill.svg';
+export { default as ICON_SUCCESS_MARK } from './success_mark.svg';
+export { default as ICON_WARNING_MARK } from './warning_mark.svg';

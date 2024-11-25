@@ -3,10 +3,20 @@ import { MainLayout, ScrollLayout } from '@/src/pages/Feed/ui';
 import { StyleSheet, Text, View } from 'react-native';
 import { Image } from '@/src/shared/ui';
 import { Button } from '@/src/shared/feed/ui';
+import { useRouter } from 'expo-router';
+import { PublicFeedEntryLink } from '@/src/shared/constants';
 
 const FeedVisitor = () => {
-  const dummyDataList = [1, 2, 3, 4, 5, 6, 7, 8, 9, 10];
+  const dummyDataList = [
+    { userId: 'yonghoon_test', nickName: '용훈' },
+    { userId: 'yonghoon_test', nickName: '종대' },
+    { userId: 'yonghoon_test', nickName: '지훈' },
+    { userId: 'yonghoon_test', nickName: '가영' },
+  ];
 
+  const router = useRouter();
+
+  // PublicFeedEntryLink.feedDetail
   return (
     <MainLayout>
       <FeedVisitorHeader />
@@ -14,12 +24,20 @@ const FeedVisitor = () => {
         <View style={styles.contentContainer}>
           {dummyDataList.map((item) => {
             return (
-              <View style={styles.itemWrapper}>
+              <View key={item.nickName} style={styles.itemWrapper}>
                 <View style={styles.profileWrapper}>
                   <Image style={styles.image} source={require('./assets/dummy.png')} />
-                  <Text>유저 닉네임</Text>
+                  <Text>{item.nickName}</Text>
                 </View>
-                <Button style={styles.button}>
+                <Button
+                  style={styles.button}
+                  onPress={() =>
+                    router.push({
+                      pathname: PublicFeedEntryLink.feedOther,
+                      params: { ...item },
+                    })
+                  }
+                >
                   <Text>방문하기</Text>
                 </Button>
               </View>
@@ -66,6 +84,6 @@ const styles = StyleSheet.create({
   text: {
     color: '#101426',
     fontSize: 11,
-    fontWeight: 500,
+    fontWeight: '500',
   },
 });

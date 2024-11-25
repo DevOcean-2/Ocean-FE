@@ -1,7 +1,15 @@
-import { useState } from 'react';
+import { useQuery } from '@tanstack/react-query';
+import { weatherApi } from '../apis/weather';
+import { queryKeys } from '../apis/queryKeys';
 
-export const useWeather = () => {
-  // @TODO: 날씨 정보를 가져온 후 그에 맞는 텍스트를 반환할 수 있게 변경 되어야 함.
-  const [weatherText] = useState<string>('산책하기 좋은 날씨네요!');
-  return { weatherText };
+export const useWeather = (lat?: number, lon?: number) => {
+  return useQuery({
+    queryKey: queryKeys.walk.currentWeather,
+    queryFn: () => {
+      if (!lat || !lon) throw new Error('위치 정보가 필요합니다.');
+      return weatherApi.getCurrentWeather(lat, lon);
+    },
+    enabled: !!lat && !!lon,
+    staleTime: 1000 * 60 * 5, // 5분 주기로 갱신
+  });
 };
