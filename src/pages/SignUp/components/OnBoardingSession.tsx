@@ -1,9 +1,9 @@
-import { View, Text, Image, StyleSheet, Dimensions } from 'react-native';
+import { View, Text, Image, StyleSheet, Dimensions, Animated } from 'react-native';
 import { ICON_GALLERY, ICON_PIN_GREEN, ICON_NAVIGATE,FIRST_SESSION, SECOND_SESSION, THIRD_SESSION
   } from '@/assets/svgs';
 import { SvgProps } from 'react-native-svg';
 import { Button } from 'react-native-ui-lib';
-import { useState } from 'react';
+import { useEffect, useRef, useState } from 'react';
 
 interface OnboardingSlide {
   id: number;
@@ -52,6 +52,35 @@ const OnBoardingSession = ({activeIndex} : OnboardingSessionProps) => {
   const [onboardingIndex, setOnboardingIndex] = useState(activeIndex);
   const CurrentIcon = slides[onboardingIndex-3].icon;
   const CurrentImage = slides[onboardingIndex-3].image;
+  const moveAnim = useRef(new Animated.Value(0)).current;
+
+
+  const startAnimation = () => {
+    Animated.sequence([
+      // 오른쪽으로 이동
+      Animated.timing(moveAnim, {
+        toValue: 10,
+        duration: 1000,
+        useNativeDriver: true,
+      }),
+      // 왼쪽으로 이동
+      Animated.timing(moveAnim, {
+        toValue: -10,
+        duration: 2000,
+        useNativeDriver: true,
+      }),
+      // 다시 원위치
+      Animated.timing(moveAnim, {
+        toValue: 0,
+        duration: 1000,
+        useNativeDriver: true,
+      }),
+    ]).start(() => startAnimation()); // 애니메이션 반복
+  };
+
+  useEffect(() => {
+    startAnimation();
+  }, []);
 
   const buttonStyle = [
     styles.button,
@@ -71,8 +100,13 @@ const OnBoardingSession = ({activeIndex} : OnboardingSessionProps) => {
         <Text style={styles.description}>{slides[onboardingIndex-3].description}</Text>
       </View>
       <View style={styles.imageContainer}>
-      <CurrentImage/>
-
+        <Animated.View
+          style={{
+            transform: [{ translateX: moveAnim }]
+          }}
+        >
+          <CurrentImage/>
+        </Animated.View>
       </View>
       <Button
         style={buttonStyle}
