@@ -1,8 +1,25 @@
 import { useRef, useState } from 'react';
-import { View, Text, Dimensions, TextInput, Button } from 'react-native';
+import { View, Text, Dimensions, TextInput, Button, StyleSheet, ScrollView } from 'react-native';
 import WebView from 'react-native-webview';
-import SortingComponent from './components/sortedComponent';
 import CategoryList from './components/cateogoryList';
+import PlaceList from './components/placeList';
+
+const restaurants = [
+  {
+    name: '라스토리아001',
+    type: '음식점',
+    distance: '13km',
+    address: '경기 성남시 분당구 판교공원로3길 24 1층',
+    images: ['image1_url', 'image2_url', 'image3_url'],
+  },
+  {
+    name: '이스트파크 yeast park',
+    type: '카페',
+    distance: '29km',
+    address: '경기 성남시 분당구 산운로160번길 2 103호',
+    images: ['image1_url', 'image2_url', 'image3_url'],
+  },
+];
 
 const PlaceComponent = () => {
   const [keyword, setKeyword] = useState('이태원 맛집');
@@ -346,8 +363,20 @@ function removeAllChildNods(el) {
       />
 
       <CategoryList />
+      <ScrollView style={styles.container}>
+        {restaurants.map((restaurant, index) => (
+          <PlaceList key={index} {...restaurant} />
+        ))}
+      </ScrollView>
     </View>
   );
 };
+
+const styles = StyleSheet.create({
+  container: {
+    flex: 1,
+    padding: 16,
+  },
+});
 
 export default PlaceComponent;
