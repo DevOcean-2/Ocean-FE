@@ -1,3 +1,4 @@
+import LocalImage from '@/src/shared/ui/LocalImage';
 import React, { useState } from 'react';
 import { View, Text, StyleSheet, ScrollView, Dimensions } from 'react-native';
 
@@ -22,6 +23,16 @@ const PlaceList = ({ name, type, distance, address, images }: PlaceListProps) =>
 
   return (
     <View style={styles.container}>
+      <View style={styles.info}>
+        <View style={styles.placeTitle}>
+          <Text style={styles.name}>{name}</Text>
+          <Text style={styles.type}>{type}</Text>
+        </View>
+        <View style={styles.subPlaceTitle}>
+          <Text style={styles.details}>{distance}</Text>
+          <Text style={styles.details}>{address}</Text>
+        </View>
+      </View>
       <View style={styles.imageContainer}>
         <ScrollView
           horizontal
@@ -30,8 +41,12 @@ const PlaceList = ({ name, type, distance, address, images }: PlaceListProps) =>
           onMomentumScrollEnd={handleScroll}
         >
           {images.map((image, index) => (
-            <View key={index} style={[styles.imageWrapper, { width: windowWidth }]}>
-              {/* <Image source={{ uri: image }} style={styles.image} /> */}
+            <View key={index}>
+              <LocalImage
+                key={`${name}-${index}`}
+                source={require('@/assets/images/select-large-dog.png')}
+                style={{ width: 100, height: 100, marginRight: 10 }}
+              />
             </View>
           ))}
         </ScrollView>
@@ -47,35 +62,36 @@ const PlaceList = ({ name, type, distance, address, images }: PlaceListProps) =>
           ))}
         </View>
       </View>
-      <View style={styles.info}>
-        <Text style={styles.name}>{name}</Text>
-        <Text style={styles.type}>{type}</Text>
-        <Text style={styles.details}>
-          {distance} · {address}
-        </Text>
-      </View>
     </View>
   );
 };
 
 const styles = StyleSheet.create({
   container: {
-    marginBottom: 20,
     backgroundColor: '#fff',
     borderRadius: 12,
     overflow: 'hidden',
   },
   imageContainer: {
-    height: 200,
     position: 'relative',
-  },
-  imageWrapper: {
-    height: 200,
+    paddingHorizontal: 16,
+    marginVertical: 4,
   },
   image: {
     width: '100%',
     height: '100%',
     resizeMode: 'cover',
+  },
+  placeTitle: {
+    flexDirection: 'row',
+    alignItems: 'center',
+    gap: 10,
+    marginBottom: 6,
+  },
+  subPlaceTitle: {
+    flexDirection: 'row',
+    alignItems: 'center',
+    gap: 10,
   },
   pagination: {
     position: 'absolute',
@@ -96,17 +112,20 @@ const styles = StyleSheet.create({
   },
   name: {
     fontSize: 16,
-    fontWeight: 'bold',
+    fontWeight: '500',
     marginBottom: 4,
   },
   type: {
     fontSize: 14,
-    color: '#666',
+    color: '#8F9BB3',
+    fontWeight: '400',
     marginBottom: 4,
   },
   details: {
     fontSize: 14,
-    color: '#666',
+    fontWeight: '400',
+
+    color: '#222B45',
   },
 });
 

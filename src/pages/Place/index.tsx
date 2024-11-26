@@ -10,14 +10,24 @@ const restaurants = [
     type: '음식점',
     distance: '13km',
     address: '경기 성남시 분당구 판교공원로3길 24 1층',
-    images: ['image1_url', 'image2_url', 'image3_url'],
+    images: [
+      require('@/assets/images/select-large-dog.png'),
+      require('@/assets/images/select-large-dog.png'),
+      require('@/assets/images/select-large-dog.png'),
+      require('@/assets/images/select-large-dog.png'),
+    ],
   },
   {
     name: '이스트파크 yeast park',
     type: '카페',
     distance: '29km',
     address: '경기 성남시 분당구 산운로160번길 2 103호',
-    images: ['image1_url', 'image2_url', 'image3_url'],
+    images: [
+      require('@/assets/images/select-large-dog.png'),
+      require('@/assets/images/select-large-dog.png'),
+      require('@/assets/images/select-large-dog.png'),
+      require('@/assets/images/select-large-dog.png'),
+    ],
   },
 ];
 
@@ -375,7 +385,8 @@ function removeAllChildNods(el) {
 const styles = StyleSheet.create({
   container: {
     flex: 1,
-    padding: 16,
+    borderTopColor: '#f0f0f0',
+    borderTopWidth: 1,
   },
 });
 
