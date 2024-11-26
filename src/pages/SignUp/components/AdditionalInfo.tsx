@@ -6,11 +6,8 @@ import * as ImagePicker from 'expo-image-picker';
 import { StepProps } from '../types/signUp';
 import { Banner } from '@/components/Banner';
 import { ICON_IMAGE, ICON_CHECK_BOX, ICON_UN_CHECK_BOX } from '@/assets/svgs';
-import { useQuery } from '@tanstack/react-query';
-import { fetchDogDiseases } from '../api/dogInfoApi';
 import useDogData from '../hooks/queries/useDogData';
-
-
+import formatPickerItems from '../utils/formatPickerItems';
 
 const AdditionalInfo: React.FC<StepProps> = ({ control }) => {
   const [aOption, setAOption] = useState<string[]>([]);
@@ -50,8 +47,7 @@ const AdditionalInfo: React.FC<StepProps> = ({ control }) => {
     defaultValue: false,
   });
 
-  const { diseases, vaccinations, allergies, isLoading, isError } = useDogData();
-
+  const { diseases, vaccinations, allergies } = useDogData();
 
   const pickImage = async (onChange: (value: string) => void) => {
     let result = await ImagePicker.launchImageLibraryAsync({
@@ -95,7 +91,6 @@ const AdditionalInfo: React.FC<StepProps> = ({ control }) => {
 
     return true;
   };
-
 
   return (
     <ScrollView style={AdditionalInfoStyles.stepContainer}>
@@ -320,7 +315,7 @@ const AdditionalInfo: React.FC<StepProps> = ({ control }) => {
                 value={value}
                 mode={Picker.modes.MULTI}
                 enableModalBlur={false}
-                onChange={(items) =>  onChange(items)}
+                onChange={(items) => onChange(items)}
                 topBarProps={{ title: 'ABC' }}
                 showSearch
                 searchPlaceholder={'질병 정보 추가하기'}

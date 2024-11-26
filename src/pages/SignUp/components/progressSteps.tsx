@@ -16,7 +16,6 @@ export const ProgressSteps: React.FC<ProgressStepsProps> = ({
   activeColor = '#34C759',
   inactiveColor = '#E5E5EA',
 }) => {
-  console.log(currentStep);
   return (
     <View style={styles.container}>
       {steps.map((step, index) => (

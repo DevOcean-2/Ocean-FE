@@ -53,9 +53,9 @@ const BasicInfo: React.FC<StepProps> = ({ control }) => {
                 placeholder="내용을 입력해주세요"
                 onChangeText={onChange}
                 value={value}
-                maxLength={30} // 최대 입력 길이 설정
-                showCharCounter // 글자 수 카운터 표시
-                charCounterStyle={{ color: '#8F9BB3' }} // 글자 수 카운터 스타일
+                maxLength={30}
+                showCharCounter
+                charCounterStyle={{ color: '#8F9BB3' }}
               />
             </View>
           )}
