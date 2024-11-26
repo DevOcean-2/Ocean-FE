@@ -2,10 +2,13 @@ import React from 'react';
 import { ScrollView, StyleSheet } from 'react-native';
 import { View, Button, Toast } from 'react-native-ui-lib';
 import { useSignUpForm } from './hooks/useSignUpForm';
-import { CustomWizard } from './components/CustomWizard';
+
 import { styles } from './styles';
 import { StepRenderer } from './components/StepRender';
+import ProgressSteps from './components/progressSteps';
 
+const steps = ['기본정보', '추가정보', '정보 확인'];
+const currentStep = 3;
 const SignUp: React.FC = () => {
   const {
     activeIndex,
@@ -38,7 +41,7 @@ const SignUp: React.FC = () => {
     }
 
     return (
-      <View style={ SignUpStyles.halfWidthButton}>
+      <View style={SignUpStyles.halfWidthButton}>
         <Button
           style={[SignUpStyles.button, SignUpStyles.prevButton]}
           labelStyle={SignUpStyles.prevButtonLabel}
@@ -50,21 +53,21 @@ const SignUp: React.FC = () => {
     );
   };
 
-
   return (
     <View style={SignUpStyles.container}>
-      <CustomWizard
+      {/* <CustomWizard
         activeIndex={activeIndex}
         onActiveIndexChanged={onActiveIndexChanged}
         getStepState={getStepState}
-      />
+      /> */}
+      <ProgressSteps steps={steps} currentStep={currentStep} />
       <ScrollView contentContainerStyle={SignUpStyles.signUpViewContainer}>
         <View style={SignUpStyles.renderStepContainer}>
           <StepRenderer activeIndex={activeIndex} control={control} errors={errors} />
         </View>
       </ScrollView>
-      {activeIndex !== 3 &&  <View style={SignUpStyles.buttonContainer}>{renderButtons()}</View>}
-      
+      {activeIndex !== 3 && <View style={SignUpStyles.buttonContainer}>{renderButtons()}</View>}
+
       {toastMessage && <Toast visible position="bottom" message={toastMessage} />}
     </View>
   );

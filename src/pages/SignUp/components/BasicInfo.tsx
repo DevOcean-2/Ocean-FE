@@ -12,14 +12,10 @@ import { Banner } from '@/components/Banner';
 import { useQuery } from '@tanstack/react-query';
 import { fetchDogBreeds } from '../api/dogInfoApi';
 
-
-
 const BasicInfo: React.FC<StepProps> = ({ control }) => {
   const [isBreed, setIsBreed] = useState(true);
 
-  const {
-    data: dogBreeds,
-  } = useQuery({
+  const { data: dogBreeds } = useQuery({
     queryKey: ['dogBreeds'],
     queryFn: fetchDogBreeds,
     select: (data) =>
@@ -31,11 +27,9 @@ const BasicInfo: React.FC<StepProps> = ({ control }) => {
 
   const breed = useWatch({
     control,
-    name: "breed",
-    defaultValue: ""
+    name: 'breed',
+    defaultValue: '',
   });
-  
-
 
   return (
     <ScrollView style={styles.stepContainer}>
@@ -161,22 +155,25 @@ const BasicInfo: React.FC<StepProps> = ({ control }) => {
                     containerStyle={BasicInfoStyles.pickerContainer}
                     style={BasicInfoStyles.picker}
                   />
-                  
                 </>
               )}
-              {breed === "" && (
-                  <View>
-                    <Text style={BasicInfoStyles.orText}>또는</Text>
-                    <TouchableOpacity
-                      style={isBreed ? BasicInfoStyles.cannotFindButton : BasicInfoStyles.canFindButton}
-                      onPress={() => setIsBreed(prev => !prev)}
+              {breed === '' && (
+                <View>
+                  <Text style={BasicInfoStyles.orText}>또는</Text>
+                  <TouchableOpacity
+                    style={
+                      isBreed ? BasicInfoStyles.cannotFindButton : BasicInfoStyles.canFindButton
+                    }
+                    onPress={() => setIsBreed((prev) => !prev)}
+                  >
+                    <Text
+                      style={isBreed ? BasicInfoStyles.cannotFindText : BasicInfoStyles.canFindText}
                     >
-                      <Text style={isBreed ? BasicInfoStyles.cannotFindText : BasicInfoStyles.canFindText}>
-                        정형화 할 수 없어요
-                      </Text>
-                    </TouchableOpacity>
-                  </View>
-                )}
+                      정형화 할 수 없어요
+                    </Text>
+                  </TouchableOpacity>
+                </View>
+              )}
             </View>
           )}
         />

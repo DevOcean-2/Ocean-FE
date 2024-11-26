@@ -1,4 +1,3 @@
-// SignUp/components/StepRenderer.tsx
 import React from 'react';
 import { Control, FieldErrors } from 'react-hook-form';
 import BasicInfo from './BasicInfo';
@@ -21,7 +20,7 @@ export const StepRenderer: React.FC<StepRendererProps> = ({ activeIndex, control
     case 2:
       return <ConfirmInfo control={control} errors={errors} />;
     case 3:
-      return <OnBoardingSession activeIndex={activeIndex}/>
+      return <OnBoardingSession activeIndex={activeIndex} />;
     default:
       return null;
   }
