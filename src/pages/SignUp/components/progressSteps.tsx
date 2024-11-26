@@ -16,38 +16,62 @@ export const ProgressSteps: React.FC<ProgressStepsProps> = ({
   activeColor = '#34C759',
   inactiveColor = '#E5E5EA',
 }) => {
+  console.log(currentStep);
   return (
     <View style={styles.container}>
       {steps.map((step, index) => (
-        <View key={index} style={styles.stepContainer}>
-          <View
-            style={[
-              styles.circle,
-              {
-                backgroundColor: index + 1 <= currentStep ? activeColor : inactiveColor,
-              },
-            ]}
-          >
-            <Text style={styles.stepNumber}>{index + 1}</Text>
+        <View key={index} style={styles.stepWrapper}>
+          {/* Left Line */}
+          {index > 0 && (
+            <View
+              style={[
+                styles.line,
+                {
+                  backgroundColor: index <= currentStep ? activeColor : inactiveColor,
+                },
+              ]}
+            />
+          )}
+
+          {/* Circle & Text Container */}
+          <View style={styles.stepContainer}>
+            <View
+              style={[
+                styles.circle,
+                {
+                  backgroundColor:
+                    index === currentStep
+                      ? activeColor
+                      : index < currentStep
+                        ? activeColor
+                        : '#fff',
+                  borderWidth: index === currentStep ? 0 : 1,
+                  borderColor: inactiveColor,
+                },
+              ]}
+            >
+              <Text
+                style={[
+                  styles.stepNumber,
+                  {
+                    color: index === currentStep || index < currentStep ? '#fff' : inactiveColor,
+                  },
+                ]}
+              >
+                {index + 1}
+              </Text>
+            </View>
+            {/* Step Text - Only show for current step */}
+            {index === currentStep && <Text style={styles.stepText}>{step}</Text>}
           </View>
 
-          <Text
-            style={[
-              styles.stepText,
-              {
-                color: index + 1 <= currentStep ? '#000' : '#8E8E93',
-              },
-            ]}
-          >
-            {step}
-          </Text>
-
+          {/* Right Line */}
           {index < steps.length - 1 && (
             <View
               style={[
                 styles.line,
                 {
-                  backgroundColor: index + 1 < currentStep ? activeColor : inactiveColor,
+                  backgroundColor: index < currentStep ? activeColor : inactiveColor,
                 },
               ]}
             />
@@ -63,17 +87,23 @@ const styles = StyleSheet.create({
     flexDirection: 'row',
     alignItems: 'center',
     width: SCREEN_WIDTH,
-    paddingHorizontal: 16,
-    height: 40,
+    paddingHorizontal: 20,
+    height: 60,
     backgroundColor: '#fff',
     borderBottomWidth: 1,
     borderBottomColor: '#F2F2F7',
   },
-  stepContainer: {
+  stepWrapper: {
     flex: 1,
+    gap: 2,
     flexDirection: 'row',
     alignItems: 'center',
     justifyContent: 'center',
+  },
+  stepContainer: {
+    flexDirection: 'row',
+    alignItems: 'center',
+    gap: 8,
   },
   circle: {
     width: 24,
@@ -81,23 +111,20 @@ const styles = StyleSheet.create({
     borderRadius: 12,
     justifyContent: 'center',
     alignItems: 'center',
+    backgroundColor: '#34C759',
   },
   stepNumber: {
-    color: '#FFFFFF',
-    fontSize: 14,
+    fontSize: 13,
     fontWeight: '600',
   },
   stepText: {
-    marginTop: 8,
-    fontSize: 12,
+    fontSize: 14,
+    fontWeight: '600',
+    color: '#000',
   },
   line: {
-    position: 'absolute',
-    top: 12,
-    width: '100%',
-    right: '-50%',
-    height: 2,
-    zIndex: -1,
+    flex: 1,
+    height: 1,
   },
 });
 

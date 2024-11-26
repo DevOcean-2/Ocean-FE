@@ -8,7 +8,7 @@ import { StepRenderer } from './components/StepRender';
 import ProgressSteps from './components/progressSteps';
 
 const steps = ['기본정보', '추가정보', '정보 확인'];
-const currentStep = 3;
+const currentStep = 1;
 const SignUp: React.FC = () => {
   const {
     activeIndex,
@@ -60,7 +60,7 @@ const SignUp: React.FC = () => {
         onActiveIndexChanged={onActiveIndexChanged}
         getStepState={getStepState}
       /> */}
-      <ProgressSteps steps={steps} currentStep={currentStep} />
+      <ProgressSteps steps={steps} currentStep={activeIndex} />
       <ScrollView contentContainerStyle={SignUpStyles.signUpViewContainer}>
         <View style={SignUpStyles.renderStepContainer}>
           <StepRenderer activeIndex={activeIndex} control={control} errors={errors} />
