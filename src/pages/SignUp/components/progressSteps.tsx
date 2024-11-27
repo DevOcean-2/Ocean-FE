@@ -16,35 +16,34 @@ export const ProgressSteps: React.FC<ProgressStepsProps> = ({
   activeColor = '#34C759',
   inactiveColor = '#E5E5EA',
 }) => {
+  const stepCurrent = currentStep - 1;
   return (
     <View style={styles.container}>
       {steps.map((step, index) => (
         <View key={index} style={styles.stepWrapper}>
-          {/* Left Line */}
           {index > 0 && (
             <View
               style={[
                 styles.line,
                 {
-                  backgroundColor: index <= currentStep ? activeColor : inactiveColor,
+                  backgroundColor: index <= stepCurrent ? activeColor : inactiveColor,
                 },
               ]}
             />
           )}
 
-          {/* Circle & Text Container */}
           <View style={styles.stepContainer}>
             <View
               style={[
                 styles.circle,
                 {
                   backgroundColor:
-                    index === currentStep
+                    index === stepCurrent
                       ? activeColor
-                      : index < currentStep
+                      : index < stepCurrent
                         ? activeColor
                         : '#fff',
-                  borderWidth: index === currentStep ? 0 : 1,
+                  borderWidth: index === stepCurrent ? 0 : 1,
                   borderColor: inactiveColor,
                 },
               ]}
@@ -53,24 +52,22 @@ export const ProgressSteps: React.FC<ProgressStepsProps> = ({
                 style={[
                   styles.stepNumber,
                   {
-                    color: index === currentStep || index < currentStep ? '#fff' : inactiveColor,
+                    color: index === stepCurrent || index < stepCurrent ? '#fff' : inactiveColor,
                   },
                 ]}
               >
                 {index + 1}
               </Text>
             </View>
-            {/* Step Text - Only show for current step */}
-            {index === currentStep && <Text style={styles.stepText}>{step}</Text>}
+            {index === stepCurrent && <Text style={styles.stepText}>{step}</Text>}
           </View>
 
-          {/* Right Line */}
           {index < steps.length - 1 && (
             <View
               style={[
                 styles.line,
                 {
-                  backgroundColor: index < currentStep ? activeColor : inactiveColor,
+                  backgroundColor: index < stepCurrent ? activeColor : inactiveColor,
                 },
               ]}
             />

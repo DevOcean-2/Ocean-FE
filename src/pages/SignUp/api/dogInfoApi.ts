@@ -10,7 +10,6 @@ export const fetchDogBreeds = async (): Promise<DogInfo[]> => {
   return data;
 };
 
-
 export const fetchDogDiseases = async (): Promise<DogInfo[]> => {
   const { data } = await axios.get('https://balbalm.yubin.dev/user/onboarding/disease');
   return data;

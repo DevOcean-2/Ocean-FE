@@ -20,6 +20,7 @@ const BasicInfo: React.FC<StepProps> = ({ control }) => {
     queryFn: fetchDogBreeds,
     select: (data) =>
       data.map((breed) => ({
+        id: breed.id,
         label: breed.name,
         value: breed.name,
       })),
@@ -27,7 +28,7 @@ const BasicInfo: React.FC<StepProps> = ({ control }) => {
 
   const breed = useWatch({
     control,
-    name: 'breed',
+    name: 'dog_breed',
     defaultValue: '',
   });
 
@@ -120,7 +121,7 @@ const BasicInfo: React.FC<StepProps> = ({ control }) => {
         <Text style={styles.title}>어떤 종류의 댕댕이인가요?</Text>
         <Controller
           control={control}
-          name="breed"
+          name="dog_breed"
           render={({ field: { onChange, value } }) => (
             <View>
               <Text style={styles.label}>
@@ -131,10 +132,11 @@ const BasicInfo: React.FC<StepProps> = ({ control }) => {
                   <Picker
                     placeholder="품종을 선택해주세요"
                     placeholderTextColor="#8F9BB3"
-                    value={value}
+                    value={dogBreeds?.filter((x) => x.id === value)[0]?.label}
                     enableModalBlur={false}
                     onChange={(item) => {
-                      onChange(item);
+                      const filterId = dogBreeds?.filter((x) => x.label === item)[0]?.id;
+                      onChange(filterId);
                     }}
                     topBarProps={{
                       title: '강아지품종',
@@ -142,7 +144,6 @@ const BasicInfo: React.FC<StepProps> = ({ control }) => {
                     }}
                     showSearch
                     searchPlaceholder="품종을 선택해주세요"
-                    onSearchChange={(value) => console.warn('value', value)}
                     items={dogBreeds}
                     containerStyle={BasicInfoStyles.pickerContainer}
                     style={BasicInfoStyles.picker}
@@ -174,7 +175,7 @@ const BasicInfo: React.FC<StepProps> = ({ control }) => {
         <Text style={styles.title}>귀여움을 수치화하면?</Text>
         <Controller
           control={control}
-          name="careLevel"
+          name="dog_cuteness"
           render={({ field: { onChange, value } }) => (
             <>
               <Text style={styles.label}>

@@ -5,7 +5,7 @@ import { schema, FormData } from '../types/signUp';
 import { WizardStepProps } from 'react-native-ui-lib';
 
 export const useSignUpForm = () => {
-  const [activeIndex, setActiveIndex] = useState(0);
+  const [activeIndex, setActiveIndex] = useState(1);
   const [toastMessage, setToastMessage] = useState<string | undefined>(undefined);
 
   const {
@@ -18,8 +18,13 @@ export const useSignUpForm = () => {
       dog_name: '',
       dog_gender: 0,
       dog_size: 0,
-      breed: '',
-      careLevel: 0,
+      dog_breed: '',
+      dog_cuteness: 0,
+      birth_day: '',
+      photo_path: '',
+      current_weight: 0,
+      past_weight: 0,
+      vaccinations: '',
     },
   });
 
