@@ -41,7 +41,7 @@ const BasicInfo: React.FC<StepProps> = ({ control }) => {
         <Text style={styles.title}>반려견을 어떻게 부르시나요? </Text>
         <Controller
           control={control}
-          name="name"
+          name="dog_name"
           render={({ field: { onChange, value } }) => (
             <View>
               <Text style={styles.label}>
@@ -65,23 +65,15 @@ const BasicInfo: React.FC<StepProps> = ({ control }) => {
         <Text style={styles.title}>반려견의 성별은 어떻게 되나요?</Text>
         <Controller
           control={control}
-          name="gender"
+          name="dog_gender"
           render={({ field: { onChange, value } }) => (
             <View style={styles.flexGroup}>
               <Text style={styles.label}>
                 성별 <Text color="red">*</Text>
               </Text>
               <View style={styles.buttonContainer}>
-                <CustomButton
-                  label="여자아이"
-                  onPress={() => onChange('여자아이')}
-                  selected={value === '여자아이'}
-                />
-                <CustomButton
-                  label="남자아이"
-                  onPress={() => onChange('남자아이')}
-                  selected={value === '남자아이'}
-                />
+                <CustomButton label="여자아이" onPress={() => onChange(0)} selected={value === 0} />
+                <CustomButton label="남자아이" onPress={() => onChange(1)} selected={value === 1} />
               </View>
             </View>
           )}
@@ -91,7 +83,7 @@ const BasicInfo: React.FC<StepProps> = ({ control }) => {
         <Text style={styles.title}>반려견의 크기를 알려주세요</Text>
         <Controller
           control={control}
-          name="size"
+          name="dog_size"
           render={({ field: { onChange, value } }) => (
             <View style={styles.flexGroup}>
               <Text style={styles.label}>
@@ -102,22 +94,22 @@ const BasicInfo: React.FC<StepProps> = ({ control }) => {
                   imageUri="small"
                   label="소형견"
                   subLabel="작고 소중해"
-                  onPress={() => onChange('소형견')}
-                  selected={value === '소형견'}
+                  onPress={() => onChange(0)}
+                  selected={value === 0}
                 />
                 <CustomImageButton
                   imageUri="medium"
                   label="중형견"
                   subLabel="이제 좀 무거운 애기"
-                  onPress={() => onChange('중형견')}
-                  selected={value === '중형견'}
+                  onPress={() => onChange(1)}
+                  selected={value === 1}
                 />
                 <CustomImageButton
                   imageUri="large"
                   label="대형견"
                   subLabel="자이언트 베이비"
-                  onPress={() => onChange('대형견')}
-                  selected={value === '대형견'}
+                  onPress={() => onChange(2)}
+                  selected={value === 2}
                 />
               </View>
             </View>

@@ -16,9 +16,9 @@ export const useSignUpForm = () => {
   } = useForm<FormData>({
     resolver: zodResolver(schema),
     defaultValues: {
-      name: '',
-      gender: '여자아이',
-      size: '소형견',
+      dog_name: '',
+      dog_gender: 0,
+      dog_size: 0,
       breed: '',
       careLevel: 0,
     },
