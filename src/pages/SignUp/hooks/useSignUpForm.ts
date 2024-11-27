@@ -6,7 +6,6 @@ import { WizardStepProps } from 'react-native-ui-lib';
 
 export const useSignUpForm = () => {
   const [activeIndex, setActiveIndex] = useState(0);
-  const [completedStepIndex, setCompletedStepIndex] = useState<number | undefined>(undefined);
   const [toastMessage, setToastMessage] = useState<string | undefined>(undefined);
 
   const {
@@ -24,29 +23,13 @@ export const useSignUpForm = () => {
     },
   });
 
-  const onActiveIndexChanged = (index: number) => {
-    setActiveIndex(index);
-  };
-
-  const getStepState = (index: number) => {
-    let state = 'DISABLED';
-    if (completedStepIndex && completedStepIndex > index - 1) {
-      state = 'COMPLETED';
-    } else if (activeIndex === index || completedStepIndex === index - 1) {
-      state = 'ENABLED';
-    }
-    return state as WizardStepProps['state'];
-  };
-
   const goToNextStep = () => {
     if (activeIndex < 2) {
       setActiveIndex(activeIndex + 1);
-      setCompletedStepIndex(activeIndex);
     } else {
       //TODO : handleSubmit(onSubmit) 호출 후 성공하면 next로 넘어가도록 구현
       handleSubmit(onSubmit)();
       setActiveIndex(activeIndex + 1);
-      setCompletedStepIndex(activeIndex);
     }
   };
 
@@ -67,8 +50,6 @@ export const useSignUpForm = () => {
     control,
     errors,
     toastMessage,
-    onActiveIndexChanged,
-    getStepState,
     goToNextStep,
     goToPrevStep,
   };

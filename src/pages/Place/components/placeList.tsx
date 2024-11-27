@@ -12,7 +12,6 @@ interface PlaceListProps {
 
 const PlaceList = ({ name, type, distance, address, images }: PlaceListProps) => {
   const [activeIndex, setActiveIndex] = useState(0);
-  const windowWidth = Dimensions.get('window').width - 32; // 패딩 고려
 
   const handleScroll = (event: any) => {
     const slideSize = event.nativeEvent.layoutMeasurement.width;

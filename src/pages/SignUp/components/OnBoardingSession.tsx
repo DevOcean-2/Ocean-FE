@@ -1,6 +1,12 @@
 import { View, Text, Image, StyleSheet, Dimensions, Animated } from 'react-native';
-import { ICON_GALLERY, ICON_PIN_GREEN, ICON_NAVIGATE,FIRST_SESSION, SECOND_SESSION, THIRD_SESSION
-  } from '@/assets/svgs';
+import {
+  ICON_GALLERY,
+  ICON_PIN_GREEN,
+  ICON_NAVIGATE,
+  FIRST_SESSION,
+  SECOND_SESSION,
+  THIRD_SESSION,
+} from '@/assets/svgs';
 import { SvgProps } from 'react-native-svg';
 import { Button } from 'react-native-ui-lib';
 import { useEffect, useRef, useState } from 'react';
@@ -8,52 +14,50 @@ import { useEffect, useRef, useState } from 'react';
 interface OnboardingSlide {
   id: number;
   title: string;
-  pageIndex : number;
+  pageIndex: number;
   description: string;
-  icon : React.FC<SvgProps>
-  image:  React.FC<SvgProps>
+  icon: React.FC<SvgProps>;
+  image: React.FC<SvgProps>;
 }
 
 interface OnboardingSessionProps {
   activeIndex: number;
 }
 
-
 const slides: OnboardingSlide[] = [
   {
     id: 1,
-    icon : ICON_NAVIGATE,
-    pageIndex : 3,
-    title: "홈으로 이동합니다",
-    description: "반려견과 함께 산책하면서\n산책 경로에 숨어있는 미션을 완료해보세요",
+    icon: ICON_NAVIGATE,
+    pageIndex: 4,
+    title: '홈으로 이동합니다',
+    description: '반려견과 함께 산책하면서\n산책 경로에 숨어있는 미션을 완료해보세요',
     image: FIRST_SESSION,
   },
   {
     id: 2,
-    icon : ICON_PIN_GREEN,
-    pageIndex : 4,
-    title: "장소 메뉴에서",
-    description: "반려견과 함께 갈 수 있는\n나만의 장소 리스트를 만들어보세요",
+    icon: ICON_PIN_GREEN,
+    pageIndex: 5,
+    title: '장소 메뉴에서',
+    description: '반려견과 함께 갈 수 있는\n나만의 장소 리스트를 만들어보세요',
     image: SECOND_SESSION,
   },
   {
     id: 3,
-    icon : ICON_GALLERY,
-    pageIndex : 5,
-    title: "마이피드에서",
-    description: "내 반려견이 가진 귀여움을\n다른 사람들에게도 자랑해보세요",
+    icon: ICON_GALLERY,
+    pageIndex: 6,
+    title: '마이피드에서',
+    description: '내 반려견이 가진 귀여움을\n다른 사람들에게도 자랑해보세요',
     image: THIRD_SESSION,
   },
 ];
 
 const { width } = Dimensions.get('window');
 
-const OnBoardingSession = ({activeIndex} : OnboardingSessionProps) => {
+const OnBoardingSession = ({ activeIndex }: OnboardingSessionProps) => {
   const [onboardingIndex, setOnboardingIndex] = useState(activeIndex);
-  const CurrentIcon = slides[onboardingIndex-3].icon;
-  const CurrentImage = slides[onboardingIndex-3].image;
+  const CurrentIcon = slides[onboardingIndex - 3].icon;
+  const CurrentImage = slides[onboardingIndex - 3].image;
   const moveAnim = useRef(new Animated.Value(0)).current;
-
 
   const startAnimation = () => {
     Animated.sequence([
@@ -84,35 +88,32 @@ const OnBoardingSession = ({activeIndex} : OnboardingSessionProps) => {
 
   const buttonStyle = [
     styles.button,
-    onboardingIndex === 5 ? styles.lastButton : styles.normalButton
+    onboardingIndex === 6 ? styles.lastButton : styles.normalButton,
   ];
 
-  
   return (
     <View style={styles.container}>
       <View style={styles.slideContainer}>
-        
         <View style={styles.titleContainer}>
-        <CurrentIcon/>
-        <Text style={styles.title}>{ slides[onboardingIndex-3].title}</Text>
-
+          <CurrentIcon />
+          <Text style={styles.title}>{slides[onboardingIndex - 3].title}</Text>
         </View>
-        <Text style={styles.description}>{slides[onboardingIndex-3].description}</Text>
+        <Text style={styles.description}>{slides[onboardingIndex - 3].description}</Text>
       </View>
       <View style={styles.imageContainer}>
         <Animated.View
           style={{
-            transform: [{ translateX: moveAnim }]
+            transform: [{ translateX: moveAnim }],
           }}
         >
-          <CurrentImage/>
+          <CurrentImage />
         </Animated.View>
       </View>
       <Button
         style={buttonStyle}
-        label={onboardingIndex === 5 ? '시작하기' : '다음'}
+        label={onboardingIndex === 6 ? '시작하기' : '다음'}
         onPress={() => setOnboardingIndex(onboardingIndex + 1)}
-        color={onboardingIndex === 5 ? 'white' : 'black'} 
+        color={onboardingIndex === 6 ? 'white' : 'black'}
       />
     </View>
   );
@@ -122,22 +123,22 @@ const styles = StyleSheet.create({
   container: {
     flex: 1,
     backgroundColor: '#fff',
-    marginTop  :20,
+    marginTop: 20,
   },
-  titleContainer : {
-    flexDirection : "row",
+  titleContainer: {
+    flexDirection: 'row',
     gap: 8,
   },
-  imageContainer : {
-    flex : 1,
-    justifyContent : "center",
-    alignItems : "center",
+  imageContainer: {
+    flex: 1,
+    justifyContent: 'center',
+    alignItems: 'center',
   },
   slideContainer: {
     flex: 1,
     alignItems: 'flex-start',
     paddingHorizontal: 20,
-    marginBottom :40,
+    marginBottom: 40,
   },
   image: {
     width: width * 0.8,
@@ -153,10 +154,9 @@ const styles = StyleSheet.create({
   description: {
     fontSize: 16,
     color: '#8F9BB3',
-    fontWeight : "500",
+    fontWeight: '500',
     lineHeight: 24,
   },
-
 
   startButton: {
     flex: 1,
@@ -164,7 +164,7 @@ const styles = StyleSheet.create({
     justifyContent: 'center',
     alignItems: 'center',
   },
- 
+
   button: {
     paddingVertical: 10,
     borderRadius: 10,

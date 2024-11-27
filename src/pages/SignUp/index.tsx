@@ -7,19 +7,11 @@ import { styles } from './styles';
 import { StepRenderer } from './components/StepRender';
 import ProgressSteps from './components/progressSteps';
 
-const steps = ['기본정보', '추가정보', '정보 확인'];
-const currentStep = 1;
 const SignUp: React.FC = () => {
-  const {
-    activeIndex,
-    control,
-    errors,
-    toastMessage,
-    onActiveIndexChanged,
-    getStepState,
-    goToNextStep,
-    goToPrevStep,
-  } = useSignUpForm();
+  const steps = ['기본정보', '추가정보', '정보 확인'];
+
+  const { activeIndex, control, errors, toastMessage, goToNextStep, goToPrevStep } =
+    useSignUpForm();
 
   const renderButtons = () => {
     const showPrevButton = activeIndex > 0;
@@ -55,18 +47,15 @@ const SignUp: React.FC = () => {
 
   return (
     <View style={SignUpStyles.container}>
-      {/* <CustomWizard
-        activeIndex={activeIndex}
-        onActiveIndexChanged={onActiveIndexChanged}
-        getStepState={getStepState}
-      /> */}
-      <ProgressSteps steps={steps} currentStep={activeIndex} />
+      {activeIndex !== 0 && <ProgressSteps steps={steps} currentStep={activeIndex} />}
       <ScrollView contentContainerStyle={SignUpStyles.signUpViewContainer}>
         <View style={SignUpStyles.renderStepContainer}>
           <StepRenderer activeIndex={activeIndex} control={control} errors={errors} />
         </View>
       </ScrollView>
-      {activeIndex !== 3 && <View style={SignUpStyles.buttonContainer}>{renderButtons()}</View>}
+      {activeIndex !== 0 && activeIndex !== 4 && (
+        <View style={SignUpStyles.buttonContainer}>{renderButtons()}</View>
+      )}
 
       {toastMessage && <Toast visible position="bottom" message={toastMessage} />}
     </View>
