@@ -10,14 +10,20 @@ interface StepRendererProps {
   activeIndex: number;
   control: any;
   errors: FieldErrors;
+  isBasicInfoValid: () => boolean;
 }
 
-export const StepRenderer: React.FC<StepRendererProps> = ({ activeIndex, control, errors }) => {
+export const StepRenderer: React.FC<StepRendererProps> = ({
+  activeIndex,
+  control,
+  errors,
+  isBasicInfoValid,
+}) => {
   switch (activeIndex) {
     case 0:
       return <KakaoLoginScreen />;
     case 1:
-      return <BasicInfo control={control} errors={errors} />;
+      return <BasicInfo control={control} errors={errors} isBasicInfoValid={isBasicInfoValid} />;
     case 2:
       return <AdditionalInfo control={control} errors={errors} />;
     case 3:

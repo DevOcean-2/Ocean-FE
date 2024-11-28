@@ -12,7 +12,11 @@ import { Banner } from '@/components/Banner';
 import { useQuery } from '@tanstack/react-query';
 import { fetchDogBreeds } from '../api/dogInfoApi';
 
-const BasicInfo: React.FC<StepProps> = ({ control }) => {
+interface BasicInfoProps extends StepProps {
+  isBasicInfoValid: () => boolean;
+}
+
+const BasicInfo: React.FC<BasicInfoProps> = ({ control, isBasicInfoValid }) => {
   const [isBreed, setIsBreed] = useState(true);
 
   const { data: dogBreeds } = useQuery({

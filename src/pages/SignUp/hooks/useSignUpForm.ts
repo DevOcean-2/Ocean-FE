@@ -1,8 +1,7 @@
 import { useState } from 'react';
-import { useForm } from 'react-hook-form';
+import { useForm, useWatch } from 'react-hook-form';
 import { zodResolver } from '@hookform/resolvers/zod';
 import { schema, FormData } from '../types/signUp';
-import { WizardStepProps } from 'react-native-ui-lib';
 
 export const useSignUpForm = () => {
   const [activeIndex, setActiveIndex] = useState(1);
@@ -29,16 +28,30 @@ export const useSignUpForm = () => {
     },
   });
 
+  const dogName = useWatch({
+    control,
+    name: 'dog_name',
+    defaultValue: '',
+  });
+
+  const isBasicInfoValid = () => {
+    if (activeIndex === 1) {
+      return dogName.trim().length > 0;
+    }
+    return true;
+  };
+
   const goToNextStep = () => {
     if (activeIndex < 2) {
-      setActiveIndex(activeIndex + 1);
+      if (isBasicInfoValid()) {
+        setActiveIndex(activeIndex + 1);
+      }
     } else {
-      //TODO : handleSubmit(onSubmit) 호출 후 성공하면 next로 넘어가도록 구현
+      //TODO: onSubmit 함수 추가하기
       handleSubmit(onSubmit)();
       setActiveIndex(activeIndex + 1);
     }
   };
-
   const goToPrevStep = () => {
     if (activeIndex > 0) {
       setActiveIndex(activeIndex - 1);
@@ -58,5 +71,6 @@ export const useSignUpForm = () => {
     toastMessage,
     goToNextStep,
     goToPrevStep,
+    isBasicInfoValid,
   };
 };

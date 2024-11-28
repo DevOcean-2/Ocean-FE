@@ -10,11 +10,18 @@ import ProgressSteps from './components/progressSteps';
 const SignUp: React.FC = () => {
   const steps = ['기본정보', '추가정보', '정보 확인'];
 
-  const { activeIndex, control, errors, toastMessage, goToNextStep, goToPrevStep } =
-    useSignUpForm();
+  const {
+    activeIndex,
+    control,
+    errors,
+    toastMessage,
+    goToNextStep,
+    goToPrevStep,
+    isBasicInfoValid,
+  } = useSignUpForm();
 
   const renderButtons = () => {
-    const showPrevButton = activeIndex > 0;
+    const showPrevButton = activeIndex > 1;
 
     const nextButton = (
       <Button
@@ -22,7 +29,13 @@ const SignUp: React.FC = () => {
           SignUpStyles.button,
           SignUpStyles.nextButton,
           !showPrevButton && SignUpStyles.fullWidthButton,
+          !isBasicInfoValid() && SignUpStyles.disabledButton,
         ]}
+        labelStyle={[
+          SignUpStyles.buttonLabel,
+          !isBasicInfoValid() && SignUpStyles.disabledButtonLabel,
+        ]}
+        disabled={!isBasicInfoValid()}
         label={activeIndex === 2 ? '시작하기' : '입력 완료'}
         onPress={goToNextStep}
       />
@@ -50,7 +63,12 @@ const SignUp: React.FC = () => {
       {activeIndex !== 0 && <ProgressSteps steps={steps} currentStep={activeIndex} />}
       <ScrollView contentContainerStyle={SignUpStyles.signUpViewContainer}>
         <View style={SignUpStyles.renderStepContainer}>
-          <StepRenderer activeIndex={activeIndex} control={control} errors={errors} />
+          <StepRenderer
+            activeIndex={activeIndex}
+            control={control}
+            errors={errors}
+            isBasicInfoValid={isBasicInfoValid}
+          />
         </View>
       </ScrollView>
       {activeIndex !== 0 && activeIndex !== 4 && (
@@ -107,6 +125,16 @@ const SignUpStyles = StyleSheet.create({
   buttonContainer: {
     flexDirection: 'row',
     paddingBottom: 20,
+  },
+  disabledButton: {
+    backgroundColor: '#E4E9F2',
+  },
+  buttonLabel: {
+    color: 'white',
+    fontWeight: '600',
+  },
+  disabledButtonLabel: {
+    color: '#000000',
   },
 });
 

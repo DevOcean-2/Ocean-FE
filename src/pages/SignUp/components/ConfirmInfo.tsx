@@ -5,20 +5,6 @@ import React from 'react';
 import { useWatch } from 'react-hook-form';
 
 const ConfirmInfo: React.FC<StepProps> = ({ control }) => {
-  const petInfo = {
-    name: '두팔이',
-    gender: '남자아이',
-    nickname: '시바견 (종령견)',
-    birthDate: 'YY.MM.DD (00세)',
-    earType: '귀여움 3단계',
-    earLocation: '지역구 입살하는 귀여움',
-    currentWeight: '24kg',
-    weightChange: '-2kg',
-    previousWeight: '26kg',
-    precautions: ['심장사상충', '예방접종타이틀'],
-    allergies: ['알러지 txt', '알러지 txt', '알러지 txt'],
-  };
-
   type FormValues = {
     name: string;
     gender: string;
