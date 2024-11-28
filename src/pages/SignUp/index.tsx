@@ -18,7 +18,17 @@ const SignUp: React.FC = () => {
     goToNextStep,
     goToPrevStep,
     isBasicInfoValid,
+    isAdditionalInfoValid,
   } = useSignUpForm();
+
+  const isButtonDisabled = () => {
+    if (activeIndex === 1) {
+      return !isBasicInfoValid();
+    } else if (activeIndex === 2) {
+      return !isAdditionalInfoValid();
+    }
+    return false;
+  };
 
   const renderButtons = () => {
     const showPrevButton = activeIndex > 1;
@@ -29,13 +39,13 @@ const SignUp: React.FC = () => {
           SignUpStyles.button,
           SignUpStyles.nextButton,
           !showPrevButton && SignUpStyles.fullWidthButton,
-          !isBasicInfoValid() && SignUpStyles.disabledButton,
+          isButtonDisabled() && SignUpStyles.disabledButton,
         ]}
         labelStyle={[
           SignUpStyles.buttonLabel,
-          !isBasicInfoValid() && SignUpStyles.disabledButtonLabel,
+          isButtonDisabled() && SignUpStyles.disabledButtonLabel,
         ]}
-        disabled={!isBasicInfoValid()}
+        disabled={isButtonDisabled()}
         label={activeIndex === 2 ? '시작하기' : '입력 완료'}
         onPress={goToNextStep}
       />

@@ -98,7 +98,9 @@ const AdditionalInfo: React.FC<StepProps> = ({ control }) => {
         subtitle="반려견에 대해 더 알려주고 싶은 정보가 있나요?"
       />
       <View style={AdditionalInfoStyles.itemContainer}>
-        <Text style={AdditionalInfoStyles.title}>프로필 사진을 등록해볼까요?</Text>
+        <Text style={AdditionalInfoStyles.title}>
+          프로필 사진을 등록해볼까요? <Text color="red">*</Text>
+        </Text>
         <Controller
           control={control}
           name="photo_path"
@@ -119,7 +121,9 @@ const AdditionalInfo: React.FC<StepProps> = ({ control }) => {
         />
       </View>
       <View style={AdditionalInfoStyles.itemContainer}>
-        <Text style={AdditionalInfoStyles.title}>반려견의 생일을 알려주세요</Text>
+        <Text style={AdditionalInfoStyles.title}>
+          반려견의 생일을 알려주세요 <Text color="red">*</Text>
+        </Text>
 
         <Controller
           control={control}
