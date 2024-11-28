@@ -1,8 +1,20 @@
 import { useRef, useState } from 'react';
-import { View, Text, Dimensions, TextInput, Button, StyleSheet, ScrollView } from 'react-native';
+import {
+  View,
+  Text,
+  Dimensions,
+  TextInput,
+  Button,
+  StyleSheet,
+  ScrollView,
+  Modal,
+  TouchableOpacity,
+} from 'react-native';
 import WebView from 'react-native-webview';
 import CategoryList from './components/cateogoryList';
 import PlaceList from './components/placeList';
+import { ICON_BOOKMARK } from '@/assets/svgs';
+import BookMarkModal from './components/bookmark/bookmarkModal';
 
 const restaurants = [
   {
@@ -340,7 +352,6 @@ function removeAllChildNods(el) {
   };
   return (
     <View style={{ flex: 1, height: Dimensions.get('window').height }}>
-      {/* 추가된 검색 UI */}
       <View style={{ padding: 10, flexDirection: 'row', alignItems: 'center' }}>
         <TextInput
           style={{
@@ -359,7 +370,6 @@ function removeAllChildNods(el) {
         <Button title="검색" onPress={handleSearch} />
       </View>
 
-      {/* WebView에 ref와 onMessage 추가 */}
       <WebView
         ref={webViewRef}
         source={{ html }}
@@ -371,6 +381,8 @@ function removeAllChildNods(el) {
         geolocationEnabled={true}
         onMessage={onMessage}
       />
+
+      <BookMarkModal />
 
       <CategoryList />
       <ScrollView style={styles.container}>

@@ -13,6 +13,7 @@ export { default as ICON_ARROW_RIGHT } from './arrow_right.svg';
 export { default as ICON_RANKING } from './ranking.svg';
 export { default as ICON_FLAG } from './flag.svg';
 export { default as ICON_FIRE } from './fire.svg';
+export { default as ICON_BOOKMARK } from './bookmark.svg';
 export { default as ICON_CHECK } from './check.svg';
 export { default as ICON_FIRE_WALK } from './fire_white.svg';
 export { default as ICON_CALENDAR } from './calendar.svg';
