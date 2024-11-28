@@ -12,9 +12,6 @@ const places = [
 
 const BookmarkList = () => {
   const { id } = useLocalSearchParams();
-  const pathname = usePathname();
-  console.log(pathname);
-  console.log(id);
   return (
     <View style={styles.container}>
       <View style={styles.header}>

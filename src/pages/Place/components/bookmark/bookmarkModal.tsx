@@ -23,8 +23,6 @@ const bookMarkOption = [
 
 const BookMarkModal = () => {
   const [isModalVisible, setIsModalVisible] = useState(false);
-  const pathname = usePathname();
-  console.log(pathname);
   return (
     <>
       <View style={styles.modalButtonContainer}>
@@ -48,12 +46,11 @@ const BookMarkModal = () => {
           <View style={styles.modalContent}>
             <Text style={styles.modalTitle}>즐겨찾기</Text>
             {bookMarkOption.map((option) => (
-              <Link
-                href={`/bookmarkList?id=${option.id}`}
-                key={option.id}
-                onPress={() => setIsModalVisible(false)}
-              >
-                <TouchableOpacity style={styles.optionItem}>
+              <Link href={`/bookmarkList?id=${option.id}`} key={option.id} asChild>
+                <TouchableOpacity
+                  style={styles.optionItem}
+                  onPress={() => setIsModalVisible(false)}
+                >
                   <Text style={styles.optionText}>{option.name}</Text>
                   <Text style={styles.optionCountText}>{option.count}</Text>
                 </TouchableOpacity>

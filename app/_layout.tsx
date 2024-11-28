@@ -72,8 +72,7 @@ function RootLayoutNav() {
             <Stack.Screen
               name="bookmarkList"
               options={{
-                headerShown: true,
-                title: '북마크 리스트',
+                headerShown: false,
               }}
             />
           </Stack>
