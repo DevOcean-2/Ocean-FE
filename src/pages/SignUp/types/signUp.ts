@@ -21,6 +21,8 @@ export const schema = z.object({
   birth_day: z.string().min(1, '생년월일을 입력해주세요'),
   current_weight: z.number().min(1, '현재 몸무게를 입력해주세요'),
   past_weight: z.number().min(1, '과거 몸무게를 입력해주세요'),
+  vaccinations: z.string().min(1, '접종 내역을 입력해주세요'),
+  allergies: z.string().min(1, '알레르기 내역을 입력해주세요'),
 });
 
 export type FormData = z.infer<typeof schema>;

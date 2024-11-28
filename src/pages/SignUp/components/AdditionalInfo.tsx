@@ -1,13 +1,12 @@
-import React, { useEffect, useState } from 'react';
+import React, { useState } from 'react';
 import { ScrollView, View, Image, TouchableOpacity, StyleSheet } from 'react-native';
-import { Text, TextField, Checkbox, Colors, Picker } from 'react-native-ui-lib';
+import { Text, TextField, Picker } from 'react-native-ui-lib';
 import { Controller, useWatch } from 'react-hook-form';
 import * as ImagePicker from 'expo-image-picker';
 import { StepProps } from '../types/signUp';
 import { Banner } from '@/components/Banner';
 import { ICON_IMAGE, ICON_CHECK_BOX, ICON_UN_CHECK_BOX } from '@/assets/svgs';
 import useDogData from '../hooks/queries/useDogData';
-import formatPickerItems from '../utils/formatPickerItems';
 
 const AdditionalInfo: React.FC<StepProps> = ({ control }) => {
   const [aOption, setAOption] = useState<string[]>([]);
