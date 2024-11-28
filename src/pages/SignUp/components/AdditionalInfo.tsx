@@ -373,13 +373,13 @@ const AdditionalInfo: React.FC<StepProps> = ({ control }) => {
                   placeholder="검색해서 추가하기"
                   value={aOption}
                   enableModalBlur={false}
-                  onChange={(items) => setAOption(items as string[])}
+                  onChange={(items) => onChange(items as string[])}
                   topBarProps={{ title: 'ABC' }}
                   showSearch
                   searchPlaceholder={'알러지 정보를 추가하기'}
                   style={AdditionalInfoStyles.pickerField}
                   onSearchChange={(value) => console.warn('value', value)}
-                  items={vaccinations}
+                  items={allergies}
                 />
               )}
             />
@@ -426,13 +426,13 @@ const AdditionalInfo: React.FC<StepProps> = ({ control }) => {
                   placeholder="검색해서 추가하기"
                   value={aOption}
                   enableModalBlur={false}
-                  onChange={(items) => setAOption(items as string[])}
+                  onChange={(items) => onChange(items as string[])}
                   topBarProps={{ title: 'ABC' }}
                   showSearch
                   searchPlaceholder={'예방접종 정보를 추가하기'}
                   style={AdditionalInfoStyles.pickerField}
                   onSearchChange={(value) => console.warn('value', value)}
-                  items={allergies}
+                  items={vaccinations}
                 />
               )}
             />

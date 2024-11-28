@@ -5,6 +5,7 @@ import React from 'react';
 import { useWatch } from 'react-hook-form';
 import { FormData } from '../types/signUp';
 import { useDogBreeds } from '../hooks/queries/useDogBreed';
+import { ICON_EDIT } from '@/assets/svgs';
 
 const ConfirmInfo: React.FC<StepProps> = ({ control }) => {
   const { data: dogBreedsData } = useDogBreeds();
@@ -27,13 +28,11 @@ const ConfirmInfo: React.FC<StepProps> = ({ control }) => {
 
   const breedName = dogBreedsData?.getBreedNameById(dog_breed);
 
-  // 성별 텍스트 변환
   const getGenderText = (gender: number | undefined) => {
     if (gender === undefined) return '';
     return gender === 0 ? '여자아이' : '남자아이';
   };
 
-  // 크기 텍스트 변환
   const getSizeText = (size: number | undefined) => {
     if (size === undefined) return '';
     switch (size) {
@@ -48,7 +47,6 @@ const ConfirmInfo: React.FC<StepProps> = ({ control }) => {
     }
   };
 
-  // 몸무게 변화 계산
   const weightChange =
     current_weight && past_weight ? Number(current_weight) - Number(past_weight) : 0;
   const weightChangeDisplay = weightChange > 0 ? `+${weightChange}kg` : `${weightChange}kg`;
@@ -65,47 +63,58 @@ const ConfirmInfo: React.FC<StepProps> = ({ control }) => {
 
       <View style={styles.profileSection}>
         <View style={styles.nameSection}>
-          <Text style={styles.name}>{`${getGenderText(dog_gender)} | ${breedName}`}</Text>
+          <Text
+            style={styles.name}
+          >{`${getGenderText(dog_gender)} | ${breedName}(${getSizeText(dog_size)})`}</Text>
           {birth_day && <Text style={styles.birthDate}>{`생일 ${birth_day}`}</Text>}
-          <Text style={styles.sizeInfo}>{getSizeText(dog_size)}</Text>
+          <Text style={styles.name}>{`귀여움 ${dog_cuteness}단계`}</Text>
         </View>
       </View>
 
       <View style={styles.healthSection}>
-        <Text style={styles.sectionTitle}>건강 정보</Text>
+        {current_weight === 0 && past_weight === 0 && !vaccinations && !allergies ? (
+          <View style={styles.noInfoContainer}>
+            <ICON_EDIT />
+            <Text style={styles.noInfoText}>입력된 건강 정보가 없습니다.</Text>
+          </View>
+        ) : (
+          <View>
+            <Text style={styles.sectionTitle}>건강 정보</Text>
 
-        {/* {current_weight > 0 && (
-          <View style={styles.weightRow}>
-            <Text style={styles.weightLabel}>현재 몸무게 |</Text>
-            <View style={styles.weightValue}>
-              <Text style={styles.weight}>{`${current_weight}kg`}</Text>
-              {past_weight > 0 && (
-                <View style={styles.weightChange}>
-                  <Text style={styles.weightTextChange}>{weightChangeDisplay}</Text>
+            {current_weight && current_weight > 0 && (
+              <View style={styles.weightRow}>
+                <Text style={styles.weightLabel}>현재 몸무게 |</Text>
+                <View style={styles.weightValue}>
+                  <Text style={styles.weight}>{`${current_weight}kg`}</Text>
+                  {past_weight && past_weight > 0 && (
+                    <View style={styles.weightChange}>
+                      <Text style={styles.weightTextChange}>{weightChangeDisplay}</Text>
+                    </View>
+                  )}
                 </View>
-              )}
-            </View>
-          </View>
-        )}
+              </View>
+            )}
 
-        {past_weight > 0 && (
-          <View style={styles.weightRow}>
-            <Text style={styles.weightLabel}>이전 몸무게 |</Text>
-            <Text style={styles.weight}>{`${past_weight}kg`}</Text>
-          </View>
-        )} */}
+            {past_weight && past_weight > 0 && (
+              <View style={styles.weightRow}>
+                <Text style={styles.weightLabel}>이전 몸무게 |</Text>
+                <Text style={styles.weight}>{`${past_weight}kg`}</Text>
+              </View>
+            )}
 
-        {vaccinations && (
-          <View style={styles.precautionsSection}>
-            <Text style={styles.weightLabel}>예방접종 | </Text>
-            <Text style={styles.precautionItem}>{vaccinations}</Text>
-          </View>
-        )}
+            {vaccinations && (
+              <View style={styles.precautionsSection}>
+                <Text style={styles.weightLabel}>예방접종 | </Text>
+                <Text style={styles.precautionItem}>{vaccinations}</Text>
+              </View>
+            )}
 
-        {allergies && (
-          <View style={styles.allergiesSection}>
-            <Text style={styles.weightLabel}>알러지 | </Text>
-            <Text style={styles.allergyItem}>{allergies}</Text>
+            {allergies && (
+              <View style={styles.allergiesSection}>
+                <Text style={styles.weightLabel}>알러지 | </Text>
+                <Text style={styles.allergyItem}>{allergies}</Text>
+              </View>
+            )}
           </View>
         )}
       </View>
@@ -159,7 +168,6 @@ const styles = StyleSheet.create({
   healthSection: {
     backgroundColor: '#F7F9FC',
     marginTop: 20,
-    paddingHorizontal: 20,
     marginHorizontal: 20,
     borderRadius: 12,
     padding: 20,
@@ -225,6 +233,18 @@ const styles = StyleSheet.create({
   allergyItem: {
     fontSize: 14,
     color: '#101426',
+  },
+  noInfoContainer: {
+    display: 'flex',
+    flexDirection: 'row',
+    alignItems: 'center',
+    justifyContent: 'center',
+    gap: 10,
+  },
+  noInfoText: {
+    fontSize: 14,
+    fontWeight: '500',
+    color: '#8F9BB3',
   },
 });
 
