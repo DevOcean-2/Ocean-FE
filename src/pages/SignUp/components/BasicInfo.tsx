@@ -11,24 +11,12 @@ import renderTrack from './renderTrack';
 import { Banner } from '@/components/Banner';
 import { useQuery } from '@tanstack/react-query';
 import { fetchDogBreeds } from '../api/dogInfoApi';
+import { useDogBreeds } from '../hooks/queries/useDogBreed';
 
-interface BasicInfoProps extends StepProps {
-  isBasicInfoValid: () => boolean;
-}
-
-const BasicInfo: React.FC<BasicInfoProps> = ({ control, isBasicInfoValid }) => {
+const BasicInfo: React.FC<StepProps> = ({ control }) => {
   const [isBreed, setIsBreed] = useState(true);
 
-  const { data: dogBreeds } = useQuery({
-    queryKey: ['dogBreeds'],
-    queryFn: fetchDogBreeds,
-    select: (data) =>
-      data.map((breed) => ({
-        id: breed.id,
-        label: breed.name,
-        value: breed.name,
-      })),
-  });
+  const { data: dogBreedsData } = useDogBreeds();
 
   const breed = useWatch({
     control,
@@ -136,11 +124,13 @@ const BasicInfo: React.FC<BasicInfoProps> = ({ control, isBasicInfoValid }) => {
                   <Picker
                     placeholder="품종을 선택해주세요"
                     placeholderTextColor="#8F9BB3"
-                    value={dogBreeds?.filter((x) => x.id === value)[0]?.label}
+                    value={dogBreedsData?.breedsList.filter((x) => x.id === value)[0]?.label}
                     enableModalBlur={false}
                     onChange={(item) => {
-                      const filterId = dogBreeds?.filter((x) => x.label === item)[0]?.id;
-                      onChange(filterId);
+                      const selectedBreed = dogBreedsData?.breedsList.find((x) => x.label === item);
+                      if (selectedBreed) {
+                        onChange(selectedBreed.id);
+                      }
                     }}
                     topBarProps={{
                       title: '강아지품종',
@@ -148,7 +138,7 @@ const BasicInfo: React.FC<BasicInfoProps> = ({ control, isBasicInfoValid }) => {
                     }}
                     showSearch
                     searchPlaceholder="품종을 선택해주세요"
-                    items={dogBreeds}
+                    items={dogBreedsData?.breedsList || []}
                     containerStyle={BasicInfoStyles.pickerContainer}
                     style={BasicInfoStyles.picker}
                   />

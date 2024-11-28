@@ -18,7 +18,7 @@ export const useSignUpForm = () => {
       dog_name: '',
       dog_gender: 0,
       dog_size: 0,
-      dog_breed: '',
+      dog_breed: 0,
       dog_cuteness: 0,
       photo_path: '',
       birth_day: '',

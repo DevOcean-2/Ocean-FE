@@ -73,12 +73,7 @@ const SignUp: React.FC = () => {
       {activeIndex !== 0 && <ProgressSteps steps={steps} currentStep={activeIndex} />}
       <ScrollView contentContainerStyle={SignUpStyles.signUpViewContainer}>
         <View style={SignUpStyles.renderStepContainer}>
-          <StepRenderer
-            activeIndex={activeIndex}
-            control={control}
-            errors={errors}
-            isBasicInfoValid={isBasicInfoValid}
-          />
+          <StepRenderer activeIndex={activeIndex} control={control} errors={errors} />
         </View>
       </ScrollView>
       {activeIndex !== 0 && activeIndex !== 4 && (
