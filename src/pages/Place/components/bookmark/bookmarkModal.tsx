@@ -1,26 +1,30 @@
 import { useRef, useState } from 'react';
 import { View, Text, ScrollView, Modal, TouchableOpacity, StyleSheet } from 'react-native';
 import { ICON_BOOKMARK } from '@/assets/svgs';
+import { Link, usePathname } from 'expo-router';
+
+const bookMarkOption = [
+  {
+    id: 1,
+    count: 43,
+    name: '댕댕이 맛집 리스트',
+  },
+  {
+    id: 2,
+    count: 55,
+    name: '댕댕이 맛집 리스트2',
+  },
+  {
+    id: 3,
+    count: 2,
+    name: '댕댕이 맛집 리스트3',
+  },
+];
 
 const BookMarkModal = () => {
-  const bookMarkOption = [
-    {
-      id: 1,
-      count: 43,
-      name: '댕댕이 맛집 리스트',
-    },
-    {
-      id: 2,
-      count: 55,
-      name: '댕댕이 맛집 리스트2',
-    },
-    {
-      id: 3,
-      count: 2,
-      name: '댕댕이 맛집 리스트3',
-    },
-  ];
   const [isModalVisible, setIsModalVisible] = useState(false);
+  const pathname = usePathname();
+  console.log(pathname);
   return (
     <>
       <View style={styles.modalButtonContainer}>
@@ -44,10 +48,16 @@ const BookMarkModal = () => {
           <View style={styles.modalContent}>
             <Text style={styles.modalTitle}>즐겨찾기</Text>
             {bookMarkOption.map((option) => (
-              <TouchableOpacity key={option.id} style={styles.optionItem}>
-                <Text style={styles.optionText}>{option.name}</Text>
-                <Text style={styles.optionCountText}>{option.count}</Text>
-              </TouchableOpacity>
+              <Link
+                href={`/bookmarkList?id=${option.id}`}
+                key={option.id}
+                onPress={() => setIsModalVisible(false)}
+              >
+                <TouchableOpacity style={styles.optionItem}>
+                  <Text style={styles.optionText}>{option.name}</Text>
+                  <Text style={styles.optionCountText}>{option.count}</Text>
+                </TouchableOpacity>
+              </Link>
             ))}
           </View>
         </TouchableOpacity>

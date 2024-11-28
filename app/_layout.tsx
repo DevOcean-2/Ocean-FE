@@ -69,6 +69,13 @@ function RootLayoutNav() {
           <Stack>
             <Stack.Screen name="(tabs)" options={{ headerShown: false }} />
             <Stack.Screen name="modal" options={{ presentation: 'modal' }} />
+            <Stack.Screen
+              name="bookmarkList"
+              options={{
+                headerShown: true,
+                title: '북마크 리스트',
+              }}
+            />
           </Stack>
         </ThemeProvider>
       </QueryClientProvider>
