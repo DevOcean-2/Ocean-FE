@@ -1,90 +1,54 @@
-import { View, Text, Image, StyleSheet, Dimensions, Animated } from 'react-native';
-import {
-  ICON_GALLERY,
-  ICON_PIN_GREEN,
-  ICON_NAVIGATE,
-  FIRST_SESSION,
-  SECOND_SESSION,
-  THIRD_SESSION,
-} from '@/assets/svgs';
-import { SvgProps } from 'react-native-svg';
+import { View, Text, Image, StyleSheet, Dimensions, Animated, Easing } from 'react-native';
+
 import { Button } from 'react-native-ui-lib';
 import { useEffect, useRef, useState } from 'react';
-
-interface OnboardingSlide {
-  id: number;
-  title: string;
-  pageIndex: number;
-  description: string;
-  icon: React.FC<SvgProps>;
-  image: React.FC<SvgProps>;
-}
+import onBoardingSlide from '../constant/onBoardingSlide';
 
 interface OnboardingSessionProps {
   activeIndex: number;
 }
 
-const slides: OnboardingSlide[] = [
-  {
-    id: 1,
-    icon: ICON_NAVIGATE,
-    pageIndex: 4,
-    title: '홈으로 이동합니다',
-    description: '반려견과 함께 산책하면서\n산책 경로에 숨어있는 미션을 완료해보세요',
-    image: FIRST_SESSION,
-  },
-  {
-    id: 2,
-    icon: ICON_PIN_GREEN,
-    pageIndex: 5,
-    title: '장소 메뉴에서',
-    description: '반려견과 함께 갈 수 있는\n나만의 장소 리스트를 만들어보세요',
-    image: SECOND_SESSION,
-  },
-  {
-    id: 3,
-    icon: ICON_GALLERY,
-    pageIndex: 6,
-    title: '마이피드에서',
-    description: '내 반려견이 가진 귀여움을\n다른 사람들에게도 자랑해보세요',
-    image: THIRD_SESSION,
-  },
-];
-
 const { width } = Dimensions.get('window');
 
 const OnBoardingSession = ({ activeIndex }: OnboardingSessionProps) => {
   const [onboardingIndex, setOnboardingIndex] = useState(activeIndex);
-  const CurrentIcon = slides[onboardingIndex - 3].icon;
-  const CurrentImage = slides[onboardingIndex - 3].image;
+  const CurrentIcon = onBoardingSlide[onboardingIndex - 3].icon;
+  const CurrentImage = onBoardingSlide[onboardingIndex - 3].image;
   const moveAnim = useRef(new Animated.Value(0)).current;
 
   const startAnimation = () => {
-    Animated.sequence([
-      // 오른쪽으로 이동
-      Animated.timing(moveAnim, {
-        toValue: 10,
-        duration: 1000,
-        useNativeDriver: true,
-      }),
-      // 왼쪽으로 이동
-      Animated.timing(moveAnim, {
-        toValue: -10,
-        duration: 2000,
-        useNativeDriver: true,
-      }),
-      // 다시 원위치
-      Animated.timing(moveAnim, {
-        toValue: 0,
-        duration: 1000,
-        useNativeDriver: true,
-      }),
-    ]).start(() => startAnimation()); // 애니메이션 반복
+    Animated.loop(
+      Animated.sequence([
+        // 오른쪽으로 이동
+        Animated.timing(moveAnim, {
+          toValue: 5,
+          duration: 1000,
+          useNativeDriver: true,
+        }),
+        // 왼쪽으로 이동
+        Animated.timing(moveAnim, {
+          toValue: -5,
+          duration: 1000,
+          useNativeDriver: true,
+        }),
+        // 중앙으로 이동
+        Animated.timing(moveAnim, {
+          toValue: 0,
+          duration: 1000,
+          useNativeDriver: true,
+        }),
+      ]),
+    ).start();
   };
 
   useEffect(() => {
     startAnimation();
   }, []);
+
+  const rotate = moveAnim.interpolate({
+    inputRange: [-5, 0, 5],
+    outputRange: ['-2deg', '0deg', '2deg'],
+  });
 
   const buttonStyle = [
     styles.button,
@@ -96,14 +60,14 @@ const OnBoardingSession = ({ activeIndex }: OnboardingSessionProps) => {
       <View style={styles.slideContainer}>
         <View style={styles.titleContainer}>
           <CurrentIcon />
-          <Text style={styles.title}>{slides[onboardingIndex - 3].title}</Text>
+          <Text style={styles.title}>{onBoardingSlide[onboardingIndex - 3].title}</Text>
         </View>
-        <Text style={styles.description}>{slides[onboardingIndex - 3].description}</Text>
+        <Text style={styles.description}>{onBoardingSlide[onboardingIndex - 3].description}</Text>
       </View>
       <View style={styles.imageContainer}>
         <Animated.View
           style={{
-            transform: [{ translateX: moveAnim }],
+            transform: [{ translateX: moveAnim }, { rotate: rotate }],
           }}
         >
           <CurrentImage />
