@@ -44,6 +44,13 @@ const ConfirmInfo: React.FC<StepProps> = ({ control }) => {
     current_weight && past_weight ? Number(current_weight) - Number(past_weight) : 0;
   const weightChangeDisplay = weightChange > 0 ? `+${weightChange}kg` : `${weightChange}kg`;
 
+  const hasHealthData =
+    current_weight !== 0 ||
+    past_weight !== 0 ||
+    (health_history && health_history.length > 0) ||
+    (vaccinations && vaccinations.length > 0) ||
+    (allergies && allergies.length > 0);
+
   return (
     <View style={styles.container}>
       <Banner
@@ -68,69 +75,57 @@ const ConfirmInfo: React.FC<StepProps> = ({ control }) => {
           >{`귀여움 ${dog_cuteness}단계 | ${formatCutnessText(dog_cuteness)}`}</Text>
         </View>
       </View>
+      {hasHealthData && (
+        <View style={styles.healthSection}>
+          <Text style={styles.sectionTitle}>건강 정보</Text>
 
-      <View style={styles.healthSection}>
-        {current_weight === 0 &&
-        past_weight === 0 &&
-        !vaccinations &&
-        !allergies &&
-        !health_history ? (
-          <View style={styles.noInfoContainer}>
-            <ICON_EDIT />
-            <Text style={styles.noInfoText}>입력된 건강 정보가 없습니다.</Text>
-          </View>
-        ) : (
-          <View>
-            <Text style={styles.sectionTitle}>건강 정보</Text>
-
-            {current_weight && current_weight > 0 && (
-              <View style={styles.weightRow}>
-                <Text style={styles.weightLabel}>현재 몸무게 |</Text>
-                <View style={styles.weightValue}>
-                  <Text style={styles.weight}>{`${current_weight}kg`}</Text>
-                  {past_weight && past_weight > 0 && (
-                    <View style={styles.weightChange}>
-                      <Text style={styles.weightTextChange}>{weightChangeDisplay}</Text>
-                    </View>
-                  )}
-                </View>
+          {current_weight !== 0 && (
+            <View style={styles.weightRow}>
+              <Text style={styles.weightLabel}>현재 몸무게 |</Text>
+              <View style={styles.weightValue}>
+                <Text style={styles.weight}>{`${current_weight}kg`}</Text>
+                {past_weight !== 0 && (
+                  <View style={styles.weightChange}>
+                    <Text style={styles.weightTextChange}>{weightChangeDisplay}</Text>
+                  </View>
+                )}
               </View>
-            )}
+            </View>
+          )}
 
-            {past_weight && past_weight > 0 && (
-              <View style={styles.weightRow}>
-                <Text style={styles.weightLabel}>이전 몸무게 |</Text>
-                <Text style={styles.weight}>{`${past_weight}kg`}</Text>
-              </View>
-            )}
+          {past_weight !== 0 && (
+            <View style={styles.weightRow}>
+              <Text style={styles.weightLabel}>이전 몸무게 |</Text>
+              <Text style={styles.weight}>{`${past_weight}kg`}</Text>
+            </View>
+          )}
 
-            {health_history && (
-              <View style={styles.precautionsSection}>
-                <Text style={styles.weightLabel}>질병 정보 | </Text>
-                <Text style={styles.precautionItem}>
-                  {formatArrayName(health_history, diseaseList)}
-                </Text>
-              </View>
-            )}
+          {health_history && health_history.length > 0 && (
+            <View style={styles.precautionsSection}>
+              <Text style={styles.weightLabel}>질병 정보 | </Text>
+              <Text style={styles.precautionItem}>
+                {formatArrayName(health_history, diseaseList)}
+              </Text>
+            </View>
+          )}
 
-            {vaccinations && (
-              <View style={styles.precautionsSection}>
-                <Text style={styles.weightLabel}>예방접종 | </Text>
-                <Text style={styles.precautionItem}>
-                  {formatArrayName(vaccinations, vaccinationList)}
-                </Text>
-              </View>
-            )}
+          {vaccinations && vaccinations.length > 0 && (
+            <View style={styles.precautionsSection}>
+              <Text style={styles.weightLabel}>예방접종 | </Text>
+              <Text style={styles.precautionItem}>
+                {formatArrayName(vaccinations, vaccinationList)}
+              </Text>
+            </View>
+          )}
 
-            {allergies && (
-              <View style={styles.precautionsSection}>
-                <Text style={styles.weightLabel}>알러지 | </Text>
-                <Text style={styles.precautionItem}>{formatArrayName(allergies, allergyList)}</Text>
-              </View>
-            )}
-          </View>
-        )}
-      </View>
+          {allergies && allergies.length > 0 && (
+            <View style={styles.precautionsSection}>
+              <Text style={styles.weightLabel}>알러지 | </Text>
+              <Text style={styles.precautionItem}>{formatArrayName(allergies, allergyList)}</Text>
+            </View>
+          )}
+        </View>
+      )}
     </View>
   );
 };

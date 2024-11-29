@@ -70,7 +70,9 @@ const SignUp: React.FC = () => {
 
   return (
     <View style={SignUpStyles.container}>
-      {activeIndex !== 0 && <ProgressSteps steps={steps} currentStep={activeIndex} />}
+      {activeIndex !== 0 && activeIndex !== 4 && (
+        <ProgressSteps steps={steps} currentStep={activeIndex} />
+      )}
       <ScrollView contentContainerStyle={SignUpStyles.signUpViewContainer}>
         <View style={SignUpStyles.renderStepContainer}>
           <StepRenderer activeIndex={activeIndex} control={control} errors={errors} />
