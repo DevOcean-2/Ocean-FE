@@ -9,8 +9,6 @@ import { ICON_IMAGE, ICON_CHECK_BOX, ICON_UN_CHECK_BOX } from '@/assets/svgs';
 import useDogData from '../hooks/queries/useDogData';
 
 const AdditionalInfo: React.FC<StepProps> = ({ control }) => {
-  const [aOption, setAOption] = useState<string[]>([]);
-
   const hasDate = useWatch({
     control,
     name: 'hasDate',
@@ -312,7 +310,7 @@ const AdditionalInfo: React.FC<StepProps> = ({ control }) => {
           {hasDiseases && (
             <Controller
               control={control}
-              name="diseases"
+              name="health_history"
               defaultValue={false}
               render={({ field: { onChange, value } }) => (
                 <Picker
@@ -324,7 +322,6 @@ const AdditionalInfo: React.FC<StepProps> = ({ control }) => {
                   topBarProps={{ title: 'ABC' }}
                   showSearch
                   searchPlaceholder={'질병 정보 추가하기'}
-                  onSearchChange={(value) => console.warn('value', value)}
                   items={diseases}
                   style={AdditionalInfoStyles.pickerField}
                 />
@@ -371,14 +368,14 @@ const AdditionalInfo: React.FC<StepProps> = ({ control }) => {
               render={({ field: { onChange, value } }) => (
                 <Picker
                   placeholder="검색해서 추가하기"
-                  value={aOption}
+                  value={value}
+                  mode={Picker.modes.MULTI}
                   enableModalBlur={false}
                   onChange={(items) => onChange(items as string[])}
                   topBarProps={{ title: 'ABC' }}
                   showSearch
                   searchPlaceholder={'알러지 정보를 추가하기'}
                   style={AdditionalInfoStyles.pickerField}
-                  onSearchChange={(value) => console.warn('value', value)}
                   items={allergies}
                 />
               )}
@@ -424,14 +421,14 @@ const AdditionalInfo: React.FC<StepProps> = ({ control }) => {
               render={({ field: { onChange, value } }) => (
                 <Picker
                   placeholder="검색해서 추가하기"
-                  value={aOption}
+                  value={value}
+                  mode={Picker.modes.MULTI}
                   enableModalBlur={false}
                   onChange={(items) => onChange(items as string[])}
                   topBarProps={{ title: 'ABC' }}
                   showSearch
                   searchPlaceholder={'예방접종 정보를 추가하기'}
                   style={AdditionalInfoStyles.pickerField}
-                  onSearchChange={(value) => console.warn('value', value)}
                   items={vaccinations}
                 />
               )}

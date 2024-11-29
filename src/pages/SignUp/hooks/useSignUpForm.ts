@@ -27,6 +27,7 @@ export const useSignUpForm = () => {
       past_weight: 0,
       vaccinations: '',
       allergies: '',
+      health_history: '',
     },
   });
 

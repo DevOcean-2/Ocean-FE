@@ -1,6 +1,5 @@
 import { useQueries } from '@tanstack/react-query';
 import axios from 'axios';
-import { DogInfo } from '../../api/dogInfoApi';
 import formatPickerItems from '../../utils/formatPickerItems';
 
 const useDogData = () => {

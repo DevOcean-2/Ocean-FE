@@ -24,6 +24,7 @@ export const schema = z.object({
   past_weight: z.number().optional(),
   vaccinations: z.string().optional(),
   allergies: z.string().optional(),
+  health_history: z.string().optional(),
 });
 
 export type FormData = z.infer<typeof schema>;

@@ -6,6 +6,7 @@ import { useWatch } from 'react-hook-form';
 import { FormData } from '../types/signUp';
 import { useDogBreeds } from '../hooks/queries/useDogBreed';
 import { ICON_EDIT } from '@/assets/svgs';
+import useDogData from '../hooks/queries/useDogData';
 
 const ConfirmInfo: React.FC<StepProps> = ({ control }) => {
   const { data: dogBreedsData } = useDogBreeds();
@@ -20,6 +21,7 @@ const ConfirmInfo: React.FC<StepProps> = ({ control }) => {
     birth_day,
     current_weight,
     past_weight,
+    health_history,
     vaccinations,
     allergies,
   } = useWatch<FormData>({
@@ -27,7 +29,13 @@ const ConfirmInfo: React.FC<StepProps> = ({ control }) => {
   });
 
   const breedName = dogBreedsData?.getBreedNameById(dog_breed);
+  const {
+    diseases: diseaseList,
+    vaccinations: vaccinationList,
+    allergies: allergyList,
+  } = useDogData();
 
+  console.log(diseaseList);
   const getGenderText = (gender: number | undefined) => {
     if (gender === undefined) return '';
     return gender === 0 ? '여자아이' : '남자아이';
@@ -47,11 +55,29 @@ const ConfirmInfo: React.FC<StepProps> = ({ control }) => {
     }
   };
 
+  const getCutNessText = (cuteness: number | undefined) => {
+    if (cuteness === undefined) return '';
+    switch (cuteness) {
+      case 0:
+        return '귀여운가?';
+      case 1:
+        return '귀여움';
+      case 2:
+        return '커여워';
+      case 3:
+        return '우리 동네에서 제일 귀여워요';
+      case 4:
+        return '지역구 압살하는 귀여움';
+      case 5:
+        return '수치화 불가능';
+      default:
+        return '';
+    }
+  };
+
   const weightChange =
     current_weight && past_weight ? Number(current_weight) - Number(past_weight) : 0;
   const weightChangeDisplay = weightChange > 0 ? `+${weightChange}kg` : `${weightChange}kg`;
-
-  console.log(dog_cuteness, photo_path, current_weight, past_weight, vaccinations, allergies);
 
   return (
     <View style={styles.container}>
@@ -67,12 +93,18 @@ const ConfirmInfo: React.FC<StepProps> = ({ control }) => {
             style={styles.name}
           >{`${getGenderText(dog_gender)} | ${breedName}(${getSizeText(dog_size)})`}</Text>
           {birth_day && <Text style={styles.birthDate}>{`생일 ${birth_day}`}</Text>}
-          <Text style={styles.name}>{`귀여움 ${dog_cuteness}단계`}</Text>
+          <Text
+            style={styles.name}
+          >{`귀여움 ${dog_cuteness}단계 | ${getCutNessText(dog_cuteness)}`}</Text>
         </View>
       </View>
 
       <View style={styles.healthSection}>
-        {current_weight === 0 && past_weight === 0 && !vaccinations && !allergies ? (
+        {current_weight === 0 &&
+        past_weight === 0 &&
+        !vaccinations &&
+        !allergies &&
+        !health_history ? (
           <View style={styles.noInfoContainer}>
             <ICON_EDIT />
             <Text style={styles.noInfoText}>입력된 건강 정보가 없습니다.</Text>
@@ -99,6 +131,13 @@ const ConfirmInfo: React.FC<StepProps> = ({ control }) => {
               <View style={styles.weightRow}>
                 <Text style={styles.weightLabel}>이전 몸무게 |</Text>
                 <Text style={styles.weight}>{`${past_weight}kg`}</Text>
+              </View>
+            )}
+
+            {health_history && (
+              <View style={styles.precautionsSection}>
+                <Text style={styles.weightLabel}>질병 정보 | </Text>
+                <Text style={styles.precautionItem}>{health_history}</Text>
               </View>
             )}
 
