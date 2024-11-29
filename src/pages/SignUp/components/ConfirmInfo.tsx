@@ -7,6 +7,11 @@ import { FormData } from '../types/signUp';
 import { useDogBreeds } from '../hooks/queries/useDogBreed';
 import { ICON_EDIT } from '@/assets/svgs';
 import useDogData from '../hooks/queries/useDogData';
+import calculateAge from '../utils/calculateAge';
+import formatGenderText from '../utils/formatGenderText';
+import formatSizeText from '../utils/formatSizeText';
+import formatCutnessText from '../utils/formatCutnessText';
+import formatArrayName from '../utils/formatArrayName';
 
 const ConfirmInfo: React.FC<StepProps> = ({ control }) => {
   const { data: dogBreedsData } = useDogBreeds();
@@ -35,55 +40,6 @@ const ConfirmInfo: React.FC<StepProps> = ({ control }) => {
     allergies: allergyList,
   } = useDogData();
 
-  const getGenderText = (gender: number | undefined) => {
-    if (gender === undefined) return '';
-    return gender === 0 ? '여자아이' : '남자아이';
-  };
-
-  const getSizeText = (size: number | undefined) => {
-    if (size === undefined) return '';
-    switch (size) {
-      case 0:
-        return '소형견';
-      case 1:
-        return '중형견';
-      case 2:
-        return '대형견';
-      default:
-        return '';
-    }
-  };
-
-  const getCutNessText = (cuteness: number | undefined) => {
-    if (cuteness === undefined) return '';
-    switch (cuteness) {
-      case 0:
-        return '귀여운가?';
-      case 1:
-        return '귀여움';
-      case 2:
-        return '커여워';
-      case 3:
-        return '우리 동네에서 제일 귀여워요';
-      case 4:
-        return '지역구 압살하는 귀여움';
-      case 5:
-        return '수치화 불가능';
-      default:
-        return '';
-    }
-  };
-
-  const getSelectedItemsNames = (
-    selectedIds: number[],
-    items: Array<{ value: number; label: string }>,
-  ) => {
-    return selectedIds
-      .map((id) => items.find((item) => item.value === id)?.label)
-      .filter(Boolean)
-      .join(', ');
-  };
-
   const weightChange =
     current_weight && past_weight ? Number(current_weight) - Number(past_weight) : 0;
   const weightChangeDisplay = weightChange > 0 ? `+${weightChange}kg` : `${weightChange}kg`;
@@ -100,11 +56,16 @@ const ConfirmInfo: React.FC<StepProps> = ({ control }) => {
         <View style={styles.nameSection}>
           <Text
             style={styles.name}
-          >{`${getGenderText(dog_gender)} | ${breedName}(${getSizeText(dog_size)})`}</Text>
-          {birth_day && <Text style={styles.birthDate}>{`생일 ${birth_day}`}</Text>}
+          >{`${formatGenderText(dog_gender)} | ${breedName}(${formatSizeText(dog_size)})`}</Text>
+          {birth_day && (
+            <View style={styles.birthInfo}>
+              <Text style={styles.birthDate}>{`생일 ${birth_day}`}</Text>
+              <Text style={styles.ageText}>{`(${calculateAge(birth_day)})`}</Text>
+            </View>
+          )}
           <Text
             style={styles.name}
-          >{`귀여움 ${dog_cuteness}단계 | ${getCutNessText(dog_cuteness)}`}</Text>
+          >{`귀여움 ${dog_cuteness}단계 | ${formatCutnessText(dog_cuteness)}`}</Text>
         </View>
       </View>
 
@@ -147,7 +108,7 @@ const ConfirmInfo: React.FC<StepProps> = ({ control }) => {
               <View style={styles.precautionsSection}>
                 <Text style={styles.weightLabel}>질병 정보 | </Text>
                 <Text style={styles.precautionItem}>
-                  {getSelectedItemsNames(health_history, diseaseList)}
+                  {formatArrayName(health_history, diseaseList)}
                 </Text>
               </View>
             )}
@@ -156,7 +117,7 @@ const ConfirmInfo: React.FC<StepProps> = ({ control }) => {
               <View style={styles.precautionsSection}>
                 <Text style={styles.weightLabel}>예방접종 | </Text>
                 <Text style={styles.precautionItem}>
-                  {getSelectedItemsNames(vaccinations, vaccinationList)}
+                  {formatArrayName(vaccinations, vaccinationList)}
                 </Text>
               </View>
             )}
@@ -164,9 +125,7 @@ const ConfirmInfo: React.FC<StepProps> = ({ control }) => {
             {allergies && (
               <View style={styles.precautionsSection}>
                 <Text style={styles.weightLabel}>알러지 | </Text>
-                <Text style={styles.precautionItem}>
-                  {getSelectedItemsNames(allergies, allergyList)}
-                </Text>
+                <Text style={styles.precautionItem}>{formatArrayName(allergies, allergyList)}</Text>
               </View>
             )}
           </View>
@@ -205,12 +164,21 @@ const styles = StyleSheet.create({
     color: '#222B45',
     marginBottom: 10,
   },
+  birthInfo: {
+    flexDirection: 'row',
+    alignItems: 'center',
+    marginBottom: 10,
+    gap: 4,
+  },
   birthDate: {
     fontSize: 14,
     color: '#8F9BB3',
     fontWeight: '400',
-    marginTop: 4,
-    marginBottom: 10,
+  },
+  ageText: {
+    fontSize: 14,
+    color: '#8F9BB3',
+    fontWeight: '500',
   },
   sizeInfo: {
     fontSize: 14,
@@ -260,8 +228,8 @@ const styles = StyleSheet.create({
     borderWidth: 1,
     borderRadius: 10,
     borderColor: 'white',
-    paddingHorizontal: 6,
-    paddingVertical: 4,
+    paddingHorizontal: 2,
+    paddingVertical: 2,
   },
   weightTextChange: {
     color: '#2686F5',
@@ -269,12 +237,14 @@ const styles = StyleSheet.create({
   precautionsSection: {
     display: 'flex',
     flexDirection: 'row',
+    flexWrap: 'wrap',
     textAlign: 'center',
-    alignItems: 'center',
     marginBottom: 16,
+    gap: 4,
   },
   precautionItem: {
     fontSize: 14,
+    flex: 1,
     color: '#101426',
   },
   allergiesSection: {
