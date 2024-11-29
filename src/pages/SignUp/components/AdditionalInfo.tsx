@@ -371,7 +371,7 @@ const AdditionalInfo: React.FC<StepProps> = ({ control }) => {
                   value={value}
                   mode={Picker.modes.MULTI}
                   enableModalBlur={false}
-                  onChange={(items) => onChange(items as string[])}
+                  onChange={(items) => onChange(items)}
                   topBarProps={{ title: 'ABC' }}
                   showSearch
                   searchPlaceholder={'알러지 정보를 추가하기'}
@@ -424,7 +424,7 @@ const AdditionalInfo: React.FC<StepProps> = ({ control }) => {
                   value={value}
                   mode={Picker.modes.MULTI}
                   enableModalBlur={false}
-                  onChange={(items) => onChange(items as string[])}
+                  onChange={(items) => onChange(items)}
                   topBarProps={{ title: 'ABC' }}
                   showSearch
                   searchPlaceholder={'예방접종 정보를 추가하기'}

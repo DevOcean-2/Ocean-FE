@@ -25,9 +25,9 @@ export const useSignUpForm = () => {
       hasDate: true,
       current_weight: 0,
       past_weight: 0,
-      vaccinations: '',
-      allergies: '',
-      health_history: '',
+      vaccinations: [],
+      allergies: [],
+      health_history: [],
     },
   });
 

@@ -22,9 +22,9 @@ export const schema = z.object({
   hasDate: z.boolean(),
   current_weight: z.number().optional(),
   past_weight: z.number().optional(),
-  vaccinations: z.string().optional(),
-  allergies: z.string().optional(),
-  health_history: z.string().optional(),
+  vaccinations: z.array(z.number()).optional(),
+  allergies: z.array(z.number()).optional(),
+  health_history: z.array(z.number()).optional(),
 });
 
 export type FormData = z.infer<typeof schema>;

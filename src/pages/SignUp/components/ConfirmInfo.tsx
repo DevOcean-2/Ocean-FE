@@ -35,7 +35,6 @@ const ConfirmInfo: React.FC<StepProps> = ({ control }) => {
     allergies: allergyList,
   } = useDogData();
 
-  console.log(diseaseList);
   const getGenderText = (gender: number | undefined) => {
     if (gender === undefined) return '';
     return gender === 0 ? '여자아이' : '남자아이';
@@ -73,6 +72,16 @@ const ConfirmInfo: React.FC<StepProps> = ({ control }) => {
       default:
         return '';
     }
+  };
+
+  const getSelectedItemsNames = (
+    selectedIds: number[],
+    items: Array<{ value: number; label: string }>,
+  ) => {
+    return selectedIds
+      .map((id) => items.find((item) => item.value === id)?.label)
+      .filter(Boolean)
+      .join(', ');
   };
 
   const weightChange =
@@ -137,21 +146,27 @@ const ConfirmInfo: React.FC<StepProps> = ({ control }) => {
             {health_history && (
               <View style={styles.precautionsSection}>
                 <Text style={styles.weightLabel}>질병 정보 | </Text>
-                <Text style={styles.precautionItem}>{health_history}</Text>
+                <Text style={styles.precautionItem}>
+                  {getSelectedItemsNames(health_history, diseaseList)}
+                </Text>
               </View>
             )}
 
             {vaccinations && (
               <View style={styles.precautionsSection}>
                 <Text style={styles.weightLabel}>예방접종 | </Text>
-                <Text style={styles.precautionItem}>{vaccinations}</Text>
+                <Text style={styles.precautionItem}>
+                  {getSelectedItemsNames(vaccinations, vaccinationList)}
+                </Text>
               </View>
             )}
 
             {allergies && (
-              <View style={styles.allergiesSection}>
+              <View style={styles.precautionsSection}>
                 <Text style={styles.weightLabel}>알러지 | </Text>
-                <Text style={styles.allergyItem}>{allergies}</Text>
+                <Text style={styles.precautionItem}>
+                  {getSelectedItemsNames(allergies, allergyList)}
+                </Text>
               </View>
             )}
           </View>
