@@ -1,8 +1,9 @@
-import { View, Text, Image, StyleSheet, Dimensions, Animated, Easing } from 'react-native';
+import { View, Text, StyleSheet, Dimensions, Animated, Easing } from 'react-native';
 
 import { Button } from 'react-native-ui-lib';
 import { useEffect, useRef, useState } from 'react';
 import onBoardingSlide from '../constant/onBoardingSlide';
+import { Link } from 'expo-router';
 
 interface OnboardingSessionProps {
   activeIndex: number;
@@ -12,30 +13,30 @@ const { width } = Dimensions.get('window');
 
 const OnBoardingSession = ({ activeIndex }: OnboardingSessionProps) => {
   const [onboardingIndex, setOnboardingIndex] = useState(activeIndex);
-  const CurrentIcon = onBoardingSlide[onboardingIndex - 3].icon;
-  const CurrentImage = onBoardingSlide[onboardingIndex - 3].image;
+  const CurrentIcon = onBoardingSlide[onboardingIndex - 4].icon;
+  const CurrentImage = onBoardingSlide[onboardingIndex - 4].image;
   const moveAnim = useRef(new Animated.Value(0)).current;
 
   const startAnimation = () => {
     Animated.loop(
       Animated.sequence([
-        // 오른쪽으로 이동
         Animated.timing(moveAnim, {
-          toValue: 5,
-          duration: 1000,
+          toValue: 1,
+          duration: 1500,
           useNativeDriver: true,
+          easing: Easing.bezier(0.4, 0, 0.2, 1),
         }),
-        // 왼쪽으로 이동
         Animated.timing(moveAnim, {
-          toValue: -5,
-          duration: 1000,
+          toValue: -1,
+          duration: 1500,
           useNativeDriver: true,
+          easing: Easing.bezier(0.4, 0, 0.2, 1),
         }),
-        // 중앙으로 이동
         Animated.timing(moveAnim, {
           toValue: 0,
-          duration: 1000,
+          duration: 1500,
           useNativeDriver: true,
+          easing: Easing.bezier(0.4, 0, 0.2, 1),
         }),
       ]),
     ).start();
@@ -45,9 +46,14 @@ const OnBoardingSession = ({ activeIndex }: OnboardingSessionProps) => {
     startAnimation();
   }, []);
 
+  const translateX = moveAnim.interpolate({
+    inputRange: [-1, 0, 1],
+    outputRange: [-7, 0, 7],
+  });
+
   const rotate = moveAnim.interpolate({
-    inputRange: [-5, 0, 5],
-    outputRange: ['-2deg', '0deg', '2deg'],
+    inputRange: [-1, -0.5, 0, 0.5, 1],
+    outputRange: ['-3deg', '-1.5deg', '0deg', '1.5deg', '3deg'],
   });
 
   const buttonStyle = [
@@ -60,25 +66,31 @@ const OnBoardingSession = ({ activeIndex }: OnboardingSessionProps) => {
       <View style={styles.slideContainer}>
         <View style={styles.titleContainer}>
           <CurrentIcon />
-          <Text style={styles.title}>{onBoardingSlide[onboardingIndex - 3].title}</Text>
+          <Text style={styles.title}>{onBoardingSlide[onboardingIndex - 4].title}</Text>
         </View>
-        <Text style={styles.description}>{onBoardingSlide[onboardingIndex - 3].description}</Text>
+        <Text style={styles.description}>{onBoardingSlide[onboardingIndex - 4].description}</Text>
       </View>
       <View style={styles.imageContainer}>
         <Animated.View
           style={{
-            transform: [{ translateX: moveAnim }, { rotate: rotate }],
+            transform: [{ translateX }, { rotate }],
           }}
         >
           <CurrentImage />
         </Animated.View>
       </View>
-      <Button
-        style={buttonStyle}
-        label={onboardingIndex === 6 ? '시작하기' : '다음'}
-        onPress={() => setOnboardingIndex(onboardingIndex + 1)}
-        color={onboardingIndex === 6 ? 'white' : 'black'}
-      />
+      {onboardingIndex === 6 ? (
+        <Link href="/(tabs)" asChild style={[styles.button, styles.lastButton]}>
+          <Button label="시작하기" color="white" />
+        </Link>
+      ) : (
+        <Button
+          style={[styles.button, styles.normalButton]}
+          label="다음"
+          onPress={() => setOnboardingIndex(onboardingIndex + 1)}
+          color="black"
+        />
+      )}
     </View>
   );
 };
