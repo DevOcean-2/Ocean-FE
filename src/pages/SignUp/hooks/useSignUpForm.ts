@@ -5,7 +5,7 @@ import { schema, FormData } from '../types/signUp';
 import { useWatch } from 'react-hook-form';
 
 export const useSignUpForm = () => {
-  const [activeIndex, setActiveIndex] = useState(4);
+  const [activeIndex, setActiveIndex] = useState(1);
   const [toastMessage, setToastMessage] = useState<string | undefined>(undefined);
 
   const {

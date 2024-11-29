@@ -142,11 +142,11 @@ const BasicInfo: React.FC<StepProps> = ({ control }) => {
                     containerStyle={BasicInfoStyles.pickerContainer}
                     style={BasicInfoStyles.picker}
                   />
+                  <Text style={BasicInfoStyles.orText}>또는</Text>
                 </>
               )}
               {breed === '' && (
                 <View>
-                  <Text style={BasicInfoStyles.orText}>또는</Text>
                   <TouchableOpacity
                     style={
                       isBreed ? BasicInfoStyles.cannotFindButton : BasicInfoStyles.canFindButton

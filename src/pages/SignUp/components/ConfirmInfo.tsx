@@ -1,5 +1,5 @@
 import { Banner } from '@/components/Banner';
-import { Text, View, StyleSheet } from 'react-native';
+import { Text, View, StyleSheet, ImageStyle } from 'react-native';
 import { StepProps } from '../types/signUp';
 import React from 'react';
 import { useWatch } from 'react-hook-form';
@@ -12,6 +12,7 @@ import formatGenderText from '../utils/formatGenderText';
 import formatSizeText from '../utils/formatSizeText';
 import formatCutnessText from '../utils/formatCutnessText';
 import formatArrayName from '../utils/formatArrayName';
+import { Image } from '@/src/shared/ui';
 
 const ConfirmInfo: React.FC<StepProps> = ({ control }) => {
   const { data: dogBreedsData } = useDogBreeds();
@@ -60,6 +61,7 @@ const ConfirmInfo: React.FC<StepProps> = ({ control }) => {
       <Text style={styles.infoTitle}>{`반려견 ${dog_name}의 정보`}</Text>
 
       <View style={styles.profileSection}>
+        {photo_path && <Image source={{ uri: photo_path }} style={styles.image} />}
         <View style={styles.nameSection}>
           <Text
             style={styles.name}
@@ -140,6 +142,13 @@ const styles = StyleSheet.create({
     fontSize: 20,
     paddingHorizontal: 20,
   },
+  image: {
+    width: 150,
+    height: 150,
+    borderRadius: 150,
+    marginTop: 20,
+  } as ImageStyle,
+
   profileSection: {
     paddingHorizontal: 20,
     marginHorizontal: 20,
@@ -150,7 +159,6 @@ const styles = StyleSheet.create({
   },
   nameSection: {
     alignItems: 'center',
-    marginTop: 16,
     paddingVertical: 20,
   },
   name: {
