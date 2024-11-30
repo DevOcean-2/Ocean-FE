@@ -1,23 +1,14 @@
-import React, { useEffect, useState } from 'react';
+import React, { useState } from 'react';
 import { ScrollView, View, Image, TouchableOpacity, StyleSheet } from 'react-native';
-import { Text, TextField, Checkbox, Colors, Picker } from 'react-native-ui-lib';
+import { Text, TextField, Picker } from 'react-native-ui-lib';
 import { Controller, useWatch } from 'react-hook-form';
 import * as ImagePicker from 'expo-image-picker';
 import { StepProps } from '../types/signUp';
 import { Banner } from '@/components/Banner';
 import { ICON_IMAGE, ICON_CHECK_BOX, ICON_UN_CHECK_BOX } from '@/assets/svgs';
-
-const options = [
-  { label: '토끼', value: '토끼' },
-  { label: '사과', value: '사과' },
-  { label: '고양이', value: '고양이' },
-  { label: '몰라', value: '몰라' },
-  { label: '배고픔', value: '배고픔' },
-];
+import useDogData from '../hooks/queries/useDogData';
 
 const AdditionalInfo: React.FC<StepProps> = ({ control }) => {
-  const [aOption, setAOption] = useState<string[]>([]);
-
   const hasDate = useWatch({
     control,
     name: 'hasDate',
@@ -47,18 +38,13 @@ const AdditionalInfo: React.FC<StepProps> = ({ control }) => {
     defaultValue: false,
   });
 
-  const hasImmunizations = useWatch({
+  const hasVaccinations = useWatch({
     control,
-    name: 'hasImmunizations',
+    name: 'hasVaccinations',
     defaultValue: false,
   });
 
-  // 체크박스가 해제되면 생일 데이터 초기화
-  // useEffect(() => {
-  //   if (!hasDate) {
-  //     control.setValue('birthDate', '');
-  //   }
-  // }, [hasDate]);
+  const { diseases, vaccinations, allergies } = useDogData();
 
   const pickImage = async (onChange: (value: string) => void) => {
     let result = await ImagePicker.launchImageLibraryAsync({
@@ -110,10 +96,12 @@ const AdditionalInfo: React.FC<StepProps> = ({ control }) => {
         subtitle="반려견에 대해 더 알려주고 싶은 정보가 있나요?"
       />
       <View style={AdditionalInfoStyles.itemContainer}>
-        <Text style={AdditionalInfoStyles.title}>프로필 사진을 등록해볼까요?</Text>
+        <Text style={AdditionalInfoStyles.title}>
+          프로필 사진을 등록해볼까요? <Text color="red">*</Text>
+        </Text>
         <Controller
           control={control}
-          name="petImage"
+          name="photo_path"
           render={({ field: { onChange, value } }) => (
             <TouchableOpacity
               style={AdditionalInfoStyles.uploadContainer}
@@ -130,9 +118,10 @@ const AdditionalInfo: React.FC<StepProps> = ({ control }) => {
           )}
         />
       </View>
-
       <View style={AdditionalInfoStyles.itemContainer}>
-        <Text style={AdditionalInfoStyles.title}>반려견의 생일을 알려주세요</Text>
+        <Text style={AdditionalInfoStyles.title}>
+          반려견의 생일을 알려주세요 <Text color="red">*</Text>
+        </Text>
 
         <Controller
           control={control}
@@ -166,7 +155,7 @@ const AdditionalInfo: React.FC<StepProps> = ({ control }) => {
         {hasDate && (
           <Controller
             control={control}
-            name="birthDate"
+            name="birth_day"
             render={({ field: { onChange, value } }) => (
               <View style={AdditionalInfoStyles.dateFieldContainer}>
                 <TextField
@@ -193,159 +182,16 @@ const AdditionalInfo: React.FC<StepProps> = ({ control }) => {
           />
         )}
       </View>
-
       <View style={AdditionalInfoStyles.itemContainer}>
         <Text style={AdditionalInfoStyles.title}>건강 정보를 등록해보세요</Text>
-        <Controller
-          control={control}
-          name="hasKg"
-          defaultValue={false}
-          render={({ field: { onChange, value } }) => (
-            <TouchableOpacity
-              onPress={() => onChange(!hasKg)}
-              style={AdditionalInfoStyles.checkboxContainer}
-            >
-              {value ? (
-                <ICON_CHECK_BOX
-                  width={24}
-                  height={24}
-                  fill="white"
-                  style={[AdditionalInfoStyles.checkStyle]}
-                />
-              ) : (
-                <ICON_UN_CHECK_BOX
-                  width={24}
-                  height={24}
-                  fill="white"
-                  style={[AdditionalInfoStyles.checkStyle]}
-                />
-              )}
-              <Text style={AdditionalInfoStyles.checkboxLabel}>현재 몸무게</Text>
-            </TouchableOpacity>
-          )}
-        />
-        {hasKg && (
+        <View style={AdditionalInfoStyles.healthContainer}>
           <Controller
             control={control}
-            name="kg"
+            name="hasKg"
             defaultValue={false}
             render={({ field: { onChange, value } }) => (
-              <View style={AdditionalInfoStyles.checkboxContainer}>
-                <TextField
-                  value={value}
-                  onChangeText={onChange}
-                  fieldStyle={AdditionalInfoStyles.inputField}
-                  placeholder="몸무게를 입력해주세요"
-                />
-              </View>
-            )}
-          />
-        )}
-        <Controller
-          control={control}
-          name="hasPrevKg"
-          defaultValue={false}
-          render={({ field: { onChange, value } }) => (
-            <TouchableOpacity
-              onPress={() => onChange(!hasPrevKg)}
-              style={AdditionalInfoStyles.checkboxContainer}
-            >
-              {value ? (
-                <ICON_CHECK_BOX
-                  width={24}
-                  height={24}
-                  fill="white"
-                  style={[AdditionalInfoStyles.checkStyle]}
-                />
-              ) : (
-                <ICON_UN_CHECK_BOX
-                  width={24}
-                  height={24}
-                  fill="white"
-                  style={[AdditionalInfoStyles.checkStyle]}
-                />
-              )}
-              <Text style={AdditionalInfoStyles.checkboxLabel}>이전 몸무게</Text>
-            </TouchableOpacity>
-          )}
-        />
-        {hasPrevKg && (
-          <Controller
-            control={control}
-            name="prevKg"
-            defaultValue={false}
-            render={({ field: { onChange, value } }) => (
-              <View style={AdditionalInfoStyles.checkboxContainer}>
-                <TextField
-                  value={value}
-                  onChangeText={onChange}
-                  fieldStyle={AdditionalInfoStyles.inputField}
-                  placeholder="이전 몸무게를 입력해주세요"
-                />
-              </View>
-            )}
-          />
-        )}
-
-        <Controller
-          control={control}
-          name="hasDiseases"
-          defaultValue={false}
-          render={({ field: { onChange, value } }) => (
-            <TouchableOpacity
-              onPress={() => onChange(!hasDiseases)}
-              style={AdditionalInfoStyles.checkboxContainer}
-            >
-              {value ? (
-                <ICON_CHECK_BOX
-                  width={24}
-                  height={24}
-                  fill="white"
-                  style={[AdditionalInfoStyles.checkStyle]}
-                />
-              ) : (
-                <ICON_UN_CHECK_BOX
-                  width={24}
-                  height={24}
-                  fill="white"
-                  style={[AdditionalInfoStyles.checkStyle]}
-                />
-              )}
-              <Text style={AdditionalInfoStyles.checkboxLabel}>질병 이력</Text>
-            </TouchableOpacity>
-          )}
-        />
-        {hasDiseases && (
-          <Controller
-            control={control}
-            name="diseases"
-            defaultValue={false}
-            render={({ field: { onChange, value } }) => (
-              <Picker
-                placeholder="과거 또는 현재 질병 이력을 추가해주세요"
-                value={aOption}
-                mode={Picker.modes.MULTI}
-                enableModalBlur={false}
-                onChange={(items) => setAOption(items as string[])}
-                topBarProps={{ title: 'ABC' }}
-                showSearch
-                searchPlaceholder={'질병 정보 추가하기'}
-                onSearchChange={(value) => console.warn('value', value)}
-                items={options}
-                style={AdditionalInfoStyles.pickerField}
-              />
-            )}
-          />
-        )}
-
-        <Controller
-          control={control}
-          name="hasAllergies"
-          defaultValue={false}
-          render={({ field: { onChange, value } }) => (
-            <View>
               <TouchableOpacity
-                onPress={() => onChange(!hasAllergies)}
+                onPress={() => onChange(!hasKg)}
                 style={AdditionalInfoStyles.checkboxContainer}
               >
                 {value ? (
@@ -363,41 +209,36 @@ const AdditionalInfo: React.FC<StepProps> = ({ control }) => {
                     style={[AdditionalInfoStyles.checkStyle]}
                   />
                 )}
-                <Text style={AdditionalInfoStyles.checkboxLabel}>알러지</Text>
+                <Text style={AdditionalInfoStyles.checkboxLabel}>현재 몸무게</Text>
               </TouchableOpacity>
-            </View>
-          )}
-        />
-        {hasAllergies && (
-          <Controller
-            control={control}
-            name="allergies"
-            defaultValue={false}
-            render={({ field: { onChange, value } }) => (
-              <Picker
-                placeholder="검색해서 추가하기"
-                value={aOption}
-                enableModalBlur={false}
-                onChange={(items) => setAOption(items as string[])}
-                topBarProps={{ title: 'ABC' }}
-                showSearch
-                searchPlaceholder={'알러지 정보를 추가하기'}
-                style={AdditionalInfoStyles.pickerField}
-                onSearchChange={(value) => console.warn('value', value)}
-                items={options}
-              />
             )}
           />
-        )}
-
-        <Controller
-          control={control}
-          name="hasImmunizations"
-          defaultValue={false}
-          render={({ field: { onChange, value } }) => (
-            <View style={AdditionalInfoStyles.checkboxContainer}>
+          {hasKg && (
+            <Controller
+              control={control}
+              name="current_weight"
+              defaultValue={false}
+              render={({ field: { onChange, value } }) => (
+                <View style={AdditionalInfoStyles.checkboxContainer}>
+                  <TextField
+                    value={value}
+                    onChangeText={onChange}
+                    fieldStyle={AdditionalInfoStyles.inputField}
+                    placeholder="몸무게를 입력해주세요"
+                  />
+                </View>
+              )}
+            />
+          )}
+        </View>
+        <View style={AdditionalInfoStyles.healthContainer}>
+          <Controller
+            control={control}
+            name="hasPrevKg"
+            defaultValue={false}
+            render={({ field: { onChange, value } }) => (
               <TouchableOpacity
-                onPress={() => onChange(!hasImmunizations)}
+                onPress={() => onChange(!hasPrevKg)}
                 style={AdditionalInfoStyles.checkboxContainer}
               >
                 {value ? (
@@ -415,32 +256,185 @@ const AdditionalInfo: React.FC<StepProps> = ({ control }) => {
                     style={[AdditionalInfoStyles.checkStyle]}
                   />
                 )}
-                <Text style={AdditionalInfoStyles.checkboxLabel}>예방접종 정보</Text>
+                <Text style={AdditionalInfoStyles.checkboxLabel}>이전 몸무게</Text>
               </TouchableOpacity>
-            </View>
-          )}
-        />
-        {hasImmunizations && (
-          <Controller
-            control={control}
-            name="immunizations"
-            defaultValue={false}
-            render={({ field: { onChange, value } }) => (
-              <Picker
-                placeholder="검색해서 추가하기"
-                value={aOption}
-                enableModalBlur={false}
-                onChange={(items) => setAOption(items as string[])}
-                topBarProps={{ title: 'ABC' }}
-                showSearch
-                searchPlaceholder={'예방접종 정보를 추가하기'}
-                style={AdditionalInfoStyles.pickerField}
-                onSearchChange={(value) => console.warn('value', value)}
-                items={options}
-              />
             )}
           />
-        )}
+          {hasPrevKg && (
+            <Controller
+              control={control}
+              name="past_weight"
+              defaultValue={false}
+              render={({ field: { onChange, value } }) => (
+                <View style={AdditionalInfoStyles.checkboxContainer}>
+                  <TextField
+                    value={value}
+                    onChangeText={onChange}
+                    fieldStyle={AdditionalInfoStyles.inputField}
+                    placeholder="이전 몸무게를 입력해주세요"
+                  />
+                </View>
+              )}
+            />
+          )}
+        </View>
+        <View style={AdditionalInfoStyles.healthContainer}>
+          <Controller
+            control={control}
+            name="hasDiseases"
+            defaultValue={false}
+            render={({ field: { onChange, value } }) => (
+              <TouchableOpacity
+                onPress={() => onChange(!hasDiseases)}
+                style={AdditionalInfoStyles.checkboxContainer}
+              >
+                {value ? (
+                  <ICON_CHECK_BOX
+                    width={24}
+                    height={24}
+                    fill="white"
+                    style={[AdditionalInfoStyles.checkStyle]}
+                  />
+                ) : (
+                  <ICON_UN_CHECK_BOX
+                    width={24}
+                    height={24}
+                    fill="white"
+                    style={[AdditionalInfoStyles.checkStyle]}
+                  />
+                )}
+                <Text style={AdditionalInfoStyles.checkboxLabel}>질병 이력</Text>
+              </TouchableOpacity>
+            )}
+          />
+          {hasDiseases && (
+            <Controller
+              control={control}
+              name="health_history"
+              defaultValue={false}
+              render={({ field: { onChange, value } }) => (
+                <Picker
+                  placeholder="과거 또는 현재 질병 이력을 추가해주세요"
+                  value={value}
+                  mode={Picker.modes.MULTI}
+                  enableModalBlur={false}
+                  onChange={(items) => onChange(items)}
+                  topBarProps={{ title: 'ABC' }}
+                  showSearch
+                  searchPlaceholder={'질병 정보 추가하기'}
+                  items={diseases}
+                  style={AdditionalInfoStyles.pickerField}
+                />
+              )}
+            />
+          )}
+        </View>
+        <View style={AdditionalInfoStyles.healthContainer}>
+          <Controller
+            control={control}
+            name="hasAllergies"
+            defaultValue={false}
+            render={({ field: { onChange, value } }) => (
+              <View>
+                <TouchableOpacity
+                  onPress={() => onChange(!hasAllergies)}
+                  style={AdditionalInfoStyles.checkboxContainer}
+                >
+                  {value ? (
+                    <ICON_CHECK_BOX
+                      width={24}
+                      height={24}
+                      fill="white"
+                      style={[AdditionalInfoStyles.checkStyle]}
+                    />
+                  ) : (
+                    <ICON_UN_CHECK_BOX
+                      width={24}
+                      height={24}
+                      fill="white"
+                      style={[AdditionalInfoStyles.checkStyle]}
+                    />
+                  )}
+                  <Text style={AdditionalInfoStyles.checkboxLabel}>알러지</Text>
+                </TouchableOpacity>
+              </View>
+            )}
+          />
+          {hasAllergies && (
+            <Controller
+              control={control}
+              name="allergies"
+              defaultValue={false}
+              render={({ field: { onChange, value } }) => (
+                <Picker
+                  placeholder="검색해서 추가하기"
+                  value={value}
+                  mode={Picker.modes.MULTI}
+                  enableModalBlur={false}
+                  onChange={(items) => onChange(items)}
+                  topBarProps={{ title: 'ABC' }}
+                  showSearch
+                  searchPlaceholder={'알러지 정보를 추가하기'}
+                  style={AdditionalInfoStyles.pickerField}
+                  items={allergies}
+                />
+              )}
+            />
+          )}
+        </View>
+        <View style={AdditionalInfoStyles.healthContainer}>
+          <Controller
+            control={control}
+            name="hasVaccinations"
+            defaultValue={false}
+            render={({ field: { onChange, value } }) => (
+              <View style={AdditionalInfoStyles.checkboxContainer}>
+                <TouchableOpacity
+                  onPress={() => onChange(!hasVaccinations)}
+                  style={AdditionalInfoStyles.checkboxContainer}
+                >
+                  {value ? (
+                    <ICON_CHECK_BOX
+                      width={24}
+                      height={24}
+                      fill="white"
+                      style={[AdditionalInfoStyles.checkStyle]}
+                    />
+                  ) : (
+                    <ICON_UN_CHECK_BOX
+                      width={24}
+                      height={24}
+                      fill="white"
+                      style={[AdditionalInfoStyles.checkStyle]}
+                    />
+                  )}
+                  <Text style={AdditionalInfoStyles.checkboxLabel}>예방접종 정보</Text>
+                </TouchableOpacity>
+              </View>
+            )}
+          />
+          {hasVaccinations && (
+            <Controller
+              control={control}
+              name="vaccinations"
+              defaultValue={false}
+              render={({ field: { onChange, value } }) => (
+                <Picker
+                  placeholder="검색해서 추가하기"
+                  value={value}
+                  mode={Picker.modes.MULTI}
+                  enableModalBlur={false}
+                  onChange={(items) => onChange(items)}
+                  topBarProps={{ title: 'ABC' }}
+                  showSearch
+                  searchPlaceholder={'예방접종 정보를 추가하기'}
+                  style={AdditionalInfoStyles.pickerField}
+                  items={vaccinations}
+                />
+              )}
+            />
+          )}
+        </View>
       </View>
     </ScrollView>
   );
@@ -462,6 +456,9 @@ const AdditionalInfoStyles = StyleSheet.create({
     fontWeight: '600',
     marginBottom: 30,
     color: '#101426',
+  },
+  healthContainer: {
+    marginBottom: 20,
   },
   uploadContainer: {
     width: 120,

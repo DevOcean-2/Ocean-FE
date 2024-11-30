@@ -1,7 +1,7 @@
 import React, { useState } from 'react';
 import { ScrollView, StyleSheet, View } from 'react-native';
 import { Colors, Picker, Slider, Text, TextField, TouchableOpacity } from 'react-native-ui-lib';
-import { Controller } from 'react-hook-form';
+import { Controller, useWatch } from 'react-hook-form';
 import { StepProps } from '../types/signUp';
 import { styles } from '../styles';
 import CustomImageButton from '@/components/CustomImageButton';
@@ -10,35 +10,19 @@ import CustomButton from '@/components/CustomButton';
 import renderTrack from './renderTrack';
 import { Banner } from '@/components/Banner';
 import { useQuery } from '@tanstack/react-query';
-import { fetchDogBreeds } from '../api/dogBreed';
-
-const options = [
-  { label: '토끼', value: '토끼' },
-  { label: '사과', value: '사과' },
-  { label: '고양이', value: '고양이' },
-  { label: '몰라', value: '몰라' },
-  { label: '배고픔', value: '배고픔' },
-];
+import { fetchDogBreeds } from '../api/dogInfoApi';
+import { useDogBreeds } from '../hooks/queries/useDogBreed';
 
 const BasicInfo: React.FC<StepProps> = ({ control }) => {
-  const [dogBreed, setDogBreed] = useState('');
   const [isBreed, setIsBreed] = useState(true);
 
-  const {
-    data: dogBreeds,
-    isLoading,
-    error,
-  } = useQuery({
-    queryKey: ['dogBreeds'],
-    queryFn: fetchDogBreeds,
-    select: (data) =>
-      data.map((breed) => ({
-        label: breed.name,
-        value: breed.name,
-      })),
-  });
+  const { data: dogBreedsData } = useDogBreeds();
 
-  console.log(dogBreeds);
+  const breed = useWatch({
+    control,
+    name: 'dog_breed',
+    defaultValue: '',
+  });
 
   return (
     <ScrollView style={styles.stepContainer}>
@@ -50,7 +34,7 @@ const BasicInfo: React.FC<StepProps> = ({ control }) => {
         <Text style={styles.title}>반려견을 어떻게 부르시나요? </Text>
         <Controller
           control={control}
-          name="name"
+          name="dog_name"
           render={({ field: { onChange, value } }) => (
             <View>
               <Text style={styles.label}>
@@ -62,9 +46,9 @@ const BasicInfo: React.FC<StepProps> = ({ control }) => {
                 placeholder="내용을 입력해주세요"
                 onChangeText={onChange}
                 value={value}
-                maxLength={30} // 최대 입력 길이 설정
-                showCharCounter // 글자 수 카운터 표시
-                charCounterStyle={{ color: '#8F9BB3' }} // 글자 수 카운터 스타일
+                maxLength={30}
+                showCharCounter
+                charCounterStyle={{ color: '#8F9BB3' }}
               />
             </View>
           )}
@@ -74,23 +58,15 @@ const BasicInfo: React.FC<StepProps> = ({ control }) => {
         <Text style={styles.title}>반려견의 성별은 어떻게 되나요?</Text>
         <Controller
           control={control}
-          name="gender"
+          name="dog_gender"
           render={({ field: { onChange, value } }) => (
             <View style={styles.flexGroup}>
               <Text style={styles.label}>
                 성별 <Text color="red">*</Text>
               </Text>
               <View style={styles.buttonContainer}>
-                <CustomButton
-                  label="여자아이"
-                  onPress={() => onChange('여자아이')}
-                  selected={value === '여자아이'}
-                />
-                <CustomButton
-                  label="남자아이"
-                  onPress={() => onChange('남자아이')}
-                  selected={value === '남자아이'}
-                />
+                <CustomButton label="여자아이" onPress={() => onChange(0)} selected={value === 0} />
+                <CustomButton label="남자아이" onPress={() => onChange(1)} selected={value === 1} />
               </View>
             </View>
           )}
@@ -100,7 +76,7 @@ const BasicInfo: React.FC<StepProps> = ({ control }) => {
         <Text style={styles.title}>반려견의 크기를 알려주세요</Text>
         <Controller
           control={control}
-          name="size"
+          name="dog_size"
           render={({ field: { onChange, value } }) => (
             <View style={styles.flexGroup}>
               <Text style={styles.label}>
@@ -111,22 +87,22 @@ const BasicInfo: React.FC<StepProps> = ({ control }) => {
                   imageUri="small"
                   label="소형견"
                   subLabel="작고 소중해"
-                  onPress={() => onChange('소형견')}
-                  selected={value === '소형견'}
+                  onPress={() => onChange(0)}
+                  selected={value === 0}
                 />
                 <CustomImageButton
                   imageUri="medium"
                   label="중형견"
                   subLabel="이제 좀 무거운 애기"
-                  onPress={() => onChange('중형견')}
-                  selected={value === '중형견'}
+                  onPress={() => onChange(1)}
+                  selected={value === 1}
                 />
                 <CustomImageButton
                   imageUri="large"
                   label="대형견"
                   subLabel="자이언트 베이비"
-                  onPress={() => onChange('대형견')}
-                  selected={value === '대형견'}
+                  onPress={() => onChange(2)}
+                  selected={value === 2}
                 />
               </View>
             </View>
@@ -137,7 +113,7 @@ const BasicInfo: React.FC<StepProps> = ({ control }) => {
         <Text style={styles.title}>어떤 종류의 댕댕이인가요?</Text>
         <Controller
           control={control}
-          name="breed"
+          name="dog_breed"
           render={({ field: { onChange, value } }) => (
             <View>
               <Text style={styles.label}>
@@ -148,11 +124,13 @@ const BasicInfo: React.FC<StepProps> = ({ control }) => {
                   <Picker
                     placeholder="품종을 선택해주세요"
                     placeholderTextColor="#8F9BB3"
-                    value={dogBreed}
+                    value={dogBreedsData?.breedsList.filter((x) => x.id === value)[0]?.label}
                     enableModalBlur={false}
                     onChange={(item) => {
-                      setDogBreed(item as string);
-                      onChange(item);
+                      const selectedBreed = dogBreedsData?.breedsList.find((x) => x.label === item);
+                      if (selectedBreed) {
+                        onChange(selectedBreed.id);
+                      }
                     }}
                     topBarProps={{
                       title: '강아지품종',
@@ -160,27 +138,29 @@ const BasicInfo: React.FC<StepProps> = ({ control }) => {
                     }}
                     showSearch
                     searchPlaceholder="품종을 선택해주세요"
-                    onSearchChange={(value) => console.warn('value', value)}
-                    items={options}
+                    items={dogBreedsData?.breedsList || []}
                     containerStyle={BasicInfoStyles.pickerContainer}
                     style={BasicInfoStyles.picker}
                   />
                   <Text style={BasicInfoStyles.orText}>또는</Text>
                 </>
               )}
-
-              <TouchableOpacity
-                style={isBreed ? BasicInfoStyles.cannotFindButton : BasicInfoStyles.canFindButton}
-                onPress={() => {
-                  setIsBreed((prev) => !prev);
-                }}
-              >
-                <Text
-                  style={isBreed ? BasicInfoStyles.cannotFindText : BasicInfoStyles.canFindText}
-                >
-                  정형화 할 수 없어요
-                </Text>
-              </TouchableOpacity>
+              {breed === '' && (
+                <View>
+                  <TouchableOpacity
+                    style={
+                      isBreed ? BasicInfoStyles.cannotFindButton : BasicInfoStyles.canFindButton
+                    }
+                    onPress={() => setIsBreed((prev) => !prev)}
+                  >
+                    <Text
+                      style={isBreed ? BasicInfoStyles.cannotFindText : BasicInfoStyles.canFindText}
+                    >
+                      정형화 할 수 없어요
+                    </Text>
+                  </TouchableOpacity>
+                </View>
+              )}
             </View>
           )}
         />
@@ -189,7 +169,7 @@ const BasicInfo: React.FC<StepProps> = ({ control }) => {
         <Text style={styles.title}>귀여움을 수치화하면?</Text>
         <Controller
           control={control}
-          name="careLevel"
+          name="dog_cuteness"
           render={({ field: { onChange, value } }) => (
             <>
               <Text style={styles.label}>

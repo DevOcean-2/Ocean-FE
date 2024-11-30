@@ -2,11 +2,10 @@ import { useState } from 'react';
 import { useForm } from 'react-hook-form';
 import { zodResolver } from '@hookform/resolvers/zod';
 import { schema, FormData } from '../types/signUp';
-import { WizardStepProps } from 'react-native-ui-lib';
+import { useWatch } from 'react-hook-form';
 
 export const useSignUpForm = () => {
-  const [activeIndex, setActiveIndex] = useState(0);
-  const [completedStepIndex, setCompletedStepIndex] = useState<number | undefined>(undefined);
+  const [activeIndex, setActiveIndex] = useState(1);
   const [toastMessage, setToastMessage] = useState<string | undefined>(undefined);
 
   const {
@@ -16,34 +15,59 @@ export const useSignUpForm = () => {
   } = useForm<FormData>({
     resolver: zodResolver(schema),
     defaultValues: {
-      name: '',
-      gender: '여자아이',
-      size: '소형견',
-      breed: '',
-      careLevel: 0,
+      dog_name: '',
+      dog_gender: 0,
+      dog_size: 0,
+      dog_breed: 0,
+      dog_cuteness: 0,
+      photo_path: '',
+      birth_day: '',
+      hasDate: true,
+      current_weight: 0,
+      past_weight: 0,
+      vaccinations: [],
+      allergies: [],
+      health_history: [],
     },
   });
 
-  const onActiveIndexChanged = (index: number) => {
-    setActiveIndex(index);
+  const dogName = useWatch({
+    control,
+    name: 'dog_name',
+  });
+
+  const photoPath = useWatch({
+    control,
+    name: 'photo_path',
+  });
+
+  const birthDay = useWatch({
+    control,
+    name: 'birth_day',
+  });
+
+  const isBasicInfoValid = () => {
+    if (activeIndex === 1) {
+      return dogName.trim().length > 0;
+    }
+    return true;
   };
 
-  const getStepState = (index: number) => {
-    let state = 'DISABLED';
-    if (completedStepIndex && completedStepIndex > index - 1) {
-      state = 'COMPLETED';
-    } else if (activeIndex === index || completedStepIndex === index - 1) {
-      state = 'ENABLED';
+  const isAdditionalInfoValid = () => {
+    if (activeIndex === 2) {
+      return photoPath.trim().length > 0 && birthDay.trim().length > 0;
     }
-    return state as WizardStepProps['state'];
+    return true;
   };
 
   const goToNextStep = () => {
-    if (activeIndex < 2) {
+    if (activeIndex === 1 && isBasicInfoValid()) {
       setActiveIndex(activeIndex + 1);
-      setCompletedStepIndex(activeIndex);
-    } else {
+    } else if (activeIndex === 2 && isAdditionalInfoValid()) {
       handleSubmit(onSubmit)();
+      setActiveIndex(activeIndex + 1);
+    } else if (activeIndex !== 1 && activeIndex !== 2) {
+      setActiveIndex(activeIndex + 1);
     }
   };
 
@@ -64,9 +88,9 @@ export const useSignUpForm = () => {
     control,
     errors,
     toastMessage,
-    onActiveIndexChanged,
-    getStepState,
     goToNextStep,
     goToPrevStep,
+    isBasicInfoValid,
+    isAdditionalInfoValid,
   };
 };
