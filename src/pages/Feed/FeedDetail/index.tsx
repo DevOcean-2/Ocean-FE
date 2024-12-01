@@ -6,10 +6,10 @@ import { ICON_MORE, ICON_PAW, ICON_PAW_FILL } from '@/assets/svgs';
 import { ActionSheet, Carousel } from 'react-native-ui-lib';
 import { useLocalSearchParams, useNavigation } from 'expo-router';
 import { useMutation, useQuery, useQueryClient } from '@tanstack/react-query';
-import { queryKeyMetaData } from '@/src/pages/Feed/constants';
+import { queryKeyMetaData, testUserId } from '@/src/pages/Feed/constants';
 import { FeedLikeByType } from '@/src/pages/Feed/types';
 import { displayUploadTime } from '@/src/pages/Feed/utils';
-import { useEffect, useState } from 'react';
+import { useEffect, useMemo, useState } from 'react';
 import { deleteFeedPost, getFeedPosts, toggleFeedLike } from '@/src/pages/Feed/api';
 
 interface Props {
@@ -31,10 +31,8 @@ const PostDetail = (props: Props) => {
 
   const toggleLikeMutation = useMutation({
     mutationFn: toggleFeedLike,
-    onSuccess: (data) => {
-      console.log(data);
+    onSuccess: () => {
       queryClient.invalidateQueries({ queryKey: [queryKeyMetaData.getFeedPosts] });
-      console.log('좋아요 토글 실행');
     },
     onError: (e) => {
       console.log(e);
@@ -45,7 +43,6 @@ const PostDetail = (props: Props) => {
     mutationFn: deleteFeedPost,
     onSuccess: () => {
       queryClient.invalidateQueries({ queryKey: [queryKeyMetaData.getFeedPosts] });
-      console.log('피드 삭제');
       navigation.goBack();
     },
     onError: (e) => {
@@ -54,7 +51,12 @@ const PostDetail = (props: Props) => {
   });
 
   //TODO: 내 유저 아이디랑 liked_by 리스트 비교해서 초기값 결정
-  const [like, setLike] = useState(liked_by.map((info) => info.user_id).includes('yonghoon_test'));
+  const isLike = useMemo(() => liked_by.map((info) => info.user_id).includes(testUserId), liked_by);
+
+  useEffect(() => {
+    console.log('----------');
+    console.log(isLike);
+  }, [isLike]);
 
   return (
     <>
@@ -94,8 +96,14 @@ const PostDetail = (props: Props) => {
         </View>
         <View style={styles.footer}>
           <View style={styles.tab}>
-            <Pressable style={styles.iconWrapper} onPress={() => toggleLikeMutation.mutate(postId)}>
-              {like ? <ICON_PAW_FILL /> : <ICON_PAW />}
+            <Pressable
+              style={styles.iconWrapper}
+              onPress={() => {
+                console.log(`좋아요 토글 실행 ${postId}`);
+                toggleLikeMutation.mutate(postId);
+              }}
+            >
+              {isLike ? <ICON_PAW_FILL /> : <ICON_PAW />}
             </Pressable>
           </View>
           <View style={styles.like}>
@@ -126,7 +134,7 @@ const FeedDetail = () => {
   // 그냥 다시 call
   const { data, isLoading, error } = useQuery({
     queryKey: [queryKeyMetaData.getFeedPosts],
-    queryFn: () => getFeedPosts('yonghoon_test'),
+    queryFn: () => getFeedPosts(testUserId),
   });
 
   useEffect(() => {

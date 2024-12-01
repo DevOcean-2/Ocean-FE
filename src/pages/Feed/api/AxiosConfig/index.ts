@@ -6,14 +6,13 @@ class AxiosConfig {
   constructor(baseURL = '', defaultHeaders = {}) {
     this.client = axios.create({
       baseURL,
-
     });
 
     this.client.interceptors.request.use(
       (config) => {
         // const token = localStorage.getItem('jwtToken');
         const token =
-          'eyJ0eXAiOiJKV1QiLCJhbGciOiJIUzI1NiJ9.eyJzdWIiOiJ5b25naG9vbl90ZXN0Iiwic29jaWFsX2lkIjoieW9uZ2hvb25fdGVzdCIsImV4cCI6MTc0MDM3NTI4NywidHlwZSI6ImFjY2VzcyJ9.Jt5XIcq_3Gzaq8_qJcVTyqj1jrkVXW0b60fYI52gT08';
+          'eyJ0eXAiOiJKV1QiLCJhbGciOiJIUzI1NiJ9.eyJzdWIiOiIzIiwiaWF0IjoxNzMyNTI0MDY4LCJuYmYiOjE3MzI1MjQwNjgsImp0aSI6ImU1NGJlMzg4LTE2YzAtNDk2Yi1hYTFhLTU4N2E3Y2MwMmRkNSIsImV4cCI6MTczMzEyODg2OCwidHlwZSI6ImFjY2VzcyIsImZyZXNoIjpmYWxzZSwic29jaWFsX2lkIjoiMzc0ODk3Mzc1NCJ9.Owc93hjCzV_opWLmnaHcN-KvofiIK0oizF3WABuOzkU';
         if (token) {
           config.headers['Authorization'] = `Bearer ${token}`;
         }

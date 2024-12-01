@@ -5,29 +5,34 @@ import { Image } from '@/src/shared/ui';
 import { Button } from '@/src/shared/feed/ui';
 import { useRouter } from 'expo-router';
 import { PublicFeedEntryLink } from '@/src/shared/constants';
+import { queryKeyMetaData } from '@/src/pages/Feed/constants';
+import { useQueryClient } from '@tanstack/react-query';
+import { UserVisitorsResponse } from '@/src/pages/Feed/types';
 
 const FeedVisitor = () => {
-  const dummyDataList = [
-    { userId: 'yonghoon_test', nickName: '용훈' },
-    { userId: 'yonghoon_test', nickName: '종대' },
-    { userId: 'yonghoon_test', nickName: '지훈' },
-    { userId: 'yonghoon_test', nickName: '가영' },
-  ];
-
   const router = useRouter();
 
-  // PublicFeedEntryLink.feedDetail
+  const queryClient = useQueryClient();
+
+  const cachedVisitorData = queryClient.getQueryData<UserVisitorsResponse[]>([
+    queryKeyMetaData.getUserVisitors,
+  ]);
+
+  // useEffect(() => {
+  //   console.log(cachedVisitorData);
+  // }, [cachedVisitorData]);
+
   return (
     <MainLayout>
       <FeedVisitorHeader />
       <ScrollLayout>
         <View style={styles.contentContainer}>
-          {dummyDataList.map((item) => {
+          {cachedVisitorData?.map((item) => {
             return (
-              <View key={item.nickName} style={styles.itemWrapper}>
+              <View key={item.visitor_id} style={styles.itemWrapper}>
                 <View style={styles.profileWrapper}>
                   <Image style={styles.image} source={require('./assets/dummy.png')} />
-                  <Text>{item.nickName}</Text>
+                  <Text>{item.visitor_name}</Text>
                 </View>
                 <Button
                   style={styles.button}
