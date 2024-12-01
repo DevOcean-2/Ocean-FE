@@ -86,8 +86,8 @@ const PostDetail = (props: Props) => {
       <ActionSheet
         containerStyle={styles.actionSheetContainer}
         destructiveButtonIndex={2}
-        useNativeIOS
-        useSafeArea
+        // useNativeIOS
+        // useSafeArea
         migrateDialog
         options={[
           { label: '공유 링크 복사하기', onPress: () => console.log('copy link') },
@@ -122,7 +122,6 @@ const PostDetail = (props: Props) => {
             <Pressable
               style={styles.iconWrapper}
               onPress={() => {
-                console.log(`좋아요 토글 실행 ${postId}`);
                 toggleLikeMutation.mutate(postId);
               }}
             >
