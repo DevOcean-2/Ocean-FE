@@ -17,3 +17,17 @@ export const getUserVisitors = async (userId: string): Promise<UserVisitorsRespo
   const response = await apiClient.get(`/profiles/visitors/${userId}`);
   return response.data;
 };
+
+export const visitOtherFeedHome = async ({
+  feedOwnerId,
+  feedVisitorId,
+}: {
+  feedOwnerId: string;
+  feedVisitorId: string;
+}) => {
+  const response = await apiClient.post(`/profiles/visit`, {
+    owner_id: feedOwnerId,
+    visitor_id: feedVisitorId,
+  });
+  return response.data;
+};

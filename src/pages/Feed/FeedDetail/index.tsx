@@ -9,7 +9,7 @@ import { useMutation, useQuery, useQueryClient } from '@tanstack/react-query';
 import { queryKeyMetaData, testUserId } from '@/src/pages/Feed/constants';
 import { FeedLikeByType } from '@/src/pages/Feed/types';
 import { displayUploadTime } from '@/src/pages/Feed/utils';
-import { useEffect, useMemo, useState } from 'react';
+import { useEffect, useRef, useState } from 'react';
 import { deleteFeedPost, getFeedPosts, toggleFeedLike } from '@/src/pages/Feed/api';
 
 interface Props {
@@ -18,14 +18,42 @@ interface Props {
   content?: string;
   uploadAt?: string;
   liked_by: FeedLikeByType[];
+  currentFeedUserId: string;
 }
+
+const FeedLikeText = ({ liked_by }: { liked_by: FeedLikeByType[] }) => {
+  if (liked_by.length === 0)
+    return <Text style={styles.likeText}>첫번째 좋아요를 눌러주세요!</Text>;
+  if (liked_by.length === 1)
+    return (
+      <>
+        <Text style={styles.likeBoldText}>{liked_by[0].nickname}</Text>
+        <Text style={styles.likeText}> 님이 이 게시글을 좋아합니다.</Text>
+      </>
+    );
+  return (
+    <>
+      <Text style={styles.likeBoldText}>{liked_by[0].nickname}</Text>
+      <Text style={styles.likeText}> 님 외 </Text>
+      <Text style={styles.likeBoldText}>{liked_by.length - 1}</Text>
+      <Text style={styles.likeText}>명이 게시글을 좋아합니다.</Text>
+    </>
+  );
+};
 
 const PostDetail = (props: Props) => {
   const queryClient = useQueryClient();
 
   const navigation = useNavigation();
 
-  const { postId, imageList = [], content = '', uploadAt = '', liked_by = [] } = props;
+  const {
+    postId,
+    imageList = [],
+    content = '',
+    uploadAt = '',
+    liked_by = [],
+    currentFeedUserId,
+  } = props;
 
   const [actionSheet, setActionSheet] = useState<boolean>(false);
 
@@ -51,12 +79,7 @@ const PostDetail = (props: Props) => {
   });
 
   //TODO: 내 유저 아이디랑 liked_by 리스트 비교해서 초기값 결정
-  const isLike = useMemo(() => liked_by.map((info) => info.user_id).includes(testUserId), liked_by);
-
-  useEffect(() => {
-    console.log('----------');
-    console.log(isLike);
-  }, [isLike]);
+  const isLike = liked_by.map((info) => info.user_id).includes(testUserId);
 
   return (
     <>
@@ -80,7 +103,7 @@ const PostDetail = (props: Props) => {
             <Image style={styles.image} source={require('../assets/images/dog-2.png')} />
             <Text style={styles.titleText}>{'닉네임'}</Text>
             <Pressable style={styles.icon} onPress={() => setActionSheet(true)}>
-              <ICON_MORE />
+              {currentFeedUserId === testUserId && <ICON_MORE />}
             </Pressable>
           </View>
         </View>
@@ -107,9 +130,7 @@ const PostDetail = (props: Props) => {
             </Pressable>
           </View>
           <View style={styles.like}>
-            <Text
-              style={styles.likeText}
-            >{`닉네임최대8글자 님 외 ${liked_by.length}명이 이 게시글을 좋아합니다.`}</Text>
+            <FeedLikeText liked_by={liked_by} />
           </View>
           <View style={styles.content}>
             <Text style={styles.contentText}>{content}</Text>
@@ -126,6 +147,8 @@ const PostDetail = (props: Props) => {
 const FeedDetail = () => {
   const queryClient = useQueryClient();
 
+  const scrollViewRef = useRef<ScrollView | null>(null);
+
   // 캐시된 데이터
   // const cachedFeedPostsList: FeedPostsResponse[] | undefined = queryClient.getQueryData([
   //   queryKeyMetaData.getFeedPosts,
@@ -137,18 +160,30 @@ const FeedDetail = () => {
     queryFn: () => getFeedPosts(testUserId),
   });
 
-  useEffect(() => {
-    console.log(data);
-  }, [data]);
-
-  const params = useLocalSearchParams<{ data: string }>();
+  const params = useLocalSearchParams<{ data: string; userId: string }>();
 
   const selectedIndex = Number(params.data);
+  const currentFeedUserId = params.userId;
+
+  useEffect(() => {
+    setTimeout(() => {
+      if (!scrollViewRef.current) return;
+
+      if (data?.length === selectedIndex + 1) {
+        scrollViewRef.current.scrollToEnd();
+        return;
+      }
+
+      // Feed post height + gap
+      const offsetY = selectedIndex * (535 + 24);
+      scrollViewRef.current.scrollTo({ y: offsetY });
+    }, 0);
+  }, []);
 
   return (
     <MainLayout>
       <FeedDetailHeader />
-      <ScrollView>
+      <ScrollView ref={scrollViewRef}>
         <View style={styles.scrollWrapper}>
           {data?.map((info) => (
             <PostDetail
@@ -158,6 +193,7 @@ const FeedDetail = () => {
               content={info.content}
               uploadAt={info.uploaded_at}
               liked_by={info.liked_by}
+              currentFeedUserId={currentFeedUserId}
             />
           ))}
         </View>
@@ -229,12 +265,20 @@ const styles = StyleSheet.create({
     paddingRight: 20,
   },
   tab: {},
-  like: {},
+  like: {
+    flexDirection: 'row',
+    alignItems: 'center',
+  },
   content: {},
   date: {},
   likeText: {
     color: '#101426',
     fontWeight: '400',
+    fontSize: 12,
+  },
+  likeBoldText: {
+    color: '#101426',
+    fontWeight: '500',
     fontSize: 12,
   },
   contentText: {

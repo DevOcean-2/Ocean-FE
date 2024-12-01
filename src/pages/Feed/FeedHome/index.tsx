@@ -9,7 +9,7 @@ import { PublicFeedEntryLink } from '@/src/shared/constants';
 import { getFeedPosts, getUserInfo, getUserVisitors } from '@/src/pages/Feed/api';
 import { useQuery } from '@tanstack/react-query';
 import { queryKeyMetaData, testUserId } from '@/src/pages/Feed/constants';
-import { ICON_FIRE } from '@/assets/svgs';
+import { ICON_BADGE, ICON_FIRE } from '@/assets/svgs';
 
 const FeedHome = () => {
   const route = useRouter();
@@ -29,11 +29,6 @@ const FeedHome = () => {
     queryFn: () => getUserVisitors(testUserId),
   });
 
-  // useEffect(() => {
-  //   console.log('----- 이거');
-  //   console.log(userVisitor);
-  // }, [userVisitor]);
-
   return (
     <MainLayout>
       <FeedHomeHeader userNickName={userData?.user_name} />
@@ -41,7 +36,11 @@ const FeedHome = () => {
         <View style={styles.contentContainer}>
           <View style={styles.imageContentContainer}>
             <View>
-              <Image style={styles.image} source={require('./assets/dog.png')} />
+              {userData?.photo_path ? (
+                <Image style={styles.image} source={{ uri: userData?.photo_path }} />
+              ) : (
+                <Image style={styles.image} source={require('@/assets/images/default-dog.png')} />
+              )}
             </View>
             <View style={styles.imageTextContent}>
               <View style={styles.title}>
@@ -73,11 +72,15 @@ const FeedHome = () => {
             <View style={styles.badge}>
               <Text>배지</Text>
               <View style={styles.separator} />
+              <ICON_BADGE />
+              <ICON_BADGE />
+              <ICON_BADGE />
             </View>
             <View style={styles.introduction}>
               <Text style={styles.introductionText}>
-                안녕하세요 저희 강아지는 10살이고, 보호소에서 데려왔어요. 제 피드 공유 많이
-                부탁드려요.
+                {/*안녕하세요 저희 강아지는 10살이고, 보호소에서 데려왔어요. 제 피드 공유 많이*/}
+                {/*부탁드려요.*/}
+                피드 소개란
               </Text>
             </View>
           </View>
@@ -103,7 +106,7 @@ const FeedHome = () => {
                       onPress={() =>
                         route.push({
                           pathname: PublicFeedEntryLink.feedDetail,
-                          params: { data: index },
+                          params: { data: index, userId: testUserId },
                         })
                       }
                     >
@@ -156,6 +159,7 @@ const styles = StyleSheet.create({
     gap: 12,
   },
   badge: {
+    alignItems: 'center',
     flexDirection: 'row',
     gap: 6,
   },

@@ -4,7 +4,7 @@ import { StyleSheet, Text, View } from 'react-native';
 import { useQuery } from '@tanstack/react-query';
 import { queryKeyMetaData, testUserId } from '@/src/pages/Feed/constants';
 import { getUserInfo } from '@/src/pages/Feed/api';
-import { displayBirthdayFormat } from '@/src/pages/Feed/utils';
+import { displayBirthdayFormat, displayCutenessFormat } from '@/src/pages/Feed/utils';
 
 const MyHome = () => {
   const dogInfoMetaData = [
@@ -25,6 +25,7 @@ const MyHome = () => {
     if (label === '출생연도' && typeof value === 'string') {
       return displayBirthdayFormat(value);
     }
+    if (label === '귀여움 상태' && typeof value === 'string') return displayCutenessFormat(value);
     return value;
   };
 
@@ -39,7 +40,11 @@ const MyHome = () => {
       <View style={styles.contentContainer}>
         <View style={styles.myInfoContainer}>
           <View style={styles.myImageContentArea}>
-            <Image style={styles.image} source={require('../assets/images/dog-2.png')} />
+            {userData?.photo_path ? (
+              <Image style={styles.image} source={{ uri: userData?.photo_path }} />
+            ) : (
+              <Image style={styles.image} source={require('@/assets/images/default-dog.png')} />
+            )}
             <Button style={styles.imageEditButton}>
               <Text style={styles.imageText}>사진 변경</Text>
             </Button>
