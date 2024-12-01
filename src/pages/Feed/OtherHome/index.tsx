@@ -5,29 +5,52 @@ import { Image } from '@/src/shared/ui';
 import TabController from '@/components/TabController';
 import { MainLayout, ScrollLayout } from '@/src/pages/Feed/ui';
 import { useLocalSearchParams, useRouter } from 'expo-router';
-import { useEffect } from 'react';
 import { useQuery } from '@tanstack/react-query';
 import { queryKeyMetaData } from '@/src/pages/Feed/constants';
-import { getFeedPosts } from '@/src/pages/Feed/api';
+import { getFeedPosts, getUserInfo, getUserVisitors } from '@/src/pages/Feed/api';
 import { PublicFeedEntryLink } from '@/src/shared/constants';
+import { ICON_FIRE } from '@/assets/svgs';
 
 const OtherHome = () => {
-  const params = useLocalSearchParams<{ userId: string; nickName: string }>();
+  const params = useLocalSearchParams<{
+    visitor_id: string;
+    visitor_name: string;
+    visitor_image: string;
+    viewed_at: string;
+  }>();
 
   const route = useRouter();
 
-  useEffect(() => {
-    console.log(params);
-  }, [params]);
-
   const { data: feedData } = useQuery({
-    queryKey: [queryKeyMetaData.getFeedPosts],
-    queryFn: () => getFeedPosts('yonghoon_test'),
+    queryKey: [queryKeyMetaData.getOtherFeedPosts],
+    queryFn: () => getFeedPosts(params.visitor_id),
   });
+
+  const { data: userData } = useQuery({
+    queryKey: [queryKeyMetaData.getOtherUserInfo],
+    queryFn: () => getUserInfo(params.visitor_id),
+  });
+
+  const { data: visitorData } = useQuery({
+    queryKey: [queryKeyMetaData.getOtherVisitors],
+    queryFn: () => getUserVisitors(params.visitor_id),
+  });
+
+  // useEffect(() => {
+  //   console.log(params);
+  // }, [params]);
+  //
+  // useEffect(() => {
+  //   console.log(userData);
+  // }, [userData]);
+  //
+  // useEffect(() => {
+  //   console.log(feedData);
+  // }, [feedData]);
 
   return (
     <MainLayout>
-      <FeedOtherHomeHeader userNickName={params.nickName} />
+      <FeedOtherHomeHeader userNickName={userData?.user_name} />
       <ScrollLayout>
         <View style={styles.contentContainer}>
           <View style={styles.imageContentContainer}>
@@ -36,8 +59,8 @@ const OtherHome = () => {
             </View>
             <View style={styles.imageTextContent}>
               <View style={styles.title}>
-                <Text style={styles.titleText}>강아지 이름 표시 영역</Text>
-                <Text style={styles.subTitleText}>말티즈</Text>
+                <Text style={styles.titleText}>{userData?.dog_name}</Text>
+                <Text style={styles.subTitleText}>{userData?.dog_breed}</Text>
               </View>
               <View style={styles.imageRecordContent}>
                 <View style={styles.recordRow}>
@@ -54,7 +77,8 @@ const OtherHome = () => {
               <View style={styles.visitorBadge}>
                 {/* 다른 사람 방문자는 확인 x */}
                 {/*<Link href={PublicFeedEntryLink.feedVisitor}>*/}
-                <Text>1,234</Text>
+                <ICON_FIRE />
+                <Text>{visitorData?.length}</Text>
                 {/*</Link>*/}
               </View>
             </View>
@@ -177,7 +201,11 @@ const styles = StyleSheet.create({
     flex: 1,
   },
   visitorBadge: {
+    flexDirection: 'row',
+    alignItems: 'center',
+    justifyContent: 'center',
     marginLeft: 'auto',
+    gap: 4,
     paddingTop: 4,
     paddingBottom: 4,
     paddingLeft: 8,

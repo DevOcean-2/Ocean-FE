@@ -41,3 +41,10 @@ export interface UserInfoResponse {
   weight_change: number;
   age: string;
 }
+
+export interface UserVisitorsResponse {
+  visitor_id: string;
+  visitor_name: string;
+  visitor_image: string;
+  viewed_at: string;
+}

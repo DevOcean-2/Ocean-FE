@@ -1,20 +1,37 @@
 import { Button, Image, MainLayout, ScrollLayout } from '@/src/shared/ui';
 import { MyHomeHeader } from '@/src/widgets/PageHeaders/MyHeader';
 import { StyleSheet, Text, View } from 'react-native';
+import { useQuery } from '@tanstack/react-query';
+import { queryKeyMetaData, testUserId } from '@/src/pages/Feed/constants';
+import { getUserInfo } from '@/src/pages/Feed/api';
+import { displayBirthdayFormat } from '@/src/pages/Feed/utils';
 
 const MyHome = () => {
   const dogInfoMetaData = [
-    { label: '댕댕이 이름' },
-    { label: '성별' },
-    { label: '댕댕이 크기' },
-    { label: '품종' },
-    { label: '귀여움 상태' },
-    { label: '출생연도' },
-    { label: '몸무게' },
-    { label: '접종 백신' },
-    { label: '과거 질병 이력' },
-    { label: '알러지 정보' },
+    { label: '댕댕이 이름', key: 'dog_name' },
+    { label: '성별', key: 'dog_gender' },
+    { label: '댕댕이 크기', key: 'dog_size' },
+    { label: '품종', key: 'dog_breed' },
+    { label: '귀여움 상태', key: 'dog_cuteness' },
+    { label: '출생연도', key: 'birth_day' },
+    { label: '몸무게', key: 'current_weight' },
+    { label: '접종 백신', key: 'vaccinations' },
+    { label: '과거 질병 이력', key: 'health_history' },
+    { label: '알러지 정보', key: 'allergies' },
   ];
+
+  const displayFormat = (label: string, value: string | string[]) => {
+    if (label === '몸무게') return `${value} kg`;
+    if (label === '출생연도' && typeof value === 'string') {
+      return displayBirthdayFormat(value);
+    }
+    return value;
+  };
+
+  const { data: userData, error: userError } = useQuery({
+    queryKey: [queryKeyMetaData.getUserInfo],
+    queryFn: () => getUserInfo(testUserId),
+  });
 
   return (
     <MainLayout>
@@ -30,15 +47,15 @@ const MyHome = () => {
           <View style={styles.myInfoTextContentArea}>
             <View style={styles.myInfoTextContent}>
               <Text style={styles.myInfoText}>사용자 이름</Text>
-              <Text style={styles.myInfoText}>박주영</Text>
+              <Text style={styles.myInfoText}>{userData?.user_name}</Text>
             </View>
             <View style={styles.myInfoTextContent}>
               <Text style={styles.myInfoText}>생년월일</Text>
-              <Text style={styles.myInfoText}>1997.10.21</Text>
+              <Text style={styles.myInfoText}>----.--.--</Text>
             </View>
             <View style={styles.myInfoTextContent}>
               <Text style={styles.myInfoText}>이메일</Text>
-              <Text style={styles.myInfoText}>AWEF@naver.com</Text>
+              <Text style={styles.myInfoText}>----@----.com</Text>
             </View>
           </View>
         </View>
@@ -54,7 +71,10 @@ const MyHome = () => {
                 return (
                   <View key={dogInfo.label} style={styles.myDogInfoTextContent}>
                     <Text style={styles.myDogInfoText}>{dogInfo.label}</Text>
-                    <Text style={styles.myDogInfoText}>쫑아</Text>
+                    <Text style={styles.myDogInfoText}>
+                      {/* @ts-ignore */}
+                      {displayFormat(dogInfo.label, String(userData?.[dogInfo.key]))}
+                    </Text>
                   </View>
                 );
               })}

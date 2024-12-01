@@ -4,41 +4,39 @@ import { Pressable, StyleSheet, Text, View } from 'react-native';
 import { Image } from '@/src/shared/ui';
 import TabController from '@/components/TabController';
 import { MainLayout, ScrollLayout } from '@/src/pages/Feed/ui';
-import { Link, useRouter } from 'expo-router';
+import { useRouter } from 'expo-router';
 import { PublicFeedEntryLink } from '@/src/shared/constants';
-import { useEffect, useState } from 'react';
-import { getFeedPosts, getUserInfo } from '@/src/pages/Feed/api';
-import { FeedPostsResponse } from '@/src/pages/Feed/types';
+import { getFeedPosts, getUserInfo, getUserVisitors } from '@/src/pages/Feed/api';
 import { useQuery } from '@tanstack/react-query';
-import { queryKeyMetaData } from '@/src/pages/Feed/constants';
+import { queryKeyMetaData, testUserId } from '@/src/pages/Feed/constants';
+import { ICON_FIRE } from '@/assets/svgs';
 
 const FeedHome = () => {
   const route = useRouter();
 
-  const [feedPostList, setFeedPostList] = useState<FeedPostsResponse[]>();
-
-  const [userNickName, setUserNickName] = useState();
-  const [dogName, setDogName] = useState('강아지 이름 표시 영역');
-  const [dogType, setDogType] = useState('말티즈');
-
   const { data: feedData } = useQuery({
     queryKey: [queryKeyMetaData.getFeedPosts],
-    queryFn: () => getFeedPosts('yonghoon_test'),
+    queryFn: () => getFeedPosts(testUserId),
   });
 
   const { data: userData, error: userError } = useQuery({
     queryKey: [queryKeyMetaData.getUserInfo],
-    queryFn: () => getUserInfo('yonghoon_test'),
+    queryFn: () => getUserInfo(testUserId),
   });
 
-  useEffect(() => {
-    console.log('----- 이거');
-    console.log(userError);
-  }, [userError]);
+  const { data: userVisitor, error: userVisitorError } = useQuery({
+    queryKey: [queryKeyMetaData.getUserVisitors],
+    queryFn: () => getUserVisitors(testUserId),
+  });
+
+  // useEffect(() => {
+  //   console.log('----- 이거');
+  //   console.log(userVisitor);
+  // }, [userVisitor]);
 
   return (
     <MainLayout>
-      <FeedHomeHeader userNickName={userNickName} />
+      <FeedHomeHeader userNickName={userData?.user_name} />
       <ScrollLayout>
         <View style={styles.contentContainer}>
           <View style={styles.imageContentContainer}>
@@ -47,8 +45,8 @@ const FeedHome = () => {
             </View>
             <View style={styles.imageTextContent}>
               <View style={styles.title}>
-                <Text style={styles.titleText}>{dogName}</Text>
-                <Text style={styles.subTitleText}>{dogType}</Text>
+                <Text style={styles.titleText}>{userData?.dog_name}</Text>
+                <Text style={styles.subTitleText}>{userData?.dog_breed}</Text>
               </View>
               <View style={styles.imageRecordContent}>
                 <View style={styles.recordRow}>
@@ -62,11 +60,13 @@ const FeedHome = () => {
               </View>
             </View>
             <View style={styles.visitor}>
-              <View style={styles.visitorBadge}>
-                <Link href={PublicFeedEntryLink.feedVisitor}>
-                  <Text>1,234</Text>
-                </Link>
-              </View>
+              <Pressable
+                style={styles.visitorBadge}
+                onPress={() => route.push(PublicFeedEntryLink.feedVisitor)}
+              >
+                <ICON_FIRE />
+                <Text>{userVisitor?.length}</Text>
+              </Pressable>
             </View>
           </View>
           <View style={styles.badgeContentContainer}>
@@ -187,7 +187,11 @@ const styles = StyleSheet.create({
     flex: 1,
   },
   visitorBadge: {
+    flexDirection: 'row',
+    alignItems: 'center',
+    justifyContent: 'center',
     marginLeft: 'auto',
+    gap: 4,
     paddingTop: 4,
     paddingBottom: 4,
     paddingLeft: 8,
