@@ -5,9 +5,10 @@ import { Image } from '@/src/shared/ui';
 import { Button } from '@/src/shared/feed/ui';
 import { useRouter } from 'expo-router';
 import { PublicFeedEntryLink } from '@/src/shared/constants';
-import { queryKeyMetaData } from '@/src/pages/Feed/constants';
-import { useQueryClient } from '@tanstack/react-query';
+import { queryKeyMetaData, testUserId } from '@/src/pages/Feed/constants';
+import { useMutation, useQueryClient } from '@tanstack/react-query';
 import { UserVisitorsResponse } from '@/src/pages/Feed/types';
+import { visitOtherFeedHome } from '@/src/pages/Feed/api';
 
 const FeedVisitor = () => {
   const router = useRouter();
@@ -18,9 +19,15 @@ const FeedVisitor = () => {
     queryKeyMetaData.getUserVisitors,
   ]);
 
-  // useEffect(() => {
-  //   console.log(cachedVisitorData);
-  // }, [cachedVisitorData]);
+  const visitOtherFeedMutation = useMutation({
+    mutationFn: visitOtherFeedHome,
+    onSuccess: (res) => {
+      console.log(res);
+    },
+    onError: (e) => {
+      console.log(e);
+    },
+  });
 
   return (
     <MainLayout>
@@ -31,17 +38,34 @@ const FeedVisitor = () => {
             return (
               <View key={item.visitor_id} style={styles.itemWrapper}>
                 <View style={styles.profileWrapper}>
-                  <Image style={styles.image} source={require('./assets/dummy.png')} />
+                  {item?.visitor_image ? (
+                    <Image style={styles.image} source={{ uri: item?.visitor_image }} />
+                  ) : (
+                    <Image
+                      style={styles.image}
+                      source={require('@/assets/images/default-dog.png')}
+                    />
+                  )}
                   <Text>{item.visitor_name}</Text>
                 </View>
                 <Button
                   style={styles.button}
-                  onPress={() =>
-                    router.push({
-                      pathname: PublicFeedEntryLink.feedOther,
-                      params: { ...item },
-                    })
-                  }
+                  onPress={() => {
+                    visitOtherFeedMutation.mutate(
+                      {
+                        feedOwnerId: item.visitor_id,
+                        feedVisitorId: testUserId,
+                      },
+                      {
+                        onSuccess: () => {
+                          router.push({
+                            pathname: PublicFeedEntryLink.feedOther,
+                            params: { ...item },
+                          });
+                        },
+                      },
+                    );
+                  }}
                 >
                   <Text>방문하기</Text>
                 </Button>

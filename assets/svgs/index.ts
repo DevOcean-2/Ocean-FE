@@ -57,3 +57,4 @@ export { default as ICON_DOG_FACE } from './dogFace.svg';
 export { default as ICON_FORK } from './fork.svg';
 export { default as ICON_RIBBORN } from './ribborn.svg';
 export { default as ICON_EDIT } from './edit.svg';
+export { default as ICON_BADGE } from './badge.svg';
