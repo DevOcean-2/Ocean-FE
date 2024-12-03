@@ -17,6 +17,8 @@ import {
 } from '../hooks';
 import { MissionSuccessDialog } from '../components/dialog';
 import { NotificationStorage } from '@/src/shared/notification/notification';
+import { useAtom } from 'jotai';
+import { sampleMissionList } from '../components/home/atom';
 
 export const Walk = () => {
   const [isWalking, setIsWalking] = useState<boolean>(false);
@@ -24,9 +26,16 @@ export const Walk = () => {
   const [elapsedTime, setElapsedTime] = useState(0);
   const [distance, setDistance] = useState(0);
   const [calories, setCalories] = useState(0);
-  const [currentLocation, setCurrentLocation] = useState<Location.LocationObject | null>(null);
+  const simulationPositions = [
+    { latitude: 37.5116, longitude: 127.1015 }, // 시작 위치
+    { latitude: 37.5121, longitude: 127.102 }, // 중간 위치
+    { latitude: 37.5125, longitude: 127.1024 }, // 최종 위치
+  ];
+  const [currentLocation, setCurrentLocation] = useState<Location.LocationObject | null>({
+    coords: simulationPositions[0],
+    timestamp: Date.now(),
+  } as Location.LocationObject);
   const [positions, setPositions] = useState<Location.LocationObject[]>([]);
-
   // 시연용 count state
   const [count, setCount] = useState<number>(0);
 
@@ -37,6 +46,7 @@ export const Walk = () => {
 
   const today = `${new Date().getFullYear()}-${new Date().getMonth() + 1}-${new Date().getDate()}`;
 
+  const [data, setData] = useAtom(sampleMissionList);
   const [openSuccessDialog, setOpenSuccessDialog] = useState<boolean>(false);
   const [successMissionType, setSuccessMissionType] = useState<
     'FEED' | 'TREASURE_HUNT' | 'LANDMARK'
@@ -45,7 +55,6 @@ export const Walk = () => {
   const { data: activityData } = useMyActivity('2024-11-19');
   const { data: missionList } = useMissionList();
 
-  const { mutate: startFeedMission } = useStartMission('FEED');
   const { mutate: startTreasureMission } = useStartMission('TREASURE_HUNT');
   const { mutate: startLandmarkMission } = useStartMission('LANDMARK');
   const { mutate: checkLandmarkMission } = useCheckMission('LANDMARK');
@@ -222,14 +231,20 @@ export const Walk = () => {
     if (missionCheckIntervalRef.current) clearInterval(missionCheckIntervalRef.current);
   };
 
+  const TARGET = {
+    latitude: 37.5126,
+    longitude: 127.1025,
+  };
+
+  const [simulationStep, setSimulationStep] = useState<number>(0);
+
+  // handleStartWalk 함수 수정
   const handleStartWalk = async () => {
     try {
       // 미션 시작
       if (missionList && missionList.length > 0) {
         missionList.forEach((mission) => {
-          if (mission.missionType === 'FEED') {
-            startFeedMission();
-          } else if (mission.missionType === 'TREASURE_HUNT') {
+          if (mission.missionType === 'TREASURE_HUNT') {
             startTreasureMission();
           } else if (mission.missionType === 'LANDMARK') {
             startLandmarkMission();
@@ -237,11 +252,74 @@ export const Walk = () => {
         });
       }
 
-      // 초기 위치 설정
-      await updateLocation();
+      // 시뮬레이션 시작
+      setSimulationStep(0);
+      setCurrentLocation({
+        coords: simulationPositions[0],
+        timestamp: Date.now(),
+      } as Location.LocationObject);
 
-      // 인터벌 시작
-      startIntervals();
+      // 시뮬레이션 인터벌 설정
+      locationIntervalRef.current = setInterval(() => {
+        setSimulationStep((prev) => {
+          if (prev < simulationPositions.length - 1) {
+            const nextStep = prev + 1;
+            const newLocation = {
+              coords: simulationPositions[nextStep],
+              timestamp: Date.now(),
+            } as Location.LocationObject;
+
+            setCurrentLocation(newLocation);
+
+            // 최종 위치에서 거리 체크
+            if (nextStep === simulationPositions.length - 1) {
+              const distance = calculateDistance(
+                simulationPositions[nextStep].latitude,
+                simulationPositions[nextStep].longitude,
+                TARGET.latitude,
+                TARGET.longitude,
+              );
+
+              if (distance * 1000 <= 50) {
+                NotificationStorage.save({
+                  title: '랜드마크 미션 완료!',
+                  type: 'MISSION',
+                  body: '랜드마크 미션을 성공적으로 완료했습니다.',
+                  status: 'SUCCESS',
+                });
+
+                setOpenSuccessDialog(true);
+                setSuccessMissionType('LANDMARK');
+
+                setData((prev) =>
+                  prev.map((mission) => {
+                    if (mission.missionId === 1) {
+                      return {
+                        ...mission,
+                        complete: true,
+                        completeDate: today,
+                        percent: '100',
+                      };
+                    }
+
+                    return mission;
+                  }),
+                );
+              }
+            }
+
+            return nextStep;
+          }
+          return prev;
+        });
+      }, 5000);
+
+      // 나머지 인터벌 시작
+      timeIntervalRef.current = setInterval(() => {
+        setElapsedTime((prev) => prev + 1);
+      }, 1000);
+
+      missionCheckIntervalRef.current = setInterval(checkMissions, 10000);
 
       setIsWalking(true);
       setIsPaused(false);
@@ -368,7 +446,7 @@ export const Walk = () => {
         <WalkPositionInfo />
       </View>
       <View style={{ width: '100%', height: '100%', backgroundColor: 'white' }}>
-        <WalkMap />
+        <WalkMap currentLocation={currentLocation} />
         <View style={styles.statsContainer}>
           <View style={styles.statItem}>
             <Text style={styles.statLabel}>시간</Text>

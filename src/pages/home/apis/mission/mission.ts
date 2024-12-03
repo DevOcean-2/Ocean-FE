@@ -62,15 +62,43 @@ export interface FeedMissionResponse {
 export const missionApi = {
   // 미션 조회
   getMission: async () => {
-    console.log('[API Request] getMission');
-    const response = await apiClient.get<MissionResponse>('mission/api/list', {
-      headers: {
-        Authorization:
-          'Bearer eyJ0eXAiOiJKV1QiLCJhbGciOiJIUzI1NiJ9.eyJzdWIiOiJ5b25naG9vbl90ZXN0Iiwic29jaWFsX2lkIjoieW9uZ2hvb25fdGVzdCIsImV4cCI6MTc0MDM3NTI4NywidHlwZSI6ImFjY2VzcyJ9.Jt5XIcq_3Gzaq8_qJcVTyqj1jrkVXW0b60fYI52gT08',
+    // API 정상화까지 보류.
+    // console.log('[API Request] getMission');
+    // const response = await apiClient.get<MissionResponse>('mission/api/list', {
+    //   headers: {
+    //     Authorization:
+    //       'Bearer eyJ0eXAiOiJKV1QiLCJhbGciOiJIUzI1NiJ9.eyJzdWIiOiJ5b25naG9vbl90ZXN0Iiwic29jaWFsX2lkIjoieW9uZ2hvb25fdGVzdCIsImV4cCI6MTc0MDM3NTI4NywidHlwZSI6ImFjY2VzcyJ9.Jt5XIcq_3Gzaq8_qJcVTyqj1jrkVXW0b60fYI52gT08',
+    //   },
+    // });
+    // console.log('[API Response] getMission:', response.data.result.missionList);
+    // return response.data.result.missionList;
+
+    const missionList: MissionResponse['result']['missionList'] = [
+      {
+        missionName: '롯데타워 방문하기',
+        missionType: 'LANDMARK',
+        count: 0,
+        complete: false,
+        completeDate: '',
+        missionId: 1,
+        missionProgressType: 'PROGRESS',
+        percent: '0',
+        userMissionId: 9,
       },
-    });
-    console.log('[API Response] getMission:', response.data.result.missionList);
-    return response.data.result.missionList;
+      {
+        missionName: '석촌동 보물찾기',
+        missionType: 'TREASURE_HUNT',
+        count: 0,
+        complete: false,
+        completeDate: '',
+        missionId: 2,
+        missionProgressType: 'PROGRESS',
+        percent: '0',
+        userMissionId: 7,
+      },
+    ];
+
+    return missionList;
   },
 
   // 피드 미션 조회

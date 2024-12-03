@@ -79,7 +79,8 @@ export const WalkPositionInfo = () => {
       <View style={styles.locationContainer}>
         <View style={styles.locationContents}>
           <ICON_POSITION />
-          <Text style={styles.boldText}>{data?.region_2depth_name ?? '알 수 없음'}</Text>
+          {/* <Text style={styles.boldText}>{data?.region_2depth_name ?? '알 수 없음'}</Text> */}
+          <Text style={styles.boldText}>서울시 송파구</Text>
           <Animated.View style={{ transform: [{ rotate: spin }] }}>
             <TouchableOpacity
               onPress={handleRefresh}

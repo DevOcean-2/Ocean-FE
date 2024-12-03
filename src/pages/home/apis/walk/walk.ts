@@ -1,4 +1,5 @@
 import { apiClient } from '../apiClient';
+import * as Location from 'expo-location';
 
 export interface RankingResponse {
   isSuccess: boolean;
@@ -73,15 +74,26 @@ export interface NotificationResponse {
 }
 
 export interface WalkResponse {
-  id: string;
-  event: 'LANDMARK' | 'TREASURE_HUNT';
-  data: {
-    type: 'LANDMARK' | 'TREASURE_HUNT';
-    message: {
-      userId: string;
-      userMissionInfoList: any[];
-    };
-  } | null;
+  isSuccess: boolean;
+  code: number;
+  message: string;
+  result: {
+    userId: string;
+    userMissionInfoList: {
+      missionId: number;
+      userMissionId: number;
+      missionType: 'TREASURE_HUNT' | 'LANDMARK' | 'FEED';
+      locationName: string;
+      missionName: string;
+      latitude: number;
+      longitude: number;
+      count: number;
+      percent: number;
+      missionProgressType: 'READY' | 'PROGRESS' | 'COMPLETE';
+      complete: boolean;
+      completeDate: string;
+    }[];
+  };
 }
 
 export const walkApi = {
@@ -163,7 +175,7 @@ export const walkApi = {
 
     console.log(response.data);
 
-    const completedMission = response.data.data?.message;
+    return response.data;
   },
 
   getWalkNotification: async () => {
@@ -198,6 +210,13 @@ export const walkApi = {
     console.log('[API Request] completeMission', params);
 
     const { postId } = params;
+
+    const watchLocationRequest = {
+      accuracy: Location.Accuracy.Balanced,
+      timeInterval: 5000, // 5초
+      distanceInterval: 10, // 10미터
+      activityType: Location.ActivityType.Fitness, // 활동 유형
+    };
 
     // mission 완료
     const completeResponse = await apiClient.post(

@@ -7,9 +7,9 @@ export const useMissionList = () => {
     queryKey: queryKeys.mission.getMission,
     queryFn: async () => {
       const etcData = await missionApi.getMission();
-      const feedData = await missionApi.getFeedMission(2024, 11);
+      // const feedData = await missionApi.getFeedMission(2024, 11);
 
-      return [...etcData, ...feedData];
+      return [...etcData];
     },
   });
 };

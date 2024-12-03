@@ -25,12 +25,8 @@ const getMissionTypeText = (type: 'FEED' | 'TREASURE_HUNT' | 'LANDMARK') => {
   }
 };
 
-export const MissionSuccessDialog = ({
-  isVisible,
-  onDismiss,
-  missionType,
-  reward,
-}: MissionSuccessDialogProps) => {
+export const MissionSuccessDialog = (props: MissionSuccessDialogProps) => {
+  const { isVisible, onDismiss, missionType, reward } = props;
   return (
     <Dialog visible={isVisible} onDismiss={onDismiss} containerStyle={styles.container} center>
       <View style={styles.content}>
@@ -77,11 +73,12 @@ const styles = StyleSheet.create({
     borderRadius: 16,
     width: windowWidth * 0.85, // 화면 너비의 85%
     position: 'absolute',
-    top: '50%',  // 상단에서 50% 위치
+    top: '50%', // 상단에서 50% 위치
     left: '50%', // 왼쪽에서 50% 위치
-    transform: [  // 정중앙 정렬을 위한 변환
+    transform: [
+      // 정중앙 정렬을 위한 변환
       { translateX: -(windowWidth * 0.85) / 2 },
-      { translateY: -windowHeight / 4 }
+      { translateY: -windowHeight / 4 },
     ],
   },
   content: {

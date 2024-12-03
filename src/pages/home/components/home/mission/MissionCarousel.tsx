@@ -7,6 +7,8 @@ import { Card } from '../../frame';
 import { MissionItem } from './MissionItem';
 import { PublicWalkEntryLink } from '@/src/shared/constants';
 import { useRouter } from 'expo-router';
+import { useAtom } from 'jotai';
+import { sampleMissionList } from '../atom';
 
 /**
  * 1. 내 활동 조회 연동
@@ -26,7 +28,10 @@ export const MissionCarousel = () => {
   const { missionList, missionPageIndex, setMissionPageIndex } = useMissions();
 
   const month = useMemo(() => new Date().getMonth() + 1, []);
-  const { data } = useMissionList();
+  // const { data } = useMissionList();
+  const [data] = useAtom(sampleMissionList);
+
+  console.log('mission', data);
 
   const router = useRouter();
 
@@ -61,7 +66,7 @@ export const MissionCarousel = () => {
           <MissionItem
             key={`${mission}-${index}`}
             mission={mission.missionName}
-            missionType={mission.missionType}
+            missionType={mission.missionType as 'TREASURE_HUNT' | 'LANDMARK' | 'FEED'}
             missionProgressType={mission.missionProgressType as 'READY' | 'PROGRESS' | 'COMPLETE'}
             missionId={mission.missionId}
             percent={mission.percent}

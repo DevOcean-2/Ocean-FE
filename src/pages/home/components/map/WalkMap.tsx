@@ -1,13 +1,21 @@
 import { View } from 'react-native-ui-lib';
 import { WebView } from 'react-native-webview';
-import { useEffect } from 'react';
-import { useState } from 'react';
+import { useEffect, useState } from 'react';
 import { Asset } from 'expo-asset';
-import { useCurrentLocation } from '../../hooks';
+import * as Location from 'expo-location';
 
-export const WalkMap = () => {
-  const { location } = useCurrentLocation();
+interface WalkMapProps {
+  currentLocation: Location.LocationObject | null;
+}
+
+export const WalkMap: React.FC<WalkMapProps> = ({ currentLocation }) => {
   const [markerImageUri, setMarkerImageUri] = useState<string>('');
+
+  // 롯데타워 목표 지점 좌표
+  const TARGET = {
+    latitude: 37.5126,
+    longitude: 127.1025,
+  };
 
   const html = `
 <html>
@@ -20,9 +28,8 @@ export const WalkMap = () => {
         <script type="text/javascript">
             (function () {
                 const container = document.getElementById('map');
-                const currentPosition = new kakao.maps.LatLng(${location?.latitude ?? 0}, ${
-                  location?.longitude ?? 0
-                });
+                const targetPosition = new kakao.maps.LatLng(${TARGET.latitude}, ${TARGET.longitude});
+                const currentPosition = new kakao.maps.LatLng(${currentLocation?.coords.latitude ?? TARGET.latitude}, ${currentLocation?.coords.longitude ?? TARGET.longitude});
                 
                 const options = {
                     center: currentPosition,
@@ -31,12 +38,29 @@ export const WalkMap = () => {
                 
                 const map = new kakao.maps.Map(container, options);
                 
-                // 마커 이미지 설정
+                // 50m 반경 원 그리기
+                const circle = new kakao.maps.Circle({
+                    center: targetPosition,
+                    radius: 50,
+                    strokeWeight: 2,
+                    strokeColor: '#FF0000',
+                    strokeOpacity: 0.8,
+                    fillColor: '#FF0000',
+                    fillOpacity: 0.3
+                });
+                circle.setMap(map);
+
+                // 목표 지점 마커
+                const targetMarker = new kakao.maps.Marker({
+                    position: targetPosition,
+                    map: map
+                });
+                
+                // 현재 위치 마커
                 const imageSrc = '${markerImageUri}';
                 const imageSize = new kakao.maps.Size(40, 45.22);
                 const markerImage = new kakao.maps.MarkerImage(imageSrc, imageSize);
                 
-                // 마커 생성 - title 제거하고 image 추가
                 const marker = new kakao.maps.Marker({
                     position: currentPosition,
                     map: map,
@@ -45,11 +69,9 @@ export const WalkMap = () => {
                 
                 // 지도 범위 재설정
                 const bounds = new kakao.maps.LatLngBounds();
+                bounds.extend(targetPosition);
                 bounds.extend(currentPosition);
                 map.setBounds(bounds);
-                
-                // 주소-좌표 변환 객체 생성
-                const geocoder = new kakao.maps.services.Geocoder();
             })();
         </script>       
     </body>
