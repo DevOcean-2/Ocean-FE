@@ -1,4 +1,4 @@
-import { useState } from 'react';
+import { useEffect, useState } from 'react';
 import {
   View,
   Dimensions,
@@ -29,17 +29,16 @@ const PlaceComponent = () => {
   };
 
   const formatResults = (places: any[]) => {
+    console.log(Array.isArray(places.map((x) => x.photos)), places.map((x) => x.photos).length);
     return places.map((place) => ({
       name: place.place_name,
       type: place.category_group_name,
       distance: place.distance ? `${(parseInt(place.distance) / 1000).toFixed(1)}km` : '',
       address: place.road_address_name || place.address_name,
-      images: [
-        require('@/assets/images/select-large-dog.png'),
-        require('@/assets/images/select-large-dog.png'),
-        require('@/assets/images/select-large-dog.png'),
-        require('@/assets/images/select-large-dog.png'),
-      ],
+      images:
+        Array.isArray(place.photos) && place.photos.length > 0
+          ? place.photos
+          : Array(4).fill(require('@/assets/images/select-large-dog.png')),
     }));
   };
 

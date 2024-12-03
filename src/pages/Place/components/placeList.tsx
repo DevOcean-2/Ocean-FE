@@ -1,6 +1,6 @@
 import LocalImage from '@/src/shared/ui/LocalImage';
 import React, { useState } from 'react';
-import { View, Text, StyleSheet, ScrollView, Dimensions } from 'react-native';
+import { View, Text, StyleSheet, ScrollView, Dimensions, Image } from 'react-native';
 
 interface PlaceListProps {
   name: string;
@@ -41,11 +41,7 @@ const PlaceList = ({ name, type, distance, address, images }: PlaceListProps) =>
         >
           {images.map((image, index) => (
             <View key={index}>
-              <LocalImage
-                key={`${name}-${index}`}
-                source={require('@/assets/images/select-large-dog.png')}
-                style={{ width: 100, height: 100, marginRight: 10 }}
-              />
+              <Image source={{ uri: image }} style={{ width: 100, height: 100, marginRight: 10 }} />
             </View>
           ))}
         </ScrollView>
