@@ -1,70 +1,107 @@
-import { WebView } from 'react-native-webview';
-import { StyleSheet, View, Text, ActivityIndicator } from 'react-native';
-import { useState } from 'react';
+import React from 'react';
+import { View, Text, TouchableOpacity, StyleSheet, Image, SafeAreaView } from 'react-native';
+import { ICON_PATH } from '@/assets/svgs';
 
-const INJECTED_JAVASCRIPT = `window.ReactNativeWebView.postMessage(window.location.href);`;
-
-export default function KakaoLoginScreen() {
-  const [isLoading, setIsLoading] = useState(true);
-
-  const handleMessage = (event: any) => {
-    const { data } = event.nativeEvent;
-
-    // URL에서 인증 코드 추출
-    if (data.includes('code=')) {
-      const exp = 'code=';
-      const condition = data.indexOf(exp);
-      if (condition !== -1) {
-        const authorize_code = data.substring(condition + exp.length);
-        console.log('인증 코드:', authorize_code);
-        // 여기서 인증 코드를 처리하는 로직 추가
-      }
-    }
-  };
-
-  return (
-    <View style={styles.container}>
-      {isLoading && (
-        <View style={styles.loadingContainer}>
-          <ActivityIndicator size="large" color="#FEE500" />
-        </View>
-      )}
-
-      <WebView
-        style={styles.webview}
-        source={{
-          uri: `https://kauth.kakao.com/oauth/authorize?response_type=code&client_id=${process.env.EXPO_PUBLIC_REST_API_KEY}&redirect_uri=${process.env.EXPO_PUBLIC_REDIRECT_URI}`,
-        }}
-        injectedJavaScript={INJECTED_JAVASCRIPT}
-        onLoadStart={() => setIsLoading(true)}
-        onLoadEnd={() => setIsLoading(false)}
-        onMessage={handleMessage}
-        javaScriptEnabled={true}
-        domStorageEnabled={true}
-        userAgent="Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/91.0.4472.124 Safari/537.36"
-      />
-    </View>
-  );
+interface KakaoLoginScreenProps {
+  goToNextStep: () => void;
 }
+
+const KakaoLoginScreen: React.FC<KakaoLoginScreenProps> = ({ goToNextStep }) => {
+  return (
+    <SafeAreaView style={styles.container}>
+      <View style={styles.contentContainer}>
+        <View style={styles.logoContainer}>
+          <Text style={styles.logoText}>LOGO TYPE</Text>
+        </View>
+
+        <Text style={styles.existingMemberText}>회원가입이 필요하신가요?</Text>
+
+        <TouchableOpacity style={styles.kakaoButton} onPress={goToNextStep}>
+          <ICON_PATH />
+          <Text style={styles.kakaoButtonText}>카카오톡으로 시작하기</Text>
+        </TouchableOpacity>
+
+        <View style={styles.existingMemberContainer}>
+          <Text style={styles.existingMemberText}>기존 회원이라면</Text>
+          <TouchableOpacity style={styles.loginButton} onPress={goToNextStep}>
+            <Text style={styles.loginButtonText}>카카오톡으로 로그인</Text>
+          </TouchableOpacity>
+        </View>
+      </View>
+    </SafeAreaView>
+  );
+};
 
 const styles = StyleSheet.create({
   container: {
     flex: 1,
-    backgroundColor: '#ffffff',
+    marginTop: 24,
+    backgroundColor: '#fff',
   },
-  webview: {
+  contentContainer: {
     flex: 1,
-    backgroundColor: 'rgba(255, 255, 255, 0.8)',
-  },
-  loadingContainer: {
-    position: 'absolute',
-    zIndex: 2,
-    left: 0,
-    right: 0,
-    top: 0,
-    bottom: 0,
     alignItems: 'center',
     justifyContent: 'center',
-    backgroundColor: 'rgba(255, 255, 255, 0.8)',
+    paddingHorizontal: 16,
+  },
+  logoContainer: {
+    width: 240,
+    height: 240,
+    marginBottom: 80,
+    borderRadius: 24,
+    backgroundColor: '#F7F9FC',
+    alignItems: 'center',
+    justifyContent: 'center',
+  },
+  logoText: {
+    fontSize: 18,
+    fontWeight: '500',
+  },
+  headerText: {
+    fontSize: 16,
+    fontWeight: '500',
+    color: '#8F9BB3',
+    marginBottom: 16,
+  },
+  kakaoButton: {
+    width: '100%',
+    backgroundColor: '#FEE500',
+    paddingVertical: 16,
+    borderRadius: 12,
+    alignItems: 'center',
+    marginBottom: 16,
+    flexDirection: 'row',
+    justifyContent: 'center',
+    gap: 8,
+  },
+  kakaoButtonText: {
+    color: '#000',
+    fontSize: 16,
+    fontWeight: '600',
+  },
+  existingMemberContainer: {
+    marginTop: 16,
+    width: '100%',
+    alignItems: 'center',
+  },
+  existingMemberText: {
+    color: '#8F9BB3',
+    marginBottom: 8,
+  },
+  loginButton: {
+    width: '100%',
+    borderWidth: 1,
+    borderColor: '#E4E9F2',
+    borderRadius: 12,
+    paddingVertical: 16,
+    paddingHorizontal: 64,
+  },
+  loginButtonText: {
+    color: '#101828',
+    fontSize: 16,
+    fontWeight: '600',
+    textAlign: 'center',
   },
 });
+
+export default KakaoLoginScreen;

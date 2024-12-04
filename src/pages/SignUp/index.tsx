@@ -3,7 +3,6 @@ import { ScrollView, StyleSheet } from 'react-native';
 import { View, Button, Toast } from 'react-native-ui-lib';
 import { useSignUpForm } from './hooks/useSignUpForm';
 
-import { styles } from './styles';
 import { StepRenderer } from './components/StepRender';
 import ProgressSteps from './components/progressSteps';
 
@@ -75,7 +74,12 @@ const SignUp: React.FC = () => {
       )}
       <ScrollView contentContainerStyle={SignUpStyles.signUpViewContainer}>
         <View style={SignUpStyles.renderStepContainer}>
-          <StepRenderer activeIndex={activeIndex} control={control} errors={errors} />
+          <StepRenderer
+            goToNextStep={goToNextStep}
+            activeIndex={activeIndex}
+            control={control}
+            errors={errors}
+          />
         </View>
       </ScrollView>
       {activeIndex !== 0 && activeIndex !== 4 && (
@@ -134,7 +138,9 @@ const SignUpStyles = StyleSheet.create({
     paddingBottom: 20,
   },
   disabledButton: {
-    backgroundColor: '#E4E9F2',
+    backgroundColor: '#ffffff',
+    borderColor: '000000',
+    borderWidth: 1,
   },
   buttonLabel: {
     color: 'white',
