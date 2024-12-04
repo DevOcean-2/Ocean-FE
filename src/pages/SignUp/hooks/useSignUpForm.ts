@@ -5,7 +5,7 @@ import { schema, FormData } from '../types/signUp';
 import { useWatch } from 'react-hook-form';
 
 export const useSignUpForm = () => {
-  const [activeIndex, setActiveIndex] = useState(1);
+  const [activeIndex, setActiveIndex] = useState(0);
   const [toastMessage, setToastMessage] = useState<string | undefined>(undefined);
 
   const {
@@ -61,7 +61,9 @@ export const useSignUpForm = () => {
   };
 
   const goToNextStep = () => {
-    if (activeIndex === 1 && isBasicInfoValid()) {
+    if (activeIndex === 0) {
+      setActiveIndex(activeIndex + 1);
+    } else if (activeIndex === 1 && isBasicInfoValid()) {
       setActiveIndex(activeIndex + 1);
     } else if (activeIndex === 2 && isAdditionalInfoValid()) {
       handleSubmit(onSubmit)();

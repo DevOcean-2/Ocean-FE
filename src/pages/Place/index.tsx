@@ -13,8 +13,11 @@ import CategoryList from './components/cateogoryList';
 import PlaceList from './components/placeList';
 import BookMarkModal from './components/bookmark/bookmarkModal';
 import { useKeywordSearch } from './api/kakaoSearch';
+import { useCurrentLocation } from '../home/hooks';
+import KakaoMapView from './components/kakaoMapWebview';
 
 const PlaceComponent = () => {
+  const { location } = useCurrentLocation();
   const [keyword, setKeyword] = useState('판교맛집');
   const [searchQuery, setSearchQuery] = useState(keyword);
 
@@ -29,7 +32,6 @@ const PlaceComponent = () => {
   };
 
   const formatResults = (places: any[]) => {
-    console.log(Array.isArray(places.map((x) => x.photos)), places.map((x) => x.photos).length);
     return places.map((place) => ({
       name: place.place_name,
       type: place.category_group_name,
@@ -54,6 +56,8 @@ const PlaceComponent = () => {
         />
         <Button title="검색" onPress={handleSearch} />
       </View>
+
+      {location && <KakaoMapView latitude={location.latitude} longitude={location.longitude} />}
 
       <BookMarkModal />
       <CategoryList />

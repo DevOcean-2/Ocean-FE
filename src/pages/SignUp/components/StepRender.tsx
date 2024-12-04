@@ -10,12 +10,18 @@ interface StepRendererProps {
   activeIndex: number;
   control: any;
   errors: FieldErrors;
+  goToNextStep: () => void;
 }
 
-export const StepRenderer: React.FC<StepRendererProps> = ({ activeIndex, control, errors }) => {
+export const StepRenderer: React.FC<StepRendererProps> = ({
+  goToNextStep,
+  activeIndex,
+  control,
+  errors,
+}) => {
   switch (activeIndex) {
     case 0:
-      return <KakaoLoginScreen />;
+      return <KakaoLoginScreen goToNextStep={goToNextStep} />;
     case 1:
       return <BasicInfo control={control} errors={errors} />;
     case 2:
