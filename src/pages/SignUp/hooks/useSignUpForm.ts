@@ -7,6 +7,7 @@ import { useWatch } from 'react-hook-form';
 export const useSignUpForm = () => {
   const [activeIndex, setActiveIndex] = useState(0);
   const [toastMessage, setToastMessage] = useState<string | undefined>(undefined);
+  const [isLoading, setIsLoading] = useState(false);
 
   const {
     control,
@@ -60,9 +61,15 @@ export const useSignUpForm = () => {
     return true;
   };
 
-  const goToNextStep = () => {
-    if (activeIndex === 0) {
-      setActiveIndex(activeIndex + 1);
+  const goToNextStep = async () => {
+    if (activeIndex === 0 || activeIndex === 3) {
+      setIsLoading(true);
+      try {
+        await new Promise((resolve) => setTimeout(resolve, 1000));
+        setActiveIndex(activeIndex + 1);
+      } finally {
+        setIsLoading(false);
+      }
     } else if (activeIndex === 1 && isBasicInfoValid()) {
       setActiveIndex(activeIndex + 1);
     } else if (activeIndex === 2 && isAdditionalInfoValid()) {
@@ -94,5 +101,6 @@ export const useSignUpForm = () => {
     goToPrevStep,
     isBasicInfoValid,
     isAdditionalInfoValid,
+    isLoading,
   };
 };

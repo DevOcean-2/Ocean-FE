@@ -1,6 +1,7 @@
 import React from 'react';
 import { View, Text, TouchableOpacity, StyleSheet, Image, SafeAreaView } from 'react-native';
 import { ICON_PATH } from '@/assets/svgs';
+import LocalImage from '@/src/shared/ui/LocalImage';
 
 interface KakaoLoginScreenProps {
   goToNextStep: () => void;
@@ -11,7 +12,10 @@ const KakaoLoginScreen: React.FC<KakaoLoginScreenProps> = ({ goToNextStep }) => 
     <SafeAreaView style={styles.container}>
       <View style={styles.contentContainer}>
         <View style={styles.logoContainer}>
-          <Text style={styles.logoText}>LOGO TYPE</Text>
+          <LocalImage
+            source={require('@/assets/images/title.png')}
+            style={{ width: 250, height: 250, resizeMode: 'contain' }}
+          />
         </View>
 
         <Text style={styles.existingMemberText}>회원가입이 필요하신가요?</Text>
@@ -45,11 +49,9 @@ const styles = StyleSheet.create({
     paddingHorizontal: 16,
   },
   logoContainer: {
-    width: 240,
     height: 240,
     marginBottom: 80,
     borderRadius: 24,
-    backgroundColor: '#F7F9FC',
     alignItems: 'center',
     justifyContent: 'center',
   },

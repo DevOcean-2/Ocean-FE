@@ -1,5 +1,5 @@
 import React from 'react';
-import { ScrollView, StyleSheet } from 'react-native';
+import { ActivityIndicator, ScrollView, StyleSheet } from 'react-native';
 import { View, Button, Toast } from 'react-native-ui-lib';
 import { useSignUpForm } from './hooks/useSignUpForm';
 
@@ -18,6 +18,7 @@ const SignUp: React.FC = () => {
     goToPrevStep,
     isBasicInfoValid,
     isAdditionalInfoValid,
+    isLoading,
   } = useSignUpForm();
 
   const isButtonDisabled = () => {
@@ -69,6 +70,11 @@ const SignUp: React.FC = () => {
 
   return (
     <View style={SignUpStyles.container}>
+      {isLoading && (
+        <View style={SignUpStyles.loadingOverlay}>
+          <ActivityIndicator size="large" color="#04C755" />
+        </View>
+      )}
       {activeIndex !== 0 && activeIndex !== 4 && (
         <ProgressSteps steps={steps} currentStep={activeIndex} />
       )}
@@ -148,6 +154,17 @@ const SignUpStyles = StyleSheet.create({
   },
   disabledButtonLabel: {
     color: '#000000',
+  },
+  loadingOverlay: {
+    position: 'absolute',
+    left: 0,
+    right: 0,
+    top: 0,
+    bottom: 0,
+    alignItems: 'center',
+    justifyContent: 'center',
+    backgroundColor: 'rgba(255, 255, 255, 0.8)',
+    zIndex: 1000,
   },
 });
 
