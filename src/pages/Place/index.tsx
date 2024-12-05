@@ -20,11 +20,14 @@ const PlaceComponent = () => {
   const { location } = useCurrentLocation();
   const [keyword, setKeyword] = useState('판교맛집');
   const [searchQuery, setSearchQuery] = useState(keyword);
+  const [sortType, setSortType] = useState<'accuracy' | 'distance'>('accuracy');
 
   const { data, isLoading, error } = useKeywordSearch({
     query: searchQuery,
     size: 15,
-    sort: 'accuracy',
+    sort: sortType,
+    x: location ? location.longitude.toString() : undefined,
+    y: location ? location.latitude.toString() : undefined,
   });
 
   const handleSearch = () => {
@@ -35,6 +38,7 @@ const PlaceComponent = () => {
     return places.map((place) => ({
       name: place.place_name,
       type: place.category_group_name,
+      // distance가 있을 때만 km로 변환하여 표시
       distance: place.distance ? `${(parseInt(place.distance) / 1000).toFixed(1)}km` : '',
       address: place.road_address_name || place.address_name,
       images:
@@ -43,6 +47,14 @@ const PlaceComponent = () => {
           : Array(4).fill(require('@/assets/images/select-large-dog.png')),
     }));
   };
+
+  useEffect(() => {
+    if (location) {
+      setSortType('distance'); // 위치가 있으면 거리순으로 정렬
+    } else {
+      setSortType('accuracy'); // 위치가 없으면 정확도순으로 정렬
+    }
+  }, [location]);
 
   return (
     <View style={{ flex: 1, height: Dimensions.get('window').height }}>

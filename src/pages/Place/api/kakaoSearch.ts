@@ -8,6 +8,8 @@ interface SearchParams {
   page?: number;
   size?: number;
   sort?: 'accuracy' | 'distance';
+  x?: string;
+  y?: string;
 }
 
 interface SearchResult {
@@ -61,6 +63,8 @@ const searchKeyword = async ({
   page = 1,
   size = 15,
   sort = 'accuracy',
+  x,
+  y,
 }: SearchParams): Promise<SearchResponse> => {
   try {
     const response = await axios.get('https://dapi.kakao.com/v2/local/search/keyword.json', {
@@ -72,6 +76,8 @@ const searchKeyword = async ({
         page,
         size,
         sort,
+        x,
+        y,
       },
     });
 
